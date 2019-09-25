@@ -1,18 +1,71 @@
+import LitionERC20Abi from './abi/ERC20'
+import LitionRegistryAbi from './abi/LitionRegistry'
+import config from './config'
+import { tokensToHex } from './utils'
 import Web3 from 'web3'
-import { getAbi, getSmartContractAddress } from './Abi'
 
-const url = 'https://ropsten.infura.io/v3/f6a9663ab5ab4c808b6e7260f213141f'
-const web3 = new Web3(url)
+export default (ethereum, web3) => {
+  if (typeof ethereum === 'undefined' || typeof web3 === 'undefined' || !Object.prototype.hasOwnProperty.call(web3, 'currentProvider')) {
+    throw Error('No ethereum compatible client installed')
+  }
 
-export const getBalance = async (address) => {
-  const wei = await web3.eth.getBalance(address)
-  return web3.utils.fromWei(wei, 'ether')
-}
+  const _ethereum = ethereum
+  const _currentProvider = web3.currentProvider
+  let _erc20Contract
+  let _litionRegistryContract
+  let _web3
+  let _account
 
-export const getLastNotary = async (chainId) => {
-  const abi = getAbi()
-  const contract = new web3.eth.Contract(abi, smartContractAddress)
-  contract.methods.get_last_notary(0).call((err, result) => {
-    console.log(result)
-  })
+  function initialize () {
+    _web3 = new Web3(_currentProvider)
+    _erc20Contract = new _web3.eth.Contract(LitionERC20Abi, config.litionErc20TokenContractAddress)
+    _litionRegistryContract = new _web3.eth.Contract(LitionRegistryAbi, config.litionRegistryContractAddress)
+  }
+
+  initialize()
+
+  return {
+    hasMetaMask () {
+      return _ethereum.isMetaMask
+    },
+    async login () {
+      let accounts = await _ethereum.enable()
+
+      if (accounts.length === 0) {
+        throw Error('User has no MetaMask accounts')
+      }
+
+      _account = accounts[0]
+    },
+    async getLastNotary (chainId) {
+      return _litionRegistryContract
+        .methods
+        .getLastNotary(chainId)
+        .call()
+    },
+    async mint (tokens) {
+      return _erc20Contract
+        .methods
+        .mint(_account, tokensToHex(tokens))
+        .send({
+          from: _account
+        })
+    },
+    async approve (tokens) {
+      return _erc20Contract
+        .methods
+        .approve(config.litionRegistryContractAddress, tokensToHex(tokens))
+        .send({
+          from: _account
+        })
+    },
+    async registerChain (description, validatorAddress, vestedTokens, depositedTokens, initEndpoint) {
+      return _litionRegistryContract
+        .methods
+        .registerChain(description, validatorAddress, tokensToHex(vestedTokens), tokensToHex(depositedTokens), initEndpoint)
+        .send({
+          from: _account
+        })
+    }
+  }
 }
