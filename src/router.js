@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Welcome from './views/Welcome'
+import RegisterChooseNetwork from './views/RegisterSideChain/ChooseNetwork'
+import InteractWithSideChain from './views/InteractWithSideChain/InteractWithSideChain'
+import MintTestTokens from './views/RegisterSideChain/MintTestTokens'
 
 Vue.use(Router)
 
@@ -10,6 +13,22 @@ export default new Router({
       path: '/',
       name: 'welcome',
       component: Welcome
+    },
+    {
+      path: '/register/choose-network',
+      component: RegisterChooseNetwork,
+      name: 'register.network'
+    },
+    {
+      path: '/register/:network/mint-test-tokens',
+      component: MintTestTokens,
+      name: 'register.mint_test_tokens',
+      props: true
+    },
+    {
+      path: '/interact-with-sidechain',
+      name: 'interact',
+      component: InteractWithSideChain
     }
     // {
     //   path: '/about',

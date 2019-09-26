@@ -1,32 +1,32 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <h1 class="font-lition text-3xl font-bold">{{ $t('welcome.headline') }}</h1>
+      <h1 class="font-lition text-3xl font-bold">{{ $t('headline.welcome') }}</h1>
       <div class="mt-8 flex">
-        <div class="btn-tile" @click="pickOption(1)">
-          <Check v-if="selected === 1"></Check>
+        <div :class="{ 'btn-tile-active': selected === 'register' }" class="btn-tile" @click="pickOption('register')">
+          <Check v-if="selected === 'register'"></Check>
           <span>{{ $t('welcome.register') }}</span>
           <span>{{ $t('welcome.new_chain') }}</span>
         </div>
-        <div class="ml-2 btn-tile" @click="pickOption(2)">
-          <Check v-if="selected === 2"></Check>
+        <div :class="{ 'btn-tile-active': selected === 'interact' }" class="ml-2 btn-tile" @click="pickOption('interact')">
+          <Check v-if="selected === 'interact'"></Check>
           <span>{{ $t('welcome.interact') }}</span>
           <span>{{ $t('welcome.with_chain') }}</span>
         </div>
       </div>
     </div>
     <div class="mt-12 flex justify-end">
-      <Button>{{ $t('button.next') }}</Button>
+      <NextButton @click.native="next" :disabled="!selected">{{ $t('button.next') }}</NextButton>
     </div>
   </div>
 </template>
 
 <script>
 import Check from '../components/Check'
-import Button from '../components/Button'
+import NextButton from '../components/NextButton'
 
 export default {
-  components: { Check, Button },
+  components: { Check, NextButton },
   data () {
     return {
       selected: null
@@ -38,6 +38,13 @@ export default {
         this.selected = null
       } else {
         this.selected = optionNumber
+      }
+    },
+    next () {
+      if (this.selected === 'register') {
+        this.$router.push({ name: 'register.network' })
+      } else if (this.selected === 'interact') {
+        this.$router.push({ name: 'interact' })
       }
     }
   }
