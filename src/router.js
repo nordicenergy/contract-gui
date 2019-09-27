@@ -4,6 +4,10 @@ import Welcome from './views/Welcome'
 import RegisterChooseNetwork from './views/RegisterSideChain/ChooseNetwork'
 import InteractWithSideChain from './views/InteractWithSideChain/InteractWithSideChain'
 import MintTestTokens from './views/RegisterSideChain/MintTestTokens'
+import MintedTestTokens from './views/RegisterSideChain/MintedTestTokens'
+import ApproveSpender from './views/RegisterSideChain/ApproveSpender'
+import RegisterChain from './views/RegisterSideChain/RegisterChain'
+import RegistrationCompleted from './views/RegisterSideChain/RegistrationCompleted'
 
 Vue.use(Router)
 
@@ -20,9 +24,33 @@ export default new Router({
       name: 'register.network'
     },
     {
-      path: '/register/:network/mint-test-tokens',
+      path: '/register/networks/:network/mint-test-tokens',
       component: MintTestTokens,
       name: 'register.mint_test_tokens',
+      props: true
+    },
+    {
+      path: '/register/networks/:network/minted-test-tokens',
+      component: MintedTestTokens,
+      name: 'register.minted_test_tokens',
+      props: true
+    },
+    {
+      path: '/register/networks/:network/approve-spender',
+      component: ApproveSpender,
+      name: 'register.approve_spender',
+      props: true
+    },
+    {
+      path: '/register/networks/:network/new-chain',
+      component: RegisterChain,
+      name: 'register.new_chain',
+      props: true
+    },
+    {
+      path: '/register/networks/:network/chains/:chaindId/completed',
+      component: RegistrationCompleted,
+      name: 'register.completed',
       props: true
     },
     {

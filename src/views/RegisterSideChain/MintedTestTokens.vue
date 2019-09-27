@@ -6,13 +6,6 @@
         {{ $t('headline.mint.mint') }} <span class="text-active">{{ $t('headline.mint.lit') }}</span> {{
         $t('headline.mint.test_tokens') }}
       </h1>
-      <p class="mt-2 text-lition-gray font-medium" v-html="$t('mint.metamask')"></p>
-      <p class="mt-2 text-lition-gray font-medium">
-        {{ $t('mint.skip.first') }}
-        <router-link class="text-secondary" :to="{ name: 'register.approve_spender', params: { network: network }}">{{
-          $t('mint.skip.second') }}
-        </router-link>
-      </p>
       <div class="mt-8 w-3/4 mx-auto">
         <label v-if="!minting" class="text-xs text-lition-gray font-medium">{{ $t('mint.tokens') }}</label>
         <label v-else class="text-xs text-lition-gray font-medium">{{ $t('mint.minting_tokens') }}</label>
@@ -20,7 +13,7 @@
       </div>
     </div>
     <div class="mt-12 flex justify-between">
-      <BackButton @click.native="previous">{{ $t('button.choose_network') }}</BackButton>
+      <BackButton @click.native="previous">{{ $t('button.mint_tokens') }}</BackButton>
       <NextButton @click.native="next">{{ $t('button.approve_spender') }}</NextButton>
     </div>
   </div>
@@ -29,11 +22,9 @@
 <script>
 import BackButton from '../../components/BackButton'
 import NextButton from '../../components/NextButton'
-import MintTokensInput from '../../components/MintTokensInput'
 
 export default {
-  components: { MintTokensInput, NextButton, BackButton },
-  inject: ['ethereum'],
+  components: { NextButton, BackButton },
   props: {
     network: {
       type: String,
@@ -48,20 +39,7 @@ export default {
   },
   methods: {
     previous () {
-      this.$router.push({ name: 'register.network' })
-    },
-    async handleMinting (tokens) {
-      console.log('starting minting')
-      this.minting = true
-      try {
-        const response = await this.ethereum.mint(parseInt(tokens))
-        console.log(response)
-        await this.$router.push({ name: 'register.minted_test_tokens', params: { network: this.network } })
-      } catch (e) {
-        // @TODO handle error
-      } finally {
-        this.minting = false
-      }
+      this.$router.push({ name: 'register.mint_test_tokens' })
     }
   }
 }

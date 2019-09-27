@@ -11,12 +11,22 @@ export default {
   },
   button: {
     next: 'Next',
-    previous: 'Previous'
+    previous: 'Previous',
+    main_menu: 'Main menu',
+    choose_network: 'Choose network',
+    mint_tokens: 'Mint test tokens',
+    approve_spender: 'Approve spender',
+    mint: 'Mint'
   },
   headline: {
     welcome: 'What do you want to do ?',
     register: {
       network: 'Choose Ethereum network'
+    },
+    mint: {
+      mint: 'Mint',
+      lit: 'LIT',
+      test_tokens: 'Test Tokens'
     }
   },
   subheadline: {
@@ -32,6 +42,15 @@ export default {
       three: '3. Approve spender',
       four: '4. Register chain'
     }
+  },
+  mint: {
+    metamask: "If you don't have existing Ethereum wallet, <a class='text-secondary' href='https://metamask.io/' target='_blank'>create one using Metamask</a>",
+    skip: {
+      first: 'If you already have LIT Tokens',
+      second: 'skip to approve sender section'
+    },
+    tokens: 'Tokens',
+    minting_tokens: 'Minting tokens ...',
   },
   step: 'Step',
   steps: 'Steps'

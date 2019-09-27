@@ -8,8 +8,8 @@
       </SelectInput>
     </div>
     <div class="mt-12 flex justify-between">
-      <BackButton @click.native="previous">{{ $t('button.previous') }}</BackButton>
-      <NextButton @click.native="next" :disabled="!selected">{{ $t('button.next') }}</NextButton>
+      <BackButton @click.native="previous">{{ $t('button.main_menu') }}</BackButton>
+      <NextButton @click.native="next" :disabled="!selected">{{ $t('button.mint_tokens') }}</NextButton>
     </div>
   </div>
 </template>

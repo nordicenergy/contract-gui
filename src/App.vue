@@ -13,7 +13,7 @@
         </li>
       </ul>
       <div class="w-full mt-4" style="background-color: #1A263C; height: 0.2rem"></div>
-      <RegisterSteps></RegisterSteps>
+      <RegisterSteps v-if="isRegistering"></RegisterSteps>
     </nav>
     <main class="flex w-full items-center justify-center">
       <router-view></router-view>
@@ -26,6 +26,11 @@ import NavigationRouteLink from './components/NavigationRouteLink'
 import RegisterSteps from './views/RegisterSideChain/RegisterSteps'
 
 export default {
-  components: { NavigationRouteLink, RegisterSteps }
+  components: { NavigationRouteLink, RegisterSteps },
+  computed: {
+    isRegistering () {
+      return this.$route.name.indexOf('register') !== -1
+    }
+  }
 }
 </script>

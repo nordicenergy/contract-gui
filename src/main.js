@@ -8,13 +8,16 @@ import { i18n } from './i18n'
 
 Vue.config.productionTip = false
 
-const app = () => {
+const app = (ethereum) => {
   new Vue({
     el: '#app',
     render: createElement => createElement(App),
     router,
     store,
-    i18n
+    i18n,
+    provide: {
+      ethereum: ethereum
+    }
   })
 }
 
@@ -23,10 +26,9 @@ let hasEthereumClient = false
 bootstrap()
   .then(async ethereum => {
     hasEthereumClient = true
+    app(ethereum)
   })
   .catch(async error => {
     hasEthereumClient = false
   })
-  .finally(() => {
-    app()
-  })
+

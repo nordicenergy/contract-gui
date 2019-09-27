@@ -44,6 +44,10 @@ export default (ethereum, web3) => {
         .call()
     },
     async mint (tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
       return _erc20Contract
         .methods
         .mint(_account, tokensToHex(tokens))
