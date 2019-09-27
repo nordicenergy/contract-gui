@@ -25,6 +25,7 @@ export default {
     },
     mint: {
       mint: 'Mint',
+      minted: 'Minted',
       lit: 'LIT',
       test_tokens: 'Test Tokens'
     }
@@ -51,6 +52,7 @@ export default {
     },
     tokens: 'Tokens',
     minting_tokens: 'Minting tokens ...',
+    see_mints: 'Previous mint transactions'
   },
   step: 'Step',
   steps: 'Steps'

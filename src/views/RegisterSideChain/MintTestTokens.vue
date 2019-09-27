@@ -16,7 +16,8 @@
       <div class="mt-8 w-3/4 mx-auto">
         <label v-if="!minting" class="text-xs text-lition-gray font-medium">{{ $t('mint.tokens') }}</label>
         <label v-else class="text-xs text-lition-gray font-medium">{{ $t('mint.minting_tokens') }}</label>
-        <MintTokensInput @mint="handleMinting" v-model="tokens" placeholder="LIT 0"></MintTokensInput>
+      <MintTokensInput @mint="handleMinting" v-model="tokens" :loading="minting" placeholder="LIT 0"></MintTokensInput>
+        <router-link class="inline-block mt-4 text-sm font-medium text-secondary hover:underline" v-if="mints.length > 0" :to="{ name: 'register.minted_test_tokens', params: { network: network } }">{{ $t('mint.see_mints') }}</router-link>
       </div>
     </div>
     <div class="mt-12 flex justify-between">
@@ -30,6 +31,7 @@
 import BackButton from '../../components/BackButton'
 import NextButton from '../../components/NextButton'
 import MintTokensInput from '../../components/MintTokensInput'
+import { mapGetters } from 'vuex'
 
 export default {
   components: { MintTokensInput, NextButton, BackButton },
@@ -39,6 +41,11 @@ export default {
       type: String,
       default: 'ropsten'
     }
+  },
+  computed: {
+    ...mapGetters([
+      'mints'
+    ])
   },
   data () {
     return {
@@ -50,12 +57,15 @@ export default {
     previous () {
       this.$router.push({ name: 'register.network' })
     },
-    async handleMinting (tokens) {
-      console.log('starting minting')
+    async handleMinting () {
       this.minting = true
       try {
-        const response = await this.ethereum.mint(parseInt(tokens))
-        console.log(response)
+        const response = await this.ethereum.mint(this.tokens)
+        this.$store.dispatch('addMint', {
+          tokens: this.tokens,
+          timestamp: new Date(),
+          transaction: response
+        })
         await this.$router.push({ name: 'register.minted_test_tokens', params: { network: this.network } })
       } catch (e) {
         // @TODO handle error

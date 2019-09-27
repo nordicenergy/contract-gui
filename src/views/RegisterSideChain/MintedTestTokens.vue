@@ -3,13 +3,19 @@
     <div class="flex flex-col items-center">
       <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} 2/4</span>
       <h1 class="font-lition text-3xl font-bold">
-        {{ $t('headline.mint.mint') }} <span class="text-active">{{ $t('headline.mint.lit') }}</span> {{
+        {{ $t('headline.mint.minted') }} <span class="text-active">{{ $t('headline.mint.lit') }}</span> {{
         $t('headline.mint.test_tokens') }}
       </h1>
-      <div class="mt-8 w-3/4 mx-auto">
-        <label v-if="!minting" class="text-xs text-lition-gray font-medium">{{ $t('mint.tokens') }}</label>
-        <label v-else class="text-xs text-lition-gray font-medium">{{ $t('mint.minting_tokens') }}</label>
-        <MintTokensInput @mint="handleMinting" v-model="tokens" placeholder="LIT 0"></MintTokensInput>
+      <div class="mt-6">
+        <div class="mt-2" v-for="(mint, index) in mints" :key="index">
+          <div class="flex items-center">
+            <Check size="xxs"></Check>
+            <p class="ml-4 text-md font-bold">{{ mint.tokens }} LIT tokens successfully minted on</p>
+          </div>
+          <p class="ml-8 text-md text-lition-gray">
+            <a class="hover:text-secondary" :href="etherScan(mint.transaction)" target="_blank">{{ mint.transaction.to }}</a>
+          </p>
+        </div>
       </div>
     </div>
     <div class="mt-12 flex justify-between">
@@ -22,14 +28,21 @@
 <script>
 import BackButton from '../../components/BackButton'
 import NextButton from '../../components/NextButton'
+import Check from '../../components/Check'
+import { mapGetters } from 'vuex'
 
 export default {
-  components: { NextButton, BackButton },
+  components: { NextButton, BackButton, Check },
   props: {
     network: {
       type: String,
       default: 'ropsten'
     }
+  },
+  computed: {
+    ...mapGetters([
+      'mints'
+    ])
   },
   data () {
     return {
@@ -38,6 +51,9 @@ export default {
     }
   },
   methods: {
+    etherScan (transaction) {
+      return `https://${this.network}.etherscan.io/tx/${transaction.transactionHash}`
+    },
     previous () {
       this.$router.push({ name: 'register.mint_test_tokens' })
     }

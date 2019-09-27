@@ -11,8 +11,11 @@
             :placeholder="dynamicPlaceholder"
             class="w-full h-10 appearance-none focus:outline-none rounded-lg border-2 bg-white text-sm font-medium"
     >
-    <NormalButton @click.native="mint" :class="buttonActive" class="absolute right-0 ml-12 rounded-l-none"
-                  :disabled="!buttonActive">{{ $t('button.mint') }}
+    <NormalButton @click.native="$emit('mint')" :class="buttonActive"
+                  class="w-20 flex justify-center absolute right-0 ml-12 rounded-l-none"
+                  :disabled="!buttonActive">
+            <span v-if="loading && buttonActive" class="spinner h-5"></span>
+            <span v-else>{{ $t('button.mint') }}</span>
     </NormalButton>
   </div>
 </template>
@@ -29,6 +32,10 @@ export default {
     },
     placeholder: {
       type: String
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -67,10 +74,6 @@ export default {
     },
     blur () {
       this.focused = false
-    },
-    mint (tokens) {
-      // @TODO validation
-      this.$emit('mint', tokens)
     }
   }
 }

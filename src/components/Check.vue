@@ -30,6 +30,11 @@ export default {
           width: '20px',
           height: '20px'
         }
+      } else if (this.size === 'xxs') {
+        return {
+          width: '16px',
+          height: '16px'
+        }
       }
 
       return {
@@ -49,6 +54,10 @@ export default {
       } else if (this.size === 'xs') {
         return {
           width: '10px'
+        }
+      } else if (this.size === 'xxs') {
+        return {
+          width: '8px'
         }
       }
 

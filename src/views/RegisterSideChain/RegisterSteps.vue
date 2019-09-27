@@ -39,6 +39,7 @@ export default {
       const routeToStep = {
         'register.network': 1,
         'register.mint_test_tokens': 2,
+        'register.minted_test_tokens': 2.5,
         'register.approve_spender': 3,
         'register.new_chain': 4,
         'register.completed': 5
