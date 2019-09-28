@@ -16,7 +16,9 @@ export default {
     choose_network: 'Choose network',
     mint_tokens: 'Mint test tokens',
     approve_spender: 'Approve spender',
-    mint: 'Mint'
+    mint: 'Mint',
+    approve: 'Approve',
+    register_chain: 'Register chain'
   },
   headline: {
     welcome: 'What do you want to do ?',
@@ -28,7 +30,8 @@ export default {
       minted: 'Minted',
       lit: 'LIT',
       test_tokens: 'Test Tokens'
-    }
+    },
+    approve_spender: 'Approve spender'
   },
   subheadline: {
     register: {
@@ -45,15 +48,26 @@ export default {
     }
   },
   mint: {
-    metamask: "If you don't have existing Ethereum wallet, <a class='text-secondary' href='https://metamask.io/' target='_blank'>create one using Metamask</a>",
+    metamask: "If you don't have existing Ethereum wallet, <a class='text-secondary hover:underline' href='https://metamask.io/' target='_blank'>create one using Metamask</a>",
     skip: {
       first: 'If you already have LIT Tokens',
       second: 'skip to approve sender section'
     },
-    tokens: 'Tokens',
     minting_tokens: 'Minting tokens ...',
     see_mints: 'Previous mint transactions'
   },
+  approve: {
+    smart_contract: "Approve our <a class='text-secondary hover:underline' href='{smartContractLink}' target='_blank'>smart contract</a> to manipulate with your tokens",
+    skip: {
+      first: 'If you already have approved the spender,',
+      second: 'skip to chain registration section'
+    },
+    approving_spender: 'Approving spender ...',
+    see_approves: 'Previous approval transactions'
+  },
   step: 'Step',
-  steps: 'Steps'
+  steps: 'Steps',
+  label: {
+    tokens: 'Tokens'
+  }
 }

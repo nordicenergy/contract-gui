@@ -1,6 +1,84 @@
-<template></template>
+<template>
+  <div>
+    <div class="flex flex-col items-center">
+      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} 3/4</span>
+      <h1 class="font-lition text-3xl font-bold">{{ $t('headline.approve_spender') }}</h1>
+      <p class="mt-2 text-lition-gray font-medium" v-html="$t('approve.smart_contract', { smartContractLink: smartContractLink } )"></p>
+      <p class="mt-2 text-lition-gray font-medium">
+        {{ $t('approve.skip.first') }}
+        <router-link class="text-secondary hover:underline" :to="{ name: 'register.new_chain', params: { network: network }}">{{
+          $t('approve.skip.second') }}
+        </router-link>
+      </p>
+      <div class="mt-8 w-3/4 mx-auto">
+        <label v-if="!processing" class="text-xs text-lition-gray font-medium">{{ $t('label.tokens') }}</label>
+        <label v-else class="text-xs text-lition-gray font-medium">{{ $t('approve.approving_spender') }}</label>
+        <ApproveSpenderInput @approve="handleApproval" v-model="tokens" :loading="processing" placeholder="LIT 0"></ApproveSpenderInput>
+        <router-link class="inline-block mt-4 text-sm font-medium text-secondary hover:underline" v-if="approvals.length > 0" :to="{ name: 'register.minted_test_tokens', params: { network: network } }">{{ $t('approve.see_approves') }}</router-link>
+      </div>
+    </div>
+    <div class="mt-12 flex justify-between">
+      <BackButton @click.native="previous">{{ $t('button.mint_tokens') }}</BackButton>
+      <NextButton @click.native="next">{{ $t('button.register_chain') }}</NextButton>
+    </div>
+  </div>
+</template>
 
 <script>
+import BackButton from '../../components/BackButton'
+import NextButton from '../../components/NextButton'
+import ApproveSpenderInput from '../../components/ApproveSpenderInput'
+import { mapGetters } from 'vuex'
+import { etherScanAddress } from '../../utils'
+import config from '../../config'
+
 export default {
+  components: { NextButton, BackButton, ApproveSpenderInput },
+  inject: ['ethereum'],
+  props: {
+    network: {
+      type: String,
+      default: 'ropsten'
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'approvals'
+    ]),
+    smartContractLink () {
+      return etherScanAddress(this.network, config.litionRegistryContractAddress)
+    }
+  },
+  data () {
+    return {
+      tokens: null,
+      processing: false
+    }
+  },
+  methods: {
+    previous () {
+      this.$router.push({ name: 'register.mint_test_tokens', params: { network: this.network } })
+    },
+    next () {
+      this.$router.push({ name: 'register.new_chain', params: { network: this.network } })
+    },
+    async handleApproval () {
+      this.processing = true
+      try {
+        const response = await this.ethereum.approve(this.tokens)
+        this.$store.dispatch('addApproval', {
+          tokens: this.tokens,
+          timestamp: new Date(),
+          transaction: response
+        })
+        await this.$router.push({ name: 'register.new_chain', params: { network: this.network } })
+      } catch (e) {
+        // @TODO handle error
+        console.log(e)
+      } finally {
+        this.processing = false
+      }
+    }
+  }
 }
 </script>

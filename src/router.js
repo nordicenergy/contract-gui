@@ -4,7 +4,7 @@ import Welcome from './views/Welcome'
 import RegisterChooseNetwork from './views/RegisterSideChain/ChooseNetwork'
 import InteractWithSideChain from './views/InteractWithSideChain/InteractWithSideChain'
 import MintTestTokens from './views/RegisterSideChain/MintTestTokens'
-import MintedTestTokens from './views/RegisterSideChain/MintedTestTokens'
+import MintTransactions from './views/RegisterSideChain/MintTransactions'
 import ApproveSpender from './views/RegisterSideChain/ApproveSpender'
 import RegisterChain from './views/RegisterSideChain/RegisterChain'
 import RegistrationCompleted from './views/RegisterSideChain/RegistrationCompleted'
@@ -31,7 +31,7 @@ export default new Router({
     },
     {
       path: '/register/networks/:network/minted-test-tokens',
-      component: MintedTestTokens,
+      component: MintTransactions,
       name: 'register.minted_test_tokens',
       props: true
     },

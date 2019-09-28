@@ -5,3 +5,11 @@ export const tokensToHex = (tokens) => {
   let bigNumberTokens = new BN('1000000000000000000').mul(new BN(tokens))
   return Web3.utils.toHex(bigNumberTokens)
 }
+
+export const etherScanTransaction = (network, transactionHash) => {
+  return `https://${network}.etherscan.io/tx/${transactionHash}`
+}
+
+export const etherScanAddress = (network, address) => {
+  return `https://${network}.etherscan.io/address/${address}`
+}

@@ -37,6 +37,13 @@ export default (ethereum, web3) => {
 
       _account = accounts[0]
     },
+    async transactions () {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _web3.eth.getTransactionCount(_account)
+    },
     async getLastNotary (chainId) {
       return _litionRegistryContract
         .methods
@@ -56,6 +63,10 @@ export default (ethereum, web3) => {
         })
     },
     async approve (tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
       return _erc20Contract
         .methods
         .approve(config.litionRegistryContractAddress, tokensToHex(tokens))

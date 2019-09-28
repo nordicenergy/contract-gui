@@ -9,14 +9,14 @@
       <p class="mt-2 text-lition-gray font-medium" v-html="$t('mint.metamask')"></p>
       <p class="mt-2 text-lition-gray font-medium">
         {{ $t('mint.skip.first') }}
-        <router-link class="text-secondary" :to="{ name: 'register.approve_spender', params: { network: network }}">{{
+        <router-link class="text-secondary hover:underline" :to="{ name: 'register.approve_spender', params: { network: network }}">{{
           $t('mint.skip.second') }}
         </router-link>
       </p>
       <div class="mt-8 w-3/4 mx-auto">
-        <label v-if="!minting" class="text-xs text-lition-gray font-medium">{{ $t('mint.tokens') }}</label>
+        <label v-if="!processing" class="text-xs text-lition-gray font-medium">{{ $t('label.tokens') }}</label>
         <label v-else class="text-xs text-lition-gray font-medium">{{ $t('mint.minting_tokens') }}</label>
-      <MintTokensInput @mint="handleMinting" v-model="tokens" :loading="minting" placeholder="LIT 0"></MintTokensInput>
+        <MintTokensInput @mint="handleMinting" v-model="tokens" :loading="processing" placeholder="LIT 0"></MintTokensInput>
         <router-link class="inline-block mt-4 text-sm font-medium text-secondary hover:underline" v-if="mints.length > 0" :to="{ name: 'register.minted_test_tokens', params: { network: network } }">{{ $t('mint.see_mints') }}</router-link>
       </div>
     </div>
@@ -50,15 +50,18 @@ export default {
   data () {
     return {
       tokens: null,
-      minting: false
+      processing: false
     }
   },
   methods: {
     previous () {
       this.$router.push({ name: 'register.network' })
     },
+    next () {
+      this.$router.push({ name: 'register.approve_spender', params: { network: this.network } })
+    },
     async handleMinting () {
-      this.minting = true
+      this.processing = true
       try {
         const response = await this.ethereum.mint(this.tokens)
         this.$store.dispatch('addMint', {
@@ -69,8 +72,9 @@ export default {
         await this.$router.push({ name: 'register.minted_test_tokens', params: { network: this.network } })
       } catch (e) {
         // @TODO handle error
+        // @TODO handle meta mask transaction cancellation
       } finally {
-        this.minting = false
+        this.processing = false
       }
     }
   }

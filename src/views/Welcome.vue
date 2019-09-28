@@ -27,10 +27,14 @@ import NextButton from '../components/NextButton'
 
 export default {
   components: { Check, NextButton },
+  inject: ['ethereum'],
   data () {
     return {
       selected: null
     }
+  },
+  mounted () {
+    this.ethereum.transactions().then(result => console.log(result))
   },
   methods: {
     pickOption (optionNumber) {
