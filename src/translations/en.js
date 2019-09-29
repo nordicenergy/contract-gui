@@ -20,7 +20,8 @@ export default {
     approve: 'Approve',
     register_chain: 'Register chain',
     registering: 'Registering ...',
-    interact_with_chain: 'Interact with chain'
+    interact_with_chain: 'Interact with chain',
+    interact_with_chain_menu: 'Interact with chain menu'
   },
   headline: {
     welcome: 'What do you want to do ?',
@@ -37,7 +38,9 @@ export default {
     register_chain: 'Register chain',
     registration_completed: 'Chain registration completed!',
     provide_sidechain: 'What is your sidechain id ?',
-    interact: 'Which interaction would you like to do ?'
+    interact: 'Which interaction would you like to do ?',
+    vesting: 'Vesting',
+    deposits: 'Deposits'
   },
   subheadline: {
     register: {
@@ -97,6 +100,16 @@ export default {
     withdraw_deposit: 'Withdraw deposit',
     confirm_deposit_withdrawal: 'Confirm deposit withdrawal',
     mining: 'Mining'
+  },
+  vesting: {
+    vest_in_chain: 'Vest in chain',
+    withdraw_vesting: 'Withdraw vesting',
+    confirm_vest_increase: 'Confirm vest increase'
+  },
+  deposits: {
+    deposit_in_chain: 'Deposit in chain',
+    withdraw_deposit: 'Withdraw deposit',
+    confirm_deposit_withdrawal: 'Confirm deposit withdrawal'
   },
   step: 'Step',
   steps: 'Steps',

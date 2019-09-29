@@ -3,17 +3,19 @@
     <div class="flex flex-col items-center">
       <h1 class="font-lition text-3xl font-bold">{{ $t('headline.interact') }}</h1>
       <div class="mt-8 flex">
-        <div :class="{ 'btn-tile-active': selected === 'vesting' }" class="btn-tile" @click="pickOption('vesting')">
-          <Check v-if="selected === 'vesting'"></Check>
+        <div :class="{ 'btn-tile-active': selected === 'interact.vesting' }" class="btn-tile"
+             @click="pickOption('interact.vesting')">
+          <Check v-if="selected === 'interact.vesting'"></Check>
           <span>{{ $t('interact.vesting') }}</span>
         </div>
-        <div :class="{ 'btn-tile-active': selected === 'deposits' }" class="ml-2 btn-tile"
-             @click="pickOption('deposits')">
-          <Check v-if="selected === 'deposits'"></Check>
+        <div :class="{ 'btn-tile-active': selected === 'interact.deposits' }" class="ml-2 btn-tile"
+             @click="pickOption('interact.deposits')">
+          <Check v-if="selected === 'interact.deposits'"></Check>
           <span>{{ $t('interact.deposits') }}</span>
         </div>
-        <div :class="{ 'btn-tile-active': selected === 'mining' }" class="ml-2 btn-tile" @click="pickOption('mining')">
-          <Check v-if="selected === 'mining'"></Check>
+        <div :class="{ 'btn-tile-active': selected === 'interact.mining' }" class="ml-2 btn-tile"
+             @click="pickOption('interact.mining')">
+          <Check v-if="selected === 'interact.mining'"></Check>
           <span>{{ $t('interact.mining') }}</span>
         </div>
       </div>
@@ -31,7 +33,11 @@ import NextButton from '../../components/NextButton'
 import Check from '../../components/Check'
 
 export default {
-  inject: ['ethereum'],
+  props: {
+    chain: {
+      type: String
+    }
+  },
   data () {
     return {
       selected: null
@@ -50,10 +56,12 @@ export default {
       this.$router.push({ name: 'interact.provide_sidechain_id' })
     },
     next () {
-      if (this.selected === 'register') {
-        this.$router.push({ name: 'register.network' })
-      } else if (this.selected === 'interact') {
-        this.$router.push({ name: 'interact.provide_sidechain_id' })
+      if (this.selected === 'interact.vesting') {
+        this.$router.push({ name: 'interact.vesting', params: { chain: this.chain } })
+      } else if (this.selected === 'interact.deposits') {
+        this.$router.push({ name: 'interact.deposits', params: { chain: this.chain } })
+      } else if (this.selected === 'interact.mining') {
+        this.$router.push({ name: 'interact.mining', params: { chain: this.chain } })
       }
     }
   }
