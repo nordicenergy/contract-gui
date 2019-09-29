@@ -4,14 +4,19 @@
       <h1 class="font-lition text-3xl font-bold">{{ $t('headline.vest_in_chain') }}</h1>
       <div class="w-3/4 mt-8">
         <label class="text-xs text-lition-gray font-medium">Tokens to vest</label>
-        <ActionTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Vest</ActionTextInput>
+        <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Vest
+        </LitTextInput>
       </div>
+    </div>
+    <div class="mt-12 flex justify-between">
+      <BackButton @click.native="previous">Back to Vesting menu</BackButton>
     </div>
   </div>
 </template>
 
 <script>
-import ActionTextInput from '../../components/ActionTextInput'
+import LitTextInput from '../../components/LitTextInput'
+import BackButton from '../../components/BackButton'
 
 export default {
   inject: ['ethereum'],
@@ -23,7 +28,7 @@ export default {
       type: String
     }
   },
-  components: { ActionTextInput },
+  components: { LitTextInput, BackButton },
   data () {
     return {
       tokens: null,
@@ -41,13 +46,19 @@ export default {
           timestamp: new Date(),
           transaction: response
         })
-        await this.$router.push({ name: 'interact.vest_in_chain_completed', params: { chain: this.chain, network: this.network } })
+        await this.$router.push({
+          name: 'interact.vest_in_chain_completed',
+          params: { chain: this.chain, network: this.network }
+        })
       } catch (e) {
         // @TODO handle error
         console.log(e)
       } finally {
         this.processing = false
       }
+    },
+    previous () {
+      this.$router.push({ name: 'interact.vesting', params: { chain: this.chain, network: this.network } })
     }
   }
 }

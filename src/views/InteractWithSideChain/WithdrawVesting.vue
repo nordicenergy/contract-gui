@@ -1,6 +1,84 @@
-<template></template>
+<template>
+  <div style="min-width: 400px;">
+    <div class="flex flex-col items-center">
+      <h1 class="font-lition text-3xl font-bold">Withdraw vesting from chain</h1>
+    </div>
+
+    <div v-if="userDetails" class="w-full mt-8">
+      <span class="uppercase text-sm text-lition-gray font-medium">Total vesting:</span>
+      <span class="uppercase text-sm ml-2">{{ formatTokens(userDetails.vesting) }} LIT</span>
+    </div>
+    <div v-else class="w-full mt-8 flex justify-center h-12">
+      <span class="spinner-in-page"></span>
+    </div>
+    <div class="w-3/4 mt-4">
+      <label class="text-xs text-lition-gray font-medium">Tokens to withdraw</label>
+      <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Withdraw
+      </LitTextInput>
+    </div>
+    <div class="mt-12 flex justify-between">
+      <BackButton @click.native="previous">Back to Deposits menu</BackButton>
+    </div>
+  </div>
+</template>
 
 <script>
+import LitTextInput from '../../components/LitTextInput'
+import BackButton from '../../components/BackButton'
+import { tokensToLit } from '../../utils'
+
 export default {
+  inject: ['ethereum'],
+  props: {
+    chain: {
+      type: String
+    },
+    network: {
+      type: String
+    }
+  },
+  components: { LitTextInput, BackButton },
+  data () {
+    return {
+      tokens: null,
+      processing: false,
+      userDetails: null
+    }
+  },
+  mounted () {
+    this.fetchUserDetails()
+  },
+  methods: {
+    formatTokens (tokens) {
+      return tokensToLit(tokens)
+    },
+    async fetchUserDetails () {
+      this.userDetails = await this.ethereum.getUserDetails(this.chain)
+    },
+    async handleAction () {
+      this.processing = true
+      try {
+        const response = await this.ethereum.withdrawVestInChain(this.chain, this.tokens)
+        console.log(response)
+        // this.$store.dispatch('setDeposit', {
+        //   tokens: this.tokens,
+        //   timestamp: new Date(),
+        //   transaction: response
+        // })
+        // await this.$router.push({
+        //   name: 'interact.vest_in_chain_completed',
+        //   params: { chain: this.chain, network: this.network }
+        // })
+      } catch (e) {
+        // @TODO handle error
+        console.log(e)
+      } finally {
+        this.processing = false
+      }
+    },
+    previous () {
+      this.$router.push({ name: 'interact.deposits', params: { chain: this.chain, network: this.network } })
+    }
+  }
 }
 </script>

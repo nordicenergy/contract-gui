@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { MINT, APPROVE, REGISTER, VEST } from './transactionTypes'
+import { MINT, APPROVE, REGISTER, VEST, CONFIRM_VEST_INCREASE, DEPOSIT } from './transactionTypes'
 import config from './config'
 import VuexPersistance from 'vuex-persist'
 
@@ -14,6 +14,8 @@ Vue.use(Vuex)
 const SET_NETWORK = 'set_network'
 const SET_APPROVAL = 'set_approval'
 const SET_VEST_IN_CHAIN = 'set_vest_in_chain'
+const SET_CONFIRM_VEST_INCREASE = 'set_confirm_vest_increase'
+const SET_DEPOSIT_IN_CHAIN = 'set_deposit_in_chain'
 const ADD_MINT = 'add_mint'
 const ADD_TRANSACTION = 'add_transaction'
 const ADD_REGISTRATION = 'add_registration'
@@ -26,6 +28,8 @@ export default new Vuex.Store({
     mints: [],
     lastApproval: null,
     lastVestInChain: null,
+    lastVestIncreaseInChain: null,
+    lastDepositInChain: null,
     registrations: []
   },
   mutations: {
@@ -49,6 +53,12 @@ export default new Vuex.Store({
     },
     [SET_VEST_IN_CHAIN] (state, transaction) {
       state.lastVestInChain = transaction
+    },
+    [SET_CONFIRM_VEST_INCREASE] (state, transaction) {
+      state.lastVestIncreaseInChain = transaction
+    },
+    [SET_DEPOSIT_IN_CHAIN] (state, transaction) {
+      state.lastDepositInChain = transaction
     }
   },
   actions: {
@@ -82,6 +92,20 @@ export default new Vuex.Store({
         type: VEST,
         transaction: vestInChain
       })
+    },
+    setConfirmVestIncreaseInChain ({ commit }, confirmVestIncreaseInChain) {
+      commit(SET_CONFIRM_VEST_INCREASE, confirmVestIncreaseInChain)
+      commit(ADD_TRANSACTION, {
+        type: CONFIRM_VEST_INCREASE,
+        transaction: confirmVestIncreaseInChain
+      })
+    },
+    setDeposit ({ commit }, deposit) {
+      commit(SET_DEPOSIT_IN_CHAIN, deposit)
+      commit(ADD_TRANSACTION, {
+        type: DEPOSIT,
+        transaction: deposit
+      })
     }
   },
   getters: {
@@ -89,6 +113,8 @@ export default new Vuex.Store({
     mints: state => state.mints,
     lastApproval: state => state.lastApproval,
     lastVestInChain: state => state.lastVestInChain,
+    lastVestIncreaseInChain: state => state.lastVestIncreaseInChain,
+    lastDepositInChain: state => state.lastDepositInChain,
     registrations: state => state.registrations
   }
 })

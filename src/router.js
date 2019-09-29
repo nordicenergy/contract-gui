@@ -17,6 +17,7 @@ import { isNumeric, isValidNetwork } from './utils'
 import VestInChain from './views/InteractWithSideChain/VestInChain'
 import VestInChainCompleted from './views/InteractWithSideChain/VestInChainCompleted'
 import DepositInChain from './views/InteractWithSideChain/DepositInChain'
+import DepositInChainCompleted from './views/InteractWithSideChain/DepositInChainCompleted'
 import WithdrawVesting from './views/InteractWithSideChain/WithdrawVesting'
 import WithdrawDeposit from './views/InteractWithSideChain/WithdrawDeposit'
 import ConfirmVestIncreaseInChain from './views/InteractWithSideChain/ConfirmVestIncreaseInChain'
@@ -123,6 +124,12 @@ const router = new Router({
       path: '/interact/networks/:network/chains/:chain/deposit-in-chain',
       name: 'interact.deposit_in_chain',
       component: DepositInChain,
+      props: true
+    },
+    {
+      path: '/interact/networks/:network/chains/:chain/deposit-in-chain-completed',
+      name: 'interact.deposit_in_chain_completed',
+      component: DepositInChainCompleted,
       props: true
     },
     {

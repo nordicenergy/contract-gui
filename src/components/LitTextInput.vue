@@ -1,5 +1,6 @@
 <template>
   <div class="relative w-full flex items-center">
+    <span v-if="inputActive" class="absolute text-sm font-medium" style="margin-left: 18px">LIT</span>
     <input
             @focus="focus"
             @blur="blur"
@@ -40,7 +41,7 @@ export default {
   computed: {
     classes () {
       if (this.inputActive) {
-        return 'pl-4 border-active'
+        return 'pl-10 border-active'
       }
 
       return 'border-off px-4'

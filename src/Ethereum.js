@@ -1,7 +1,7 @@
 import LitionERC20Abi from './abi/ERC20'
 import LitionRegistryAbi from './abi/LitionRegistry'
 import config from './config'
-import { tokensToHex } from './utils'
+import { tokensToHex, tokensToLit } from './utils'
 import Web3 from 'web3'
 
 export default (ethereum, web3) => {
@@ -137,6 +137,54 @@ export default (ethereum, web3) => {
         .send({
           from: _account
         })
+    },
+    async confirmVestIncreaseInChain (chainId) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .confirmVestIncreaseInChain(chainId)
+        .send({
+          from: _account
+        })
+    },
+    async requestDepositInChain (chainId, tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .requestDepositInChain(chainId, tokensToHex(tokens))
+        .send({
+          from: _account
+        })
+    },
+    async getUserDetails (chainId) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .getUserDetails(chainId, _account)
+        .call()
+    },
+    async withdrawVestInChain (chainId, tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      const userDetails = await this.getUserDetails(chainId)
+      const totalVesting = parseInt(tokensToLit(userDetails.vesting))
+
+      if (tokens > totalVesting) {
+        throw new Error(`You can withdraw maximum of ${totalVesting} tokens from vesting`)
+      }
+
+      return this.requestVestInChain(chainId, totalVesting - tokens)
     }
   }
 }

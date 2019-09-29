@@ -6,6 +6,12 @@ export const tokensToHex = (tokens) => {
   return Web3.utils.toHex(bigNumberTokens)
 }
 
+export const tokensToLit = (tokens) => {
+  let BN = Web3.utils.BN
+
+  return (new BN(tokens).div(new BN('1000000000000000000'))).toString()
+}
+
 export const etherScanTransaction = (network, transactionHash) => {
   return `https://${network}.etherscan.io/tx/${transactionHash}`
 }
