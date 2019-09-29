@@ -2,8 +2,17 @@
   <div style="min-width: 400px;">
     <div class="flex flex-col items-center">
       <h1 class="font-lition text-3xl font-bold">Request deposit in chain</h1>
-      <div class="w-3/4 mt-8">
-        <label class="text-xs text-lition-gray font-medium">Tokens to deposit</label>
+    </div>
+    <div v-if="userDetails" class="w-full mt-8">
+      <span class="uppercase text-sm text-lition-gray font-medium">Total deposit:</span>
+      <span class="uppercase text-sm ml-2">{{ formatTokens(userDetails.deposit) }} LIT</span>
+    </div>
+    <div v-else class="w-full mt-8 flex justify-center h-12">
+      <span class="spinner-in-page"></span>
+    </div>
+    <div class="w-full mt-4">
+      <div class="w-3/4">
+        <label class="text-xs text-lition-gray font-medium">Add tokens to deposit</label>
         <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Deposit
         </LitTextInput>
       </div>
@@ -17,6 +26,7 @@
 <script>
 import LitTextInput from '../../components/LitTextInput'
 import BackButton from '../../components/BackButton'
+import { tokensToLit } from '../../utils'
 
 export default {
   inject: ['ethereum'],
@@ -32,14 +42,24 @@ export default {
   data () {
     return {
       tokens: null,
-      processing: false
+      processing: false,
+      userDetails: null
     }
   },
+  mounted () {
+    this.fetchUserDetails()
+  },
   methods: {
+    formatTokens (tokens) {
+      return tokensToLit(tokens)
+    },
+    async fetchUserDetails () {
+      this.userDetails = await this.ethereum.getUserDetails(this.chain)
+    },
     async handleAction () {
       this.processing = true
       try {
-        const response = await this.ethereum.requestDepositInChain(this.chain, this.tokens)
+        const response = await this.ethereum.addToDepositInChain(this.chain, this.tokens)
         console.log(response)
         this.$store.dispatch('setDeposit', {
           tokens: this.tokens,
@@ -47,7 +67,7 @@ export default {
           transaction: response
         })
         await this.$router.push({
-          name: 'interact.vest_in_chain_completed',
+          name: 'interact.deposit_in_chain_completed',
           params: { chain: this.chain, network: this.network }
         })
       } catch (e) {

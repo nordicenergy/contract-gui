@@ -138,6 +138,22 @@ export default (ethereum, web3) => {
           from: _account
         })
     },
+    async addToVestInChain (chainId, tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      const userDetails = await this.getUserDetails(chainId)
+      const totalVesting = parseInt(tokensToLit(userDetails.vesting))
+      const newVesting = totalVesting + parseInt(tokens)
+
+      return _litionRegistryContract
+        .methods
+        .requestVestInChain(chainId, tokensToHex(newVesting))
+        .send({
+          from: _account
+        })
+    },
     async confirmVestIncreaseInChain (chainId) {
       if (typeof _account === 'undefined') {
         await this.login()
@@ -158,6 +174,22 @@ export default (ethereum, web3) => {
       return _litionRegistryContract
         .methods
         .requestDepositInChain(chainId, tokensToHex(tokens))
+        .send({
+          from: _account
+        })
+    },
+    async addToDepositInChain (chainId, tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      const userDetails = await this.getUserDetails(chainId)
+      const totalDeposit = parseInt(tokensToLit(userDetails.deposit))
+      const newDeposit = totalDeposit + parseInt(tokens)
+
+      return _litionRegistryContract
+        .methods
+        .requestDepositInChain(chainId, tokensToHex(newDeposit))
         .send({
           from: _account
         })
@@ -185,6 +217,56 @@ export default (ethereum, web3) => {
       }
 
       return this.requestVestInChain(chainId, totalVesting - tokens)
+    },
+    async withdrawDepositInChain (chainId, tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      const userDetails = await this.getUserDetails(chainId)
+      const totalDeposit = parseInt(tokensToLit(userDetails.deposit))
+
+      if (tokens > totalDeposit) {
+        throw new Error(`You can withdraw maximum of ${totalDeposit} tokens from deposit`)
+      }
+
+      return this.requestDepositInChain(chainId, totalDeposit - tokens)
+    },
+    async confirmDepositWithdrawalFromChain (chainId) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .confirmDepositWithdrawalFromChain(chainId)
+        .send({
+          from: _account
+        })
+    },
+    async startMining (chainId) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .startMining(chainId)
+        .send({
+          from: _account
+        })
+    },
+    async stopMining (chainId) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .stopMining(chainId)
+        .send({
+          from: _account
+        })
     }
   }
 }

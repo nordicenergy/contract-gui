@@ -1,7 +1,7 @@
 <template>
   <div style="min-width: 400px;">
     <div class="flex flex-col items-center">
-      <h1 class="font-lition text-3xl font-bold">Withdraw vesting from chain</h1>
+      <h1 class="font-lition text-3xl font-bold">Request withdraw vesting from chain</h1>
     </div>
 
     <div v-if="userDetails" class="w-full mt-8">
@@ -11,13 +11,14 @@
     <div v-else class="w-full mt-8 flex justify-center h-12">
       <span class="spinner-in-page"></span>
     </div>
+
     <div class="w-3/4 mt-4">
       <label class="text-xs text-lition-gray font-medium">Tokens to withdraw</label>
       <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Withdraw
       </LitTextInput>
     </div>
     <div class="mt-12 flex justify-between">
-      <BackButton @click.native="previous">Back to Deposits menu</BackButton>
+      <BackButton @click.native="previous">Back to vesting menu</BackButton>
     </div>
   </div>
 </template>
@@ -60,15 +61,15 @@ export default {
       try {
         const response = await this.ethereum.withdrawVestInChain(this.chain, this.tokens)
         console.log(response)
-        // this.$store.dispatch('setDeposit', {
-        //   tokens: this.tokens,
-        //   timestamp: new Date(),
-        //   transaction: response
-        // })
-        // await this.$router.push({
-        //   name: 'interact.vest_in_chain_completed',
-        //   params: { chain: this.chain, network: this.network }
-        // })
+        this.$store.dispatch('setWithdrawVestInChain', {
+          tokens: this.tokens,
+          timestamp: new Date(),
+          transaction: response
+        })
+        await this.$router.push({
+          name: 'interact.withdraw_vesting_completed',
+          params: { chain: this.chain, network: this.network }
+        })
       } catch (e) {
         // @TODO handle error
         console.log(e)
@@ -77,7 +78,7 @@ export default {
       }
     },
     previous () {
-      this.$router.push({ name: 'interact.deposits', params: { chain: this.chain, network: this.network } })
+      this.$router.push({ name: 'interact.vesting', params: { chain: this.chain, network: this.network } })
     }
   }
 }

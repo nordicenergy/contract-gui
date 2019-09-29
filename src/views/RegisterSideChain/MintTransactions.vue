@@ -51,9 +51,6 @@ export default {
     ])
   },
   methods: {
-    etherScan (transaction) {
-      return etherScanTransaction(this.network, transaction.transactionHash)
-    },
     previous () {
       this.$router.push({ name: 'register.mint_test_tokens' })
     },

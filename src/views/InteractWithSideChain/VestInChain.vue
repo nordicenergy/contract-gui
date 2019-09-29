@@ -2,14 +2,25 @@
   <div>
     <div class="flex flex-col items-center">
       <h1 class="font-lition text-3xl font-bold">{{ $t('headline.vest_in_chain') }}</h1>
-      <div class="w-3/4 mt-8">
-        <label class="text-xs text-lition-gray font-medium">Tokens to vest</label>
+    </div>
+
+    <div v-if="userDetails" class="w-full mt-8">
+      <span class="uppercase text-sm text-lition-gray font-medium">Total vesting:</span>
+      <span class="uppercase text-sm ml-2">{{ formatTokens(userDetails.vesting) }} LIT</span>
+    </div>
+    <div v-else class="w-full mt-8 flex justify-center h-12">
+      <span class="spinner-in-page"></span>
+    </div>
+
+    <div class="w-full mt-8">
+      <div class="w-3/4">
+        <label class="text-xs text-lition-gray font-medium">Add tokens to vesting</label>
         <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Vest
         </LitTextInput>
       </div>
     </div>
     <div class="mt-12 flex justify-between">
-      <BackButton @click.native="previous">Back to Vesting menu</BackButton>
+      <BackButton @click.native="previous">Back to vesting menu</BackButton>
     </div>
   </div>
 </template>
@@ -17,6 +28,7 @@
 <script>
 import LitTextInput from '../../components/LitTextInput'
 import BackButton from '../../components/BackButton'
+import { tokensToLit } from '../../utils'
 
 export default {
   inject: ['ethereum'],
@@ -32,15 +44,27 @@ export default {
   data () {
     return {
       tokens: null,
-      processing: false
+      processing: false,
+      userDetails: null
     }
   },
+  mounted () {
+    this.fetchUserDetails()
+  },
   methods: {
+    formatTokens (tokens) {
+      return tokensToLit(tokens)
+    },
+    async fetchUserDetails () {
+      this.userDetails = await this.ethereum.getUserDetails(this.chain)
+    },
     async handleAction () {
       this.processing = true
       try {
-        const response = await this.ethereum.requestVestInChain(this.chain, this.tokens)
+        const response = await this.ethereum.addToVestInChain(this.chain, this.tokens)
+
         console.log(response)
+
         this.$store.dispatch('setVestInChain', {
           tokens: this.tokens,
           timestamp: new Date(),

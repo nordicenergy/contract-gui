@@ -8,20 +8,17 @@
       </li>
       <li :class="{ 'text-white': currentStep >= 2, 'text-inactive': currentStep < 2 }"
           class="mt-4 flex items-center justify-between">
-        <span v-if="network"><router-link :to="{ name: 'register.mint_test_tokens', params: { network: network } }">{{ $t('register.steps.two') }}</router-link></span>
-        <span v-else>{{ $t('register.steps.two') }}</span>
+        <span><router-link :to="{ name: 'register.mint_test_tokens', params: { network: network } }">{{ $t('register.steps.two') }}</router-link></span>
         <span v-show="currentStep > 2"><Check size="xs"></Check></span>
       </li>
       <li :class="{ 'text-white': currentStep >= 3, 'text-inactive': currentStep < 3 }"
           class="mt-4 flex items-center justify-between">
-        <span v-if="network"><router-link :to="{ name: 'register.approve_spender', params: { network: network } }">{{ $t('register.steps.three') }}</router-link></span>
-        <span v-else>{{ $t('register.steps.three') }}</span>
+        <span><router-link :to="{ name: 'register.approve_spender', params: { network: network } }">{{ $t('register.steps.three') }}</router-link></span>
         <span v-show="currentStep > 3"><Check size="xs"></Check></span>
       </li>
       <li :class="{ 'text-white': currentStep >= 4, 'text-inactive': currentStep < 4 }"
           class="mt-4 flex items-center justify-between">
-        <span v-if="network"><router-link :to="{ name: 'register.new_chain', params: { network: network } }">{{ $t('register.steps.four') }}</router-link></span>
-        <span v-else>{{ $t('register.steps.four') }}</span>
+        <span><router-link :to="{ name: 'register.new_chain', params: { network: network } }">{{ $t('register.steps.four') }}</router-link></span>
         <span v-show="currentStep > 4"><Check size="xs"></Check></span>
       </li>
     </ul>
@@ -30,10 +27,14 @@
 
 <script>
 import Check from '../../components/Check'
+import { mapGetters } from 'vuex'
 
 export default {
   components: { Check },
   computed: {
+    ...mapGetters([
+      'network'
+    ]),
     currentStep () {
       const currentRoute = this.$route.name
       const routeToStep = {
@@ -51,11 +52,6 @@ export default {
       }
 
       return routeToStep[currentRoute]
-    },
-    network () {
-      const params = this.$route.params
-
-      return params.network
     }
   }
 }

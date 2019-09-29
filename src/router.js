@@ -19,7 +19,9 @@ import VestInChainCompleted from './views/InteractWithSideChain/VestInChainCompl
 import DepositInChain from './views/InteractWithSideChain/DepositInChain'
 import DepositInChainCompleted from './views/InteractWithSideChain/DepositInChainCompleted'
 import WithdrawVesting from './views/InteractWithSideChain/WithdrawVesting'
+import WithdrawVestingCompleted from './views/InteractWithSideChain/WithdrawVestingCompleted'
 import WithdrawDeposit from './views/InteractWithSideChain/WithdrawDeposit'
+import WithdrawDepositCompleted from './views/InteractWithSideChain/WithdrawDepositCompleted'
 import ConfirmVestIncreaseInChain from './views/InteractWithSideChain/ConfirmVestIncreaseInChain'
 import ConfirmDepositWithdrawal from './views/InteractWithSideChain/ConfirmDepositWithdrawal'
 
@@ -109,6 +111,12 @@ const router = new Router({
       props: true
     },
     {
+      path: '/interact/networks/:network/chains/:chain/withdraw-vesting-completed',
+      name: 'interact.withdraw_vesting_completed',
+      component: WithdrawVestingCompleted,
+      props: true
+    },
+    {
       path: '/interact/networks/:network/chains/:chain/confirm-vest-increase',
       name: 'interact.confirm_vest_increase',
       component: ConfirmVestIncreaseInChain,
@@ -136,6 +144,12 @@ const router = new Router({
       path: '/interact/networks/:network/chains/:chain/withdraw-deposit',
       name: 'interact.withdraw_deposit',
       component: WithdrawDeposit,
+      props: true
+    },
+    {
+      path: '/interact/networks/:network/chains/:chain/withdraw-deposit-completed',
+      name: 'interact.withdraw_deposit_completed',
+      component: WithdrawDepositCompleted,
       props: true
     },
     {

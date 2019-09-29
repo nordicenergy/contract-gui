@@ -1,6 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { MINT, APPROVE, REGISTER, VEST, CONFIRM_VEST_INCREASE, DEPOSIT } from './transactionTypes'
+import {
+  MINT,
+  APPROVE,
+  REGISTER,
+  VEST,
+  CONFIRM_VEST_INCREASE,
+  DEPOSIT,
+  WITHDRAW_VEST,
+  WITHDRAW_DEPOST
+} from './transactionTypes'
 import config from './config'
 import VuexPersistance from 'vuex-persist'
 
@@ -14,8 +23,10 @@ Vue.use(Vuex)
 const SET_NETWORK = 'set_network'
 const SET_APPROVAL = 'set_approval'
 const SET_VEST_IN_CHAIN = 'set_vest_in_chain'
+const SET_WITHDRAW_VEST_IN_CHAIN = 'set_withdraw_vest_in_chain'
 const SET_CONFIRM_VEST_INCREASE = 'set_confirm_vest_increase'
 const SET_DEPOSIT_IN_CHAIN = 'set_deposit_in_chain'
+const SET_WITHDRAW_DEPOSIT_IN_CHAIN = 'set_withdraw_deposit_in_chain'
 const ADD_MINT = 'add_mint'
 const ADD_TRANSACTION = 'add_transaction'
 const ADD_REGISTRATION = 'add_registration'
@@ -26,11 +37,13 @@ export default new Vuex.Store({
     network: null,
     transactions: [],
     mints: [],
+    registrations: [],
     lastApproval: null,
     lastVestInChain: null,
     lastVestIncreaseInChain: null,
+    lastWithdrawVestInChain: null,
     lastDepositInChain: null,
-    registrations: []
+    lastWithdrawDepositInChain: null
   },
   mutations: {
     [SET_NETWORK] (state, network) {
@@ -54,11 +67,17 @@ export default new Vuex.Store({
     [SET_VEST_IN_CHAIN] (state, transaction) {
       state.lastVestInChain = transaction
     },
+    [SET_WITHDRAW_VEST_IN_CHAIN] (state, transaction) {
+      state.lastWithdrawVestInChain = transaction
+    },
     [SET_CONFIRM_VEST_INCREASE] (state, transaction) {
       state.lastVestIncreaseInChain = transaction
     },
     [SET_DEPOSIT_IN_CHAIN] (state, transaction) {
       state.lastDepositInChain = transaction
+    },
+    [SET_WITHDRAW_DEPOSIT_IN_CHAIN] (state, transaction) {
+      state.lastWithdrawDepositInChain = transaction
     }
   },
   actions: {
@@ -93,6 +112,13 @@ export default new Vuex.Store({
         transaction: vestInChain
       })
     },
+    setWithdrawVestInChain ({ commit }, withdrawVestInChain) {
+      commit(SET_WITHDRAW_VEST_IN_CHAIN, withdrawVestInChain)
+      commit(ADD_TRANSACTION, {
+        type: WITHDRAW_VEST,
+        transaction: withdrawVestInChain
+      })
+    },
     setConfirmVestIncreaseInChain ({ commit }, confirmVestIncreaseInChain) {
       commit(SET_CONFIRM_VEST_INCREASE, confirmVestIncreaseInChain)
       commit(ADD_TRANSACTION, {
@@ -106,6 +132,13 @@ export default new Vuex.Store({
         type: DEPOSIT,
         transaction: deposit
       })
+    },
+    setWithdrawDepositInChain ({ commit }, withdrawDeposit) {
+      commit(SET_WITHDRAW_DEPOSIT_IN_CHAIN, withdrawDeposit)
+      commit(ADD_TRANSACTION, {
+        type: WITHDRAW_DEPOST,
+        transaction: withdrawDeposit
+      })
     }
   },
   getters: {
@@ -114,7 +147,9 @@ export default new Vuex.Store({
     lastApproval: state => state.lastApproval,
     lastVestInChain: state => state.lastVestInChain,
     lastVestIncreaseInChain: state => state.lastVestIncreaseInChain,
+    lastWithdrawVestInChain: state => state.lastWithdrawVestInChain,
     lastDepositInChain: state => state.lastDepositInChain,
+    lastWithdrawDepositInChain: state => state.lastWithdrawDepositInChain,
     registrations: state => state.registrations
   }
 })
