@@ -43,6 +43,16 @@
         </Tooltip>
       </div>
       <div class="relative mt-2 flex flex-col w-full">
+        <label class="text-xs text-lition-gray font-medium">{{ $t('label.deposit') }}</label>
+        <TextInput v-model="deposit" ref="deposit" @focus.native="focus = 'deposit'"
+                   @blur.native="focus = null"
+                   class="w-full"></TextInput>
+        <Tooltip v-if="active === 'deposit'" class="absolute right-0 -mr-48">
+          <template slot="headline">Deposit</template>
+          <template slot="text">Some explanation text about deposit ?</template>
+        </Tooltip>
+      </div>
+      <div class="relative mt-2 flex flex-col w-full">
         <label class="text-xs text-lition-gray font-medium">{{ $t('label.max_validators') }}</label>
         <TextInput v-model="maxValidators" ref="max_validators" @focus.native="focus = 'max_validators'"
                    @blur.native="focus = null"
@@ -138,6 +148,7 @@ export default {
       initEndpoint: null,
       chainValidator: config.litionValidatorContractAddress,
       vesting: null,
+      deposit: null,
       maxValidators: null,
       maxTransactors: null,
       notaryVesting: false,
@@ -176,6 +187,7 @@ export default {
           this.initEndpoint,
           this.chainValidator,
           this.vesting,
+          this.deposit,
           this.maxTransactors,
           this.maxTransactors,
           this.notaryVesting,

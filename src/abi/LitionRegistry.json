@@ -190,6 +190,67 @@
         "constant": false,
         "inputs": [
             {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "initEndpoint",
+                "type": "string"
+            },
+            {
+                "internalType": "contract ChainValidator",
+                "name": "chainValidator",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "vesting",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "deposit",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "maxNumOfValidators",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "maxNumOfTransactors",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "involvedVestingNotaryCond",
+                "type": "bool"
+            },
+            {
+                "internalType": "bool",
+                "name": "participationNotaryCond",
+                "type": "bool"
+            }
+        ],
+        "name": "registerChain",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "chainId",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
                 "internalType": "uint256",
                 "name": "chainId",
                 "type": "uint256"
@@ -268,62 +329,6 @@
         ],
         "name": "requestDepositInChain",
         "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "description",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "initEndpoint",
-                "type": "string"
-            },
-            {
-                "internalType": "contract ChainValidator",
-                "name": "chainValidator",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "vesting",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "maxNumOfValidators",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "maxNumOfTransactors",
-                "type": "uint256"
-            },
-            {
-                "internalType": "bool",
-                "name": "involvedVestingNotaryCond",
-                "type": "bool"
-            },
-            {
-                "internalType": "bool",
-                "name": "participationNotaryCond",
-                "type": "bool"
-            }
-        ],
-        "name": "registerChain",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "chainId",
-                "type": "uint256"
-            }
-        ],
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"
