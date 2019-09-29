@@ -36,6 +36,9 @@ export default {
   props: {
     chain: {
       type: String
+    },
+    network: {
+      type: String
     }
   },
   data () {
@@ -53,15 +56,15 @@ export default {
       }
     },
     previous () {
-      this.$router.push({ name: 'interact.provide_sidechain_id' })
+      this.$router.push({ name: 'interact.settings' })
     },
     next () {
       if (this.selected === 'interact.vesting') {
-        this.$router.push({ name: 'interact.vesting', params: { chain: this.chain } })
+        this.$router.push({ name: 'interact.vesting', params: { network: this.network, chain: this.chain } })
       } else if (this.selected === 'interact.deposits') {
-        this.$router.push({ name: 'interact.deposits', params: { chain: this.chain } })
+        this.$router.push({ name: 'interact.deposits', params: { network: this.network, chain: this.chain } })
       } else if (this.selected === 'interact.mining') {
-        this.$router.push({ name: 'interact.mining', params: { chain: this.chain } })
+        this.$router.push({ name: 'interact.mining', params: { network: this.network, chain: this.chain } })
       }
     }
   }

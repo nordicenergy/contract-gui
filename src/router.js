@@ -9,7 +9,7 @@ import ApproveSpender from './views/RegisterSideChain/ApproveSpender'
 import ApproveTransactions from './views/RegisterSideChain/ApproveTransactions'
 import RegisterChain from './views/RegisterSideChain/RegisterChain'
 import RegistrationCompleted from './views/RegisterSideChain/RegistrationCompleted'
-import ProvideSideChainId from './views/InteractWithSideChain/ProvideSideChainId'
+import ProvideInteractionSettings from './views/InteractWithSideChain/ProvideInteractionSettings'
 import Vesting from './views/InteractWithSideChain/Vesting'
 import Deposits from './views/InteractWithSideChain/Deposits'
 import Mining from './views/InteractWithSideChain/Mining'
@@ -72,66 +72,66 @@ const router = new Router({
       props: true
     },
     {
-      path: '/interact/chains/:chain',
+      path: '/interact/networks/:network/chains/:chain',
       name: 'interact',
       component: InteractWithSideChain,
       props: true
     },
     {
-      path: '/interact/provide-sidechain-id',
-      name: 'interact.provide_sidechain_id',
-      component: ProvideSideChainId
+      path: '/interact/settings',
+      name: 'interact.settings',
+      component: ProvideInteractionSettings
     },
     {
-      path: '/interact/chains/:chain/vesting',
+      path: '/interact/networks/:network/chains/:chain/vesting',
       name: 'interact.vesting',
       component: Vesting,
       props: true
     },
     {
-      path: '/interact/chains/:chain/vest-in-chain',
+      path: '/interact/networks/:network/chains/:chain/vest-in-chain',
       name: 'interact.vest_in_chain',
       component: VestInChain,
       props: true
     },
     {
-      path: '/interact/chains/:chain/withdraw-vesting',
+      path: '/interact/networks/:network/chains/:chain/withdraw-vesting',
       name: 'interact.withdraw_vesting',
       component: WithdrawVesting,
       props: true
     },
     {
-      path: '/interact/chains/:chain/confirm-vest-increase',
+      path: '/interact/networks/:network/chains/:chain/confirm-vest-increase',
       name: 'interact.confirm_vest_increase',
       component: ConfirmVestIncreaseInChain,
       props: true
     },
     {
-      path: '/interact/chains/:chain/deposits',
+      path: '/interact/networks/:network/chains/:chain/deposits',
       name: 'interact.deposits',
       component: Deposits,
       props: true
     },
     {
-      path: '/interact/chains/:chain/deposit-in-chain',
+      path: '/interact/networks/:network/chains/:chain/deposit-in-chain',
       name: 'interact.deposit_in_chain',
       component: DepositInChain,
       props: true
     },
     {
-      path: '/interact/chains/:chain/withdraw-deposit',
+      path: '/interact/networks/:network/chains/:chain/withdraw-deposit',
       name: 'interact.withdraw_deposit',
       component: WithdrawDeposit,
       props: true
     },
     {
-      path: '/interact/chains/:chain/confirm-deposit-withdrawal',
+      path: '/interact/networks/:network/chains/:chain/confirm-deposit-withdrawal',
       name: 'interact.confirm_deposit_withdrawal',
       component: ConfirmDepositWithdrawal,
       props: true
     },
     {
-      path: '/interact/chains/:chain/mining',
+      path: '/interact/networks/:network/chains/:chain/mining',
       name: 'interact.mining',
       component: Mining,
       props: true
@@ -149,10 +149,22 @@ router.beforeEach((to, from, next) => {
     const isSpecificChain = to.fullPath.indexOf('chains') !== -1
     if (isSpecificChain) {
       if (!Object.prototype.hasOwnProperty.call(to.params, 'chain')) {
-        next({ name: 'interact.provide_sidechain_id' })
+        next({ name: 'interact.settings' })
       }
       if (!isNumeric(to.params.chain)) {
-        next({ name: 'interact.provide_sidechain_id' })
+        next({ name: 'interact.settings' })
+      }
+    }
+
+    const isSpecificNetowrk = to.fullPath.indexOf('networks') !== -1
+    if (isSpecificNetowrk) {
+      if (!Object.prototype.hasOwnProperty.call(to.params, 'network')) {
+        next({ name: 'interact.settings' })
+      }
+      const allowedNetworks = ['ropsten']
+
+      if (allowedNetworks.indexOf(to.params.network) === -1) {
+        next({ name: 'interact.settings' })
       }
     }
   }

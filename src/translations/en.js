@@ -40,7 +40,8 @@ export default {
     provide_sidechain: 'What is your sidechain id ?',
     interact: 'Which interaction would you like to do ?',
     vesting: 'Vesting',
-    deposits: 'Deposits'
+    deposits: 'Deposits',
+    vest_in_chain: 'Request vesting in chain'
   },
   subheadline: {
     register: {

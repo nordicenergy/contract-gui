@@ -122,6 +122,18 @@ export default (ethereum, web3) => {
         .methods
         .getChainStaticDetails(chainId)
         .call()
+    },
+    async requestVestInChain (chainId, tokens) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .requestVestInChain(chainId, tokensToHex(tokens))
+        .send({
+          from: _account
+        })
     }
   }
 }

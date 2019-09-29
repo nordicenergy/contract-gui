@@ -36,6 +36,9 @@ export default {
   props: {
     chain: {
       type: String
+    },
+    network: {
+      type: String
     }
   },
   data () {
@@ -53,15 +56,15 @@ export default {
       }
     },
     previous () {
-      this.$router.push({ name: 'interact', params: { chain: this.chain } })
+      this.$router.push({ name: 'interact', params: { network: this.network, chain: this.chain } })
     },
     next () {
       if (this.selected === 'interact.vest_in_chain') {
-        this.$router.push({ name: 'interact.vest_in_chain', params: { chain: this.chain } })
+        this.$router.push({ name: 'interact.vest_in_chain', params: { network: this.network, chain: this.chain } })
       } else if (this.selected === 'interact.withdraw_vesting') {
-        this.$router.push({ name: 'interact.withdraw_vesting', params: { chain: this.chain } })
+        this.$router.push({ name: 'interact.withdraw_vesting', params: { network: this.network, chain: this.chain } })
       } else if (this.selected === 'interact.confirm_vest_increase') {
-        this.$router.push({ name: 'interact.confirm_vest_increase', params: { chain: this.chain } })
+        this.$router.push({ name: 'interact.confirm_vest_increase', params: { cnetwork: this.network, hain: this.chain } })
       }
     }
   }
