@@ -6,12 +6,24 @@ import InteractWithSideChain from './views/InteractWithSideChain/InteractWithSid
 import MintTestTokens from './views/RegisterSideChain/MintTestTokens'
 import MintTransactions from './views/RegisterSideChain/MintTransactions'
 import ApproveSpender from './views/RegisterSideChain/ApproveSpender'
+import ApproveTransactions from './views/RegisterSideChain/ApproveTransactions'
 import RegisterChain from './views/RegisterSideChain/RegisterChain'
 import RegistrationCompleted from './views/RegisterSideChain/RegistrationCompleted'
+import ProvideSideChainId from './views/InteractWithSideChain/ProvideSideChainId'
+import Vesting from './views/InteractWithSideChain/Vesting'
+import Deposits from './views/InteractWithSideChain/Deposits'
+import Mining from './views/InteractWithSideChain/Mining'
+import { isNumeric } from './utils'
+import VestInChain from './views/InteractWithSideChain/VestInChain'
+import DepositInChain from './views/InteractWithSideChain/DepositInChain'
+import WithdrawVesting from './views/InteractWithSideChain/WithdrawVesting'
+import WithdrawDeposit from './views/InteractWithSideChain/WithdrawDeposit'
+import ConfirmVestIncreaseInChain from './views/InteractWithSideChain/ConfirmVestIncreaseInChain'
+import ConfirmDepositWithdrawal from './views/InteractWithSideChain/ConfirmDepositWithdrawal'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -30,7 +42,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/register/networks/:network/minted-test-tokens',
+      path: '/register/networks/:network/mint-transactions',
       component: MintTransactions,
       name: 'register.minted_test_tokens',
       props: true
@@ -42,29 +54,110 @@ export default new Router({
       props: true
     },
     {
+      path: '/register/networks/:network/approve-transactions',
+      component: ApproveTransactions,
+      name: 'register.approve_transactions',
+      props: true
+    },
+    {
       path: '/register/networks/:network/new-chain',
       component: RegisterChain,
       name: 'register.new_chain',
       props: true
     },
     {
-      path: '/register/networks/:network/chains/:chaindId/completed',
+      path: '/register/networks/:network/chains/:chain/completed',
       component: RegistrationCompleted,
       name: 'register.completed',
       props: true
     },
     {
-      path: '/interact-with-sidechain',
+      path: '/interact/chains/:chain',
       name: 'interact',
-      component: InteractWithSideChain
+      component: InteractWithSideChain,
+      props: true
+    },
+    {
+      path: '/interact/provide-sidechain-id',
+      name: 'interact.provide_sidechain_id',
+      component: ProvideSideChainId
+    },
+    {
+      path: '/interact/chains/:chain/vesting',
+      name: 'interact.vesting',
+      component: Vesting,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/vest-in-chain',
+      name: 'interact.vest_in_chain',
+      component: VestInChain,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/withdraw-vesting',
+      name: 'interact.withdraw_vesting',
+      component: WithdrawVesting,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/confirm-vest-increase',
+      name: 'interact.confirm_vest_increase',
+      component: ConfirmVestIncreaseInChain,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/deposits',
+      name: 'interact.deposits',
+      component: Deposits,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/deposit-in-chain',
+      name: 'interact.deposit_in_chain',
+      component: DepositInChain,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/withdraw-deposit',
+      name: 'interact.withdraw_deposit',
+      component: WithdrawDeposit,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/confirm-deposit-withdrawal',
+      name: 'interact.confirm_deposit_withdrawal',
+      component: ConfirmDepositWithdrawal,
+      props: true
+    },
+    {
+      path: '/interact/chains/:chain/mining',
+      name: 'interact.mining',
+      component: Mining,
+      props: true
+    },
+    {
+      path: '*',
+      redirect: { name: 'welcome' }
     }
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const isInteracting = to.matched.some(route => route.name.indexOf('interact') !== -1)
+  if (isInteracting) {
+    const isSpecificChain = to.fullPath.indexOf('chains') !== -1
+    if (isSpecificChain) {
+      if (!Object.prototype.hasOwnProperty.call(to.params, 'chain')) {
+        next({ name: 'interact.provide_sidechain_id' })
+      }
+      if (!isNumeric(to.params.chain)) {
+        next({ name: 'interact.provide_sidechain_id' })
+      }
+    }
+  }
+
+  next()
+})
+
+export default router

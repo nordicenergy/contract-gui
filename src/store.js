@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { MINT, APPROVE } from './transactionTypes'
+import { MINT, APPROVE, REGISTER } from './transactionTypes'
 import config from './config'
 import VuexPersistance from 'vuex-persist'
 
@@ -12,9 +12,10 @@ const vuexLocal = new VuexPersistance({
 Vue.use(Vuex)
 
 const SET_NETWORK = 'set_network'
+const SET_APPROVAL = 'set_approval'
 const ADD_MINT = 'add_mint'
 const ADD_TRANSACTION = 'add_transaction'
-const ADD_APPROVAL = 'add_approval'
+const ADD_REGISTRATION = 'add_registration'
 
 export default new Vuex.Store({
   plugins: [vuexLocal.plugin],
@@ -22,7 +23,8 @@ export default new Vuex.Store({
     network: null,
     transactions: [],
     mints: [],
-    approvals: []
+    lastApproval: null,
+    registrations: []
   },
   mutations: {
     [SET_NETWORK] (state, network) {
@@ -37,8 +39,11 @@ export default new Vuex.Store({
         transaction: payload.transaction
       })
     },
-    [ADD_APPROVAL] (state, transaction) {
-      state.approvals.push(transaction)
+    [SET_APPROVAL] (state, transaction) {
+      state.lastApproval = transaction
+    },
+    [ADD_REGISTRATION] (state, transaction) {
+      state.registrations.push(transaction)
     }
   },
   actions: {
@@ -53,16 +58,24 @@ export default new Vuex.Store({
       })
     },
     addApproval ({ commit }, approval) {
-      commit(ADD_APPROVAL, approval)
+      commit(SET_APPROVAL, approval)
       commit(ADD_TRANSACTION, {
         type: APPROVE,
         transaction: approval
+      })
+    },
+    addRegistration ({ commit }, registration) {
+      commit(ADD_REGISTRATION, registration)
+      commit(ADD_TRANSACTION, {
+        type: REGISTER,
+        transaction: registration
       })
     }
   },
   getters: {
     network: state => state.network,
     mints: state => state.mints,
-    approvals: state => state.approvals
+    lastApproval: state => state.lastApproval,
+    registrations: state => state.registrations
   }
 })

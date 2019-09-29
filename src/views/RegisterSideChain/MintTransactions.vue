@@ -13,10 +13,13 @@
             <p class="ml-4 text-md font-bold">{{ mint.tokens }} LIT tokens successfully minted on</p>
           </div>
           <p class="ml-8 text-md text-lition-gray">
-            <a class="hover:text-secondary" :href="etherScan(mint.transaction)" target="_blank">{{ mint.transaction.to
+            <a class="hover:text-secondary" :href="etherScan(mint.transaction)" target="_blank">{{ mint.transaction.from
               }}</a>
           </p>
         </div>
+      </div>
+      <div class="w-full flex justify-start">
+        <router-link class="ml-8 inline-block mt-4 text-sm font-medium text-secondary hover:underline" :to="{ name: 'register.mint_test_tokens', params: { network: network } }">{{ $t('mint.mint_more') }}</router-link>
       </div>
     </div>
     <div class="mt-12 flex justify-between">

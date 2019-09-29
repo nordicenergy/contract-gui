@@ -71,6 +71,7 @@ export default {
         })
         await this.$router.push({ name: 'register.minted_test_tokens', params: { network: this.network } })
       } catch (e) {
+        console.log(e)
         // @TODO handle error
         // @TODO handle meta mask transaction cancellation
       } finally {

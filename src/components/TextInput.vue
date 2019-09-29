@@ -7,7 +7,7 @@
           type="text"
           :class="classes"
           :placeholder="dynamicPlaceholder"
-          class="w-64 h-10 appearance-none focus:outline-none rounded-lg border-2 bg-white text-sm font-medium"
+          class="w-64 h-10 appearance-none focus:outline-none rounded-md border-2 bg-white text-sm font-medium"
   >
 </template>
 
@@ -25,7 +25,7 @@ export default {
   computed: {
     classes () {
       if (this.inputActive) {
-        return 'px-10 border-active'
+        return 'px-4 border-active'
       }
 
       return 'border-gray px-4'

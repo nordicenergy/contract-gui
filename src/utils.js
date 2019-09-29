@@ -13,3 +13,7 @@ export const etherScanTransaction = (network, transactionHash) => {
 export const etherScanAddress = (network, address) => {
   return `https://${network}.etherscan.io/address/${address}`
 }
+
+export const isNumeric = (number) => {
+  return !isNaN(parseFloat(number)) && isFinite(number)
+}

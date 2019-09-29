@@ -38,11 +38,20 @@ export default (ethereum, web3) => {
       _account = accounts[0]
     },
     async transactions () {
-      if (typeof _account === 'undefined') {
-        await this.login()
-      }
-
-      return _web3.eth.getTransactionCount(_account)
+      // if (typeof _account === 'undefined') {
+      //   await this.login()
+      // }
+      //
+      // const count = await _web3.eth.getTransactionCount(_account)
+      // let transactions = []
+      // for (let i = 0; i < count; i++) {
+      //   const block = await _web3.eth.getBlock(count - i)
+      //   // transactions.push(block)
+      //   // console.log(_web3.eth.getTransactionFromBlock(block.hash))
+      //   transactions.push(_web3.eth.getTransactionFromBlock(block.hash))
+      // }
+      //
+      // return Promise.all(transactions)
     },
     async getLastNotary (chainId) {
       return _litionRegistryContract
@@ -74,13 +83,45 @@ export default (ethereum, web3) => {
           from: _account
         })
     },
-    async registerChain (description, validatorAddress, vestedTokens, depositedTokens, initEndpoint) {
+    async registerChain (
+      description,
+      initEndpoint,
+      validatorAddress,
+      vesting,
+      maxNumberOfValidators,
+      maxNumberOfTransactors,
+      notaryVesting,
+      notaryParticipation
+    ) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
       return _litionRegistryContract
         .methods
-        .registerChain(description, validatorAddress, tokensToHex(vestedTokens), tokensToHex(depositedTokens), initEndpoint)
+        .registerChain(
+          description,
+          initEndpoint,
+          validatorAddress,
+          tokensToHex(vesting),
+          maxNumberOfValidators,
+          maxNumberOfTransactors,
+          notaryVesting,
+          notaryParticipation
+        )
         .send({
           from: _account
         })
+    },
+    async getChainStaticDetails (chainId) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .getChainStaticDetails(chainId)
+        .call()
     }
   }
 }

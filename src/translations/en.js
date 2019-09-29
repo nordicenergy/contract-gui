@@ -18,7 +18,9 @@ export default {
     approve_spender: 'Approve spender',
     mint: 'Mint',
     approve: 'Approve',
-    register_chain: 'Register chain'
+    register_chain: 'Register chain',
+    registering: 'Registering ...',
+    interact_with_chain: 'Interact with chain'
   },
   headline: {
     welcome: 'What do you want to do ?',
@@ -31,12 +33,36 @@ export default {
       lit: 'LIT',
       test_tokens: 'Test Tokens'
     },
-    approve_spender: 'Approve spender'
+    approve_spender: 'Approve spender',
+    register_chain: 'Register chain',
+    registration_completed: 'Chain registration completed!',
+    provide_sidechain: 'What is your sidechain id ?',
+    interact: 'Which interaction would you like to do ?'
   },
   subheadline: {
     register: {
       network: 'Currently Lition.io works only on the Ropsten Network'
     }
+  },
+  mint: {
+    metamask: "If you don't have existing Ethereum wallet, <a class='text-secondary hover:underline' href='https://metamask.io/' target='_blank'>create one using Metamask</a>",
+    skip: {
+      first: 'If you already have LIT Tokens',
+      second: 'skip to approve sender section'
+    },
+    minting_tokens: 'Minting tokens ...',
+    see_mints: 'Previous mint transactions',
+    mint_more: 'Mint more'
+  },
+  approve: {
+    smart_contract: "Approve our <a class='text-secondary hover:underline' href='{smartContractLink}' target='_blank'>smart contract</a> to manipulate with your tokens",
+    skip: {
+      first: 'If you already have approved the spender,',
+      second: 'skip to chain registration section'
+    },
+    approving_spender: 'Approving spender ...',
+    see_approves: 'Previous approval transactions',
+    approve_another: 'Approve another spender'
   },
   register: {
     select_network: 'Select network',
@@ -47,27 +73,44 @@ export default {
       four: '4. Register chain'
     }
   },
-  mint: {
-    metamask: "If you don't have existing Ethereum wallet, <a class='text-secondary hover:underline' href='https://metamask.io/' target='_blank'>create one using Metamask</a>",
-    skip: {
-      first: 'If you already have LIT Tokens',
-      second: 'skip to approve sender section'
-    },
-    minting_tokens: 'Minting tokens ...',
-    see_mints: 'Previous mint transactions'
+  registration_completed: {
+    chain_id: 'Chain id',
+    description: 'Description',
+    endpoint: 'Endpoint',
+    max_validators: 'Max number of validators',
+    max_transactors: 'Max number of transactors',
+    vesting_cond: 'Involved vesting > 50%',
+    participation_cond: '2/3 + 1 Participation'
   },
-  approve: {
-    smart_contract: "Approve our <a class='text-secondary hover:underline' href='{smartContractLink}' target='_blank'>smart contract</a> to manipulate with your tokens",
-    skip: {
-      first: 'If you already have approved the spender,',
-      second: 'skip to chain registration section'
-    },
-    approving_spender: 'Approving spender ...',
-    see_approves: 'Previous approval transactions'
+  interact: {
+    vesting: 'Vesting',
+    deposits: 'Deposits',
+    mining: 'Mining'
+  },
+  interaction_menu: {
+    vesting: 'Vesting',
+    vest_in_chain: 'Vest in chain',
+    withdraw_vesting: 'Withdraw vesting',
+    confirm_vest_increase: 'Confirm vest increase',
+    deposits: 'Deposits',
+    deposit_in_chain: 'Deposit in chain',
+    withdraw_deposit: 'Withdraw deposit',
+    confirm_deposit_withdrawal: 'Confirm deposit withdrawal',
+    mining: 'Mining'
   },
   step: 'Step',
   steps: 'Steps',
   label: {
-    tokens: 'Tokens'
+    tokens: 'Tokens',
+    description: 'Description',
+    init_endpoint: 'Initial endpoint',
+    chain_validator: 'Chain validator address',
+    vesting: 'Vesting',
+    max_validators: 'Maximum number of validators',
+    max_transactors: 'Maximum number of transactors',
+    notary_conditions: 'Notary conditions',
+    vesting_cond: 'Involved vesting > 50%',
+    participation_cond: '2/3 + 1 Participation',
+    sidechain_id: 'Sidechain id'
   }
 }

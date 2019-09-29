@@ -27,14 +27,10 @@ import NextButton from '../components/NextButton'
 
 export default {
   components: { Check, NextButton },
-  inject: ['ethereum'],
   data () {
     return {
       selected: null
     }
-  },
-  mounted () {
-    this.ethereum.transactions().then(result => console.log(result))
   },
   methods: {
     pickOption (optionNumber) {
@@ -48,7 +44,7 @@ export default {
       if (this.selected === 'register') {
         this.$router.push({ name: 'register.network' })
       } else if (this.selected === 'interact') {
-        this.$router.push({ name: 'interact' })
+        this.$router.push({ name: 'interact.provide_sidechain_id' })
       }
     }
   }
