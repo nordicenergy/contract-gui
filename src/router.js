@@ -9,12 +9,13 @@ import ApproveSpender from './views/RegisterSideChain/ApproveSpender'
 import ApproveTransactions from './views/RegisterSideChain/ApproveTransactions'
 import RegisterChain from './views/RegisterSideChain/RegisterChain'
 import RegistrationCompleted from './views/RegisterSideChain/RegistrationCompleted'
-import ProvideInteractionSettings from './views/InteractWithSideChain/ProvideInteractionSettings'
+import ProvideSidechainId from './views/InteractWithSideChain/ProvideSidechainId'
 import Vesting from './views/InteractWithSideChain/Vesting'
 import Deposits from './views/InteractWithSideChain/Deposits'
 import Mining from './views/InteractWithSideChain/Mining'
-import { isNumeric } from './utils'
+import { isNumeric, isValidNetwork } from './utils'
 import VestInChain from './views/InteractWithSideChain/VestInChain'
+import VestInChainCompleted from './views/InteractWithSideChain/VestInChainCompleted'
 import DepositInChain from './views/InteractWithSideChain/DepositInChain'
 import WithdrawVesting from './views/InteractWithSideChain/WithdrawVesting'
 import WithdrawDeposit from './views/InteractWithSideChain/WithdrawDeposit'
@@ -78,9 +79,9 @@ const router = new Router({
       props: true
     },
     {
-      path: '/interact/settings',
-      name: 'interact.settings',
-      component: ProvideInteractionSettings
+      path: '/interact/provide-sidechain-id',
+      name: 'interact.provide_sidechain_id',
+      component: ProvideSidechainId
     },
     {
       path: '/interact/networks/:network/chains/:chain/vesting',
@@ -92,6 +93,12 @@ const router = new Router({
       path: '/interact/networks/:network/chains/:chain/vest-in-chain',
       name: 'interact.vest_in_chain',
       component: VestInChain,
+      props: true
+    },
+    {
+      path: '/interact/networks/:network/chains/:chain/vest-in-chain-completed',
+      name: 'interact.vest_in_chain_completed',
+      component: VestInChainCompleted,
       props: true
     },
     {
@@ -143,30 +150,38 @@ const router = new Router({
   ]
 })
 
+function validNetworkOrRedirect (to, next, redirectName) {
+  const isSpecificNetowrk = to.fullPath.indexOf('networks') !== -1
+  if (isSpecificNetowrk) {
+    if (!Object.prototype.hasOwnProperty.call(to.params, 'network')) {
+      next({ name: redirectName })
+    }
+
+    if (!isValidNetwork(to.params.network)) {
+      next({ name: redirectName })
+    }
+  }
+}
+
 router.beforeEach((to, from, next) => {
   const isInteracting = to.matched.some(route => route.name.indexOf('interact') !== -1)
   if (isInteracting) {
     const isSpecificChain = to.fullPath.indexOf('chains') !== -1
     if (isSpecificChain) {
       if (!Object.prototype.hasOwnProperty.call(to.params, 'chain')) {
-        next({ name: 'interact.settings' })
+        next({ name: 'interact.provide_sidechain_id' })
       }
       if (!isNumeric(to.params.chain)) {
-        next({ name: 'interact.settings' })
+        next({ name: 'interact.provide_sidechain_id' })
       }
     }
 
-    const isSpecificNetowrk = to.fullPath.indexOf('networks') !== -1
-    if (isSpecificNetowrk) {
-      if (!Object.prototype.hasOwnProperty.call(to.params, 'network')) {
-        next({ name: 'interact.settings' })
-      }
-      const allowedNetworks = ['ropsten']
+    validNetworkOrRedirect(to, next, 'interact.provide_sidechain_id')
+  }
 
-      if (allowedNetworks.indexOf(to.params.network) === -1) {
-        next({ name: 'interact.settings' })
-      }
-    }
+  const isRegistering = to.matched.some(route => route.name.indexOf('register') !== -1)
+  if (isRegistering) {
+    validNetworkOrRedirect(to, next, 'register.network')
   }
 
   next()

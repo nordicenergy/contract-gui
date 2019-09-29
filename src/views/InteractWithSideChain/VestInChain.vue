@@ -36,12 +36,12 @@ export default {
       try {
         const response = await this.ethereum.requestVestInChain(this.chain, this.tokens)
         console.log(response)
-        // this.$store.dispatch('addApproval', {
-        //   tokens: this.tokens,
-        //   timestamp: new Date(),
-        //   transaction: response
-        // })
-        await this.$router.push({ name: 'register.approve_transactions', params: { network: this.network } })
+        this.$store.dispatch('setVestInChain', {
+          tokens: this.tokens,
+          timestamp: new Date(),
+          transaction: response
+        })
+        await this.$router.push({ name: 'interact.vest_in_chain_completed', params: { chain: this.chain, network: this.network } })
       } catch (e) {
         // @TODO handle error
         console.log(e)

@@ -9,7 +9,7 @@
           <NavigationRouteLink route="register.network" active-on-segment="register">{{ $t('nav.register_new_chain') }}</NavigationRouteLink>
         </li>
         <li class="mt-4">
-          <NavigationRouteLink route="interact.settings" active-on-segment="interact">{{ $t('nav.interact_with_chain') }}</NavigationRouteLink>
+          <NavigationRouteLink route="interact.provide_sidechain_id" active-on-segment="interact">{{ $t('nav.interact_with_chain') }}</NavigationRouteLink>
         </li>
         <li class="mt-4">
 <!--          @TODO Add tutorial-->
@@ -38,7 +38,13 @@ import config from './config'
 import { etherScanAddress } from './utils'
 
 export default {
+  inject: ['ethereum'],
   components: { NavigationRouteLink, RegisterSteps, InteractionSideMenu },
+  created () {
+    this.ethereum.getNetworkType().then(network => {
+      this.$store.dispatch('setNetwork', network)
+    })
+  },
   computed: {
     isRegistering () {
       if (!Object.prototype.hasOwnProperty.call(this.$route, 'name')) {

@@ -17,3 +17,9 @@ export const etherScanAddress = (network, address) => {
 export const isNumeric = (number) => {
   return !isNaN(parseFloat(number)) && isFinite(number)
 }
+
+export const isValidNetwork = (network) => {
+  const allowedNetworks = ['ropsten']
+
+  return allowedNetworks.indexOf(network) !== -1
+}

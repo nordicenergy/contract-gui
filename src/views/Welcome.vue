@@ -44,7 +44,7 @@ export default {
       if (this.selected === 'register') {
         this.$router.push({ name: 'register.network' })
       } else if (this.selected === 'interact') {
-        this.$router.push({ name: 'interact.settings' })
+        this.$router.push({ name: 'interact.provide_sidechain_id' })
       }
     }
   }

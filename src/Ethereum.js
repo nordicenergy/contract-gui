@@ -37,6 +37,9 @@ export default (ethereum, web3) => {
 
       _account = accounts[0]
     },
+    async getNetworkType () {
+      return _web3.eth.net.getNetworkType()
+    },
     async transactions () {
       // if (typeof _account === 'undefined') {
       //   await this.login()

@@ -56,7 +56,7 @@ export default {
       }
     },
     previous () {
-      this.$router.push({ name: 'interact.settings' })
+      this.$router.push({ name: 'interact.provide_sidechain_id' })
     },
     next () {
       if (this.selected === 'interact.vesting') {

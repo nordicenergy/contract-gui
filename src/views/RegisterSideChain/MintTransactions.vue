@@ -13,7 +13,7 @@
             <p class="ml-4 text-md font-bold">{{ mint.tokens }} LIT tokens successfully minted on</p>
           </div>
           <p class="ml-8 text-md text-lition-gray">
-            <a class="hover:text-secondary" :href="etherScan(mint.transaction)" target="_blank">{{ mint.transaction.from
+            <a class="hover:text-secondary" :href="etherScan(network, mint.transaction)" target="_blank">{{ mint.transaction.from
               }}</a>
           </p>
         </div>
@@ -34,9 +34,10 @@ import BackButton from '../../components/BackButton'
 import NextButton from '../../components/NextButton'
 import Check from '../../components/Check'
 import { mapGetters } from 'vuex'
-import { etherScanTransaction } from '../../utils'
+import WithEtherScan from '../../components/WithEtherScan'
 
 export default {
+  mixins: [WithEtherScan],
   components: { NextButton, BackButton, Check },
   props: {
     network: {

@@ -26,7 +26,7 @@ export default {
   headline: {
     welcome: 'What do you want to do ?',
     register: {
-      network: 'Choose Ethereum network'
+      network: "You are using <span class='text-secondary'>{network}</span> network"
     },
     mint: {
       mint: 'Mint',
@@ -45,11 +45,12 @@ export default {
   },
   subheadline: {
     register: {
-      network: 'Currently Lition.io works only on the Ropsten Network'
+      network: 'Currently Lition.io works only on the Ropsten Network',
+      network_change: 'You can change the network in <a class="text-secondary hover:underline" href="#tutorial" target="_blank">metamask extension</a>'
     }
   },
   mint: {
-    metamask: "If you don't have existing Ethereum wallet, <a class='text-secondary hover:underline' href='https://metamask.io/' target='_blank'>create one using Metamask</a>",
+    metamask: 'If you don\'t have existing Ethereum wallet, <a class=\'text-secondary hover:underline\' href=\'https://metamask.io/\' target=\'_blank\'>create one using Metamask</a>',
     skip: {
       first: 'If you already have LIT Tokens',
       second: 'skip to approve sender section'
@@ -59,7 +60,7 @@ export default {
     mint_more: 'Mint more'
   },
   approve: {
-    smart_contract: "Approve our <a class='text-secondary hover:underline' href='{smartContractLink}' target='_blank'>smart contract</a> to manipulate with your tokens",
+    smart_contract: 'Approve our <a class=\'text-secondary hover:underline\' href=\'{smartContractLink}\' target=\'_blank\'>smart contract</a> to manipulate with your tokens',
     skip: {
       first: 'If you already have approved the spender,',
       second: 'skip to chain registration section'
