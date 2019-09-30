@@ -6,7 +6,6 @@
         {{ $t('headline.mint.mint') }} <span class="text-active">{{ $t('headline.mint.lit') }}</span> {{
         $t('headline.mint.test_tokens') }}
       </h1>
-      <p class="mt-2 text-lition-gray font-medium" v-html="$t('mint.metamask')"></p>
       <p class="mt-2 text-lition-gray font-medium">
         {{ $t('mint.skip.first') }}
         <router-link class="text-secondary hover:underline" :to="{ name: 'register.approve_spender', params: { network: network }}">{{
