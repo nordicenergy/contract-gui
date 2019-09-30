@@ -8,7 +8,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "confirmVestIncreaseInChain",
+        "name": "confirmVestInChain",
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
@@ -529,54 +529,34 @@
                 "internalType": "uint256",
                 "name": "chainId",
                 "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "notaryStartBlock",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "notaryEndBlock",
-                "type": "uint256"
-            },
-            {
-                "internalType": "address[]",
-                "name": "validators",
-                "type": "address[]"
-            },
-            {
-                "internalType": "uint32[]",
-                "name": "blocksMined",
-                "type": "uint32[]"
-            },
-            {
-                "internalType": "address[]",
-                "name": "users",
-                "type": "address[]"
-            },
-            {
-                "internalType": "uint32[]",
-                "name": "userGas",
-                "type": "uint32[]"
-            },
-            {
-                "internalType": "uint32",
-                "name": "largestTx",
-                "type": "uint32"
-            },
-            {
-                "internalType": "uint256",
-                "name": "signaturesCount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "signaturesVesting",
-                "type": "uint256"
             }
         ],
-        "name": "advancedTestNotary",
+        "name": "testNotary",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "chainId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "endpoint",
+                "type": "string"
+            }
+        ],
+        "name": "setChainStaticDetails",
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",

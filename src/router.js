@@ -22,7 +22,7 @@ import WithdrawVesting from './views/InteractWithSideChain/WithdrawVesting'
 import WithdrawVestingCompleted from './views/InteractWithSideChain/WithdrawVestingCompleted'
 import WithdrawDeposit from './views/InteractWithSideChain/WithdrawDeposit'
 import WithdrawDepositCompleted from './views/InteractWithSideChain/WithdrawDepositCompleted'
-import ConfirmVestIncreaseInChain from './views/InteractWithSideChain/ConfirmVestIncreaseInChain'
+import ConfirmVestInChain from './views/InteractWithSideChain/ConfirmVestInChain'
 import ConfirmDepositWithdrawal from './views/InteractWithSideChain/ConfirmDepositWithdrawal'
 
 Vue.use(Router)
@@ -117,9 +117,9 @@ const router = new Router({
       props: true
     },
     {
-      path: '/interact/networks/:network/chains/:chain/confirm-vest-increase',
-      name: 'interact.confirm_vest_increase',
-      component: ConfirmVestIncreaseInChain,
+      path: '/interact/networks/:network/chains/:chain/confirm-vest',
+      name: 'interact.confirm_vest',
+      component: ConfirmVestInChain,
       props: true
     },
     {

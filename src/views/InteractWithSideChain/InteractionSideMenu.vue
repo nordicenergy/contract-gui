@@ -5,7 +5,7 @@
       <router-link :class="vestingActiveClass" :to="{ name: 'interact.vesting', params: { chain: chain } }" class="inline-block text-md mt-8">{{ $t('interaction_menu.vesting') }}</router-link>
       <router-link :to="{ name: 'interact.vest_in_chain', params: { chain: chain } }" class="inline-block text-md text-lition-gray mt-4">{{ $t('interaction_menu.vest_in_chain') }}</router-link>
       <router-link :to="{ name: 'interact.withdraw_vesting', params: { chain: chain } }" class="inline-block text-md text-lition-gray mt-4">{{ $t('interaction_menu.withdraw_vesting') }}</router-link>
-      <router-link :to="{ name: 'interact.confirm_vest_increase', params: { chain: chain } }" class="inline-block text-md text-lition-gray mt-4">{{ $t('interaction_menu.confirm_vest_increase') }}</router-link>
+      <router-link :to="{ name: 'interact.confirm_vest', params: { chain: chain } }" class="inline-block text-md text-lition-gray mt-4">{{ $t('interaction_menu.confirm_vest') }}</router-link>
       <router-link :class="depositsActiveClass" :to="{ name: 'interact.deposits', params: { chain: chain } }" class="inline-block text-md text-white mt-8">{{ $t('interaction_menu.deposits') }}</router-link>
       <router-link :to="{ name: 'interact.deposit_in_chain', params: { chain: chain } }" class="inline-block text-md text-lition-gray mt-4">{{ $t('interaction_menu.deposit_in_chain') }}</router-link>
       <router-link :to="{ name: 'interact.withdraw_deposit', params: { chain: chain } }" class="inline-block text-md text-lition-gray mt-4">{{ $t('interaction_menu.withdraw_deposit') }}</router-link>
@@ -30,7 +30,7 @@ export default {
       return this.$route.params.chain
     },
     vestingActiveClass () {
-      return this.isOneOfRoutes(['interact.vesting', 'interact.vest_in_chain', 'interact.withdraw_vesting', 'interact.confirm_vest_increase']) ? 'text-sidebar-active' : 'text-white'
+      return this.isOneOfRoutes(['interact.vesting', 'interact.vest_in_chain', 'interact.withdraw_vesting', 'interact.confirm_vest']) ? 'text-sidebar-active' : 'text-white'
     },
     depositsActiveClass () {
       return this.isOneOfRoutes(['interact.deposits', 'interact.deposit_in_chain', 'interact.withdraw_deposit', 'interact.confirm_deposit_withdrawal']) ? 'text-sidebar-active' : 'text-white'

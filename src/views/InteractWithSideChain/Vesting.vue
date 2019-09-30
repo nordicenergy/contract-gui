@@ -13,10 +13,10 @@
           <Check v-if="selected === 'interact.withdraw_vesting'"></Check>
           <span>{{ $t('vesting.withdraw_vesting') }}</span>
         </div>
-        <div :class="{ 'btn-tile-active': selected === 'interact.confirm_vest_increase' }" class="ml-2 btn-tile text-center"
-             @click="pickOption('interact.confirm_vest_increase')">
-          <Check v-if="selected === 'interact.confirm_vest_increase'"></Check>
-          <span>{{ $t('vesting.confirm_vest_increase') }}</span>
+        <div :class="{ 'btn-tile-active': selected === 'interact.confirm_vest' }" class="ml-2 btn-tile text-center"
+             @click="pickOption('interact.confirm_vest')">
+          <Check v-if="selected === 'interact.confirm_vest'"></Check>
+          <span>{{ $t('vesting.confirm_vest') }}</span>
         </div>
       </div>
     </div>
@@ -63,8 +63,8 @@ export default {
         this.$router.push({ name: 'interact.vest_in_chain', params: { network: this.network, chain: this.chain } })
       } else if (this.selected === 'interact.withdraw_vesting') {
         this.$router.push({ name: 'interact.withdraw_vesting', params: { network: this.network, chain: this.chain } })
-      } else if (this.selected === 'interact.confirm_vest_increase') {
-        this.$router.push({ name: 'interact.confirm_vest_increase', params: { cnetwork: this.network, hain: this.chain } })
+      } else if (this.selected === 'interact.confirm_vest') {
+        this.$router.push({ name: 'interact.confirm_vest', params: { cnetwork: this.network, hain: this.chain } })
       }
     }
   }

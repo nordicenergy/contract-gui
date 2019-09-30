@@ -96,7 +96,7 @@ export default {
     vesting: 'Vesting',
     vest_in_chain: 'Vest in chain',
     withdraw_vesting: 'Withdraw vesting',
-    confirm_vest_increase: 'Confirm vest increase',
+    confirm_vest: 'Confirm vesting',
     deposits: 'Deposits',
     deposit_in_chain: 'Deposit in chain',
     withdraw_deposit: 'Withdraw deposit',
@@ -106,7 +106,7 @@ export default {
   vesting: {
     vest_in_chain: 'Vest in chain',
     withdraw_vesting: 'Withdraw vesting',
-    confirm_vest_increase: 'Confirm vest increase'
+    confirm_vest: 'Confirm vest'
   },
   deposits: {
     deposit_in_chain: 'Deposit in chain',

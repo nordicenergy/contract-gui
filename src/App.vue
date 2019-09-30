@@ -45,6 +45,12 @@ export default {
       this.$store.dispatch('setNetwork', network)
     })
   },
+  mounted () {
+    this.ethereum.getTransaction('0xefc88f404cc77592c593eaeb29112047bc58bee9f2218b29acd29fa7e7639e69')
+      .then(result => {
+        console.log(result)
+      })
+  },
   computed: {
     isRegistering () {
       if (!Object.prototype.hasOwnProperty.call(this.$route, 'name')) {

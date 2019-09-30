@@ -19,7 +19,7 @@
     </div>
     <div class="mt-12 flex justify-between">
       <BackButton @click.native="previous">Back to Vesting menu</BackButton>
-      <NextButton @click.native="next">Confirm vest increase</NextButton>
+      <NextButton @click.native="next">Confirm vest</NextButton>
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     next () {
-      this.$router.push({ name: 'interact.confirm_vest_increase', params: { network: this.network } })
+      this.$router.push({ name: 'interact.confirm_vest', params: { network: this.network } })
     },
     previous () {
       this.$router.push({ name: 'interact.vesting', params: { network: this.network } })

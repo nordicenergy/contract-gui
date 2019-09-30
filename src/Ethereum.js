@@ -56,12 +56,6 @@ export default (ethereum, web3) => {
       //
       // return Promise.all(transactions)
     },
-    async getLastNotary (chainId) {
-      return _litionRegistryContract
-        .methods
-        .getLastNotary(chainId)
-        .call()
-    },
     async mint (tokens) {
       if (typeof _account === 'undefined') {
         await this.login()
@@ -128,6 +122,16 @@ export default (ethereum, web3) => {
         .getChainStaticDetails(chainId)
         .call()
     },
+    async getChainDynamicDetails (chainId) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _litionRegistryContract
+        .methods
+        .getChainDynamicDetails(chainId)
+        .call()
+    },
     async requestVestInChain (chainId, tokens) {
       if (typeof _account === 'undefined') {
         await this.login()
@@ -156,14 +160,14 @@ export default (ethereum, web3) => {
           from: _account
         })
     },
-    async confirmVestIncreaseInChain (chainId) {
+    async confirmVestInChain (chainId) {
       if (typeof _account === 'undefined') {
         await this.login()
       }
 
       return _litionRegistryContract
         .methods
-        .confirmVestIncreaseInChain(chainId)
+        .confirmVestInChain(chainId)
         .send({
           from: _account
         })
@@ -269,6 +273,15 @@ export default (ethereum, web3) => {
         .send({
           from: _account
         })
+    },
+    async getTransaction (transactionHash) {
+      if (typeof _account === 'undefined') {
+        await this.login()
+      }
+
+      return _web3
+        .eth
+        .getTransaction(transactionHash)
     }
   }
 }

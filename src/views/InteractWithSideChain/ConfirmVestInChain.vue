@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <h1 class="font-lition text-3xl font-bold">Confirm vest increase in chain</h1>
+      <h1 class="font-lition text-3xl font-bold">Confirm vest in chain</h1>
     </div>
     <div class="mt-8">
       <span class="uppercase text-sm text-lition-gray font-medium">Chain id:</span>
@@ -12,7 +12,7 @@
     </div>
     <div class="mt-12 flex justify-between">
       <BackButton @click.native="previous">Back to Vesting menu</BackButton>
-      <ConfirmButton @click.native="handleAction">Confirm vest increase</ConfirmButton>
+      <ConfirmButton @click.native="handleAction">Confirm vest</ConfirmButton>
     </div>
   </div>
 </template>
@@ -42,9 +42,9 @@ export default {
     async handleAction () {
       this.processing = true
       try {
-        const response = await this.ethereum.confirmVestIncreaseInChain(this.chain)
+        const response = await this.ethereum.confirmVestInChain(this.chain)
 
-        this.$store.dispatch('setConfirmVestIncreaseInChain', {
+        this.$store.dispatch('setConfirmVestInChain', {
           chain: this.chain,
           timestamp: new Date(),
           transaction: response

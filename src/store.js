@@ -5,7 +5,7 @@ import {
   APPROVE,
   REGISTER,
   VEST,
-  CONFIRM_VEST_INCREASE,
+  CONFIRM_VEST,
   DEPOSIT,
   WITHDRAW_VEST,
   WITHDRAW_DEPOST
@@ -24,7 +24,7 @@ const SET_NETWORK = 'set_network'
 const SET_APPROVAL = 'set_approval'
 const SET_VEST_IN_CHAIN = 'set_vest_in_chain'
 const SET_WITHDRAW_VEST_IN_CHAIN = 'set_withdraw_vest_in_chain'
-const SET_CONFIRM_VEST_INCREASE = 'set_confirm_vest_increase'
+const SET_CONFIRM_VEST = 'set_confirm_vest'
 const SET_DEPOSIT_IN_CHAIN = 'set_deposit_in_chain'
 const SET_WITHDRAW_DEPOSIT_IN_CHAIN = 'set_withdraw_deposit_in_chain'
 const ADD_MINT = 'add_mint'
@@ -40,7 +40,7 @@ export default new Vuex.Store({
     registrations: [],
     lastApproval: null,
     lastVestInChain: null,
-    lastVestIncreaseInChain: null,
+    lastConfirmVestInChain: null,
     lastWithdrawVestInChain: null,
     lastDepositInChain: null,
     lastWithdrawDepositInChain: null
@@ -70,8 +70,8 @@ export default new Vuex.Store({
     [SET_WITHDRAW_VEST_IN_CHAIN] (state, transaction) {
       state.lastWithdrawVestInChain = transaction
     },
-    [SET_CONFIRM_VEST_INCREASE] (state, transaction) {
-      state.lastVestIncreaseInChain = transaction
+    [SET_CONFIRM_VEST] (state, transaction) {
+      state.lastConfirmVestInChain = transaction
     },
     [SET_DEPOSIT_IN_CHAIN] (state, transaction) {
       state.lastDepositInChain = transaction
@@ -119,11 +119,11 @@ export default new Vuex.Store({
         transaction: withdrawVestInChain
       })
     },
-    setConfirmVestIncreaseInChain ({ commit }, confirmVestIncreaseInChain) {
-      commit(SET_CONFIRM_VEST_INCREASE, confirmVestIncreaseInChain)
+    setConfirmVestInChain ({ commit }, confirmVestInChain) {
+      commit(SET_CONFIRM_VEST, confirmVestInChain)
       commit(ADD_TRANSACTION, {
-        type: CONFIRM_VEST_INCREASE,
-        transaction: confirmVestIncreaseInChain
+        type: CONFIRM_VEST,
+        transaction: confirmVestInChain
       })
     },
     setDeposit ({ commit }, deposit) {
@@ -146,7 +146,7 @@ export default new Vuex.Store({
     mints: state => state.mints,
     lastApproval: state => state.lastApproval,
     lastVestInChain: state => state.lastVestInChain,
-    lastVestIncreaseInChain: state => state.lastVestIncreaseInChain,
+    lastConfirmVestInChain: state => state.lastConfirmVestInChain,
     lastWithdrawVestInChain: state => state.lastWithdrawVestInChain,
     lastDepositInChain: state => state.lastDepositInChain,
     lastWithdrawDepositInChain: state => state.lastWithdrawDepositInChain,
