@@ -23,7 +23,7 @@
       <div class="w-full mt-8" style="background-color: #1A263C; height: 0.2rem"></div>
       <RegisterSteps v-if="isRegistering"></RegisterSteps>
       <InteractionSideMenu v-if="isInteracting"></InteractionSideMenu>
-      <Details></Details>
+      <Details v-if="hasChainId"></Details>
     </nav>
     <main class="flex w-full items-center justify-center">
       <router-view></router-view>
@@ -64,6 +64,17 @@ export default {
     },
     smartContractLink () {
       return etherScanAddress('ropsten', config.litionRegistryContractAddress)
+    },
+    hasChainId () {
+      if (!Object.prototype.hasOwnProperty.call(this.$route, 'params')) {
+        return false
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(this.$route.params, 'chain')) {
+        return false
+      }
+
+      return this.$route.params.chain
     }
   }
 }
