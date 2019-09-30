@@ -24,188 +24,201 @@ import WithdrawDeposit from './views/InteractWithSideChain/WithdrawDeposit'
 import WithdrawDepositCompleted from './views/InteractWithSideChain/WithdrawDepositCompleted'
 import ConfirmVestInChain from './views/InteractWithSideChain/ConfirmVestInChain'
 import ConfirmDepositWithdrawal from './views/InteractWithSideChain/ConfirmDepositWithdrawal'
+import InstallMetaMask from './views/InstallMetaMask'
 
 Vue.use(Router)
 
-const router = new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'welcome',
-      component: Welcome
-    },
-    {
-      path: '/register/choose-network',
-      component: RegisterChooseNetwork,
-      name: 'register.network'
-    },
-    {
-      path: '/register/networks/:network/mint-test-tokens',
-      component: MintTestTokens,
-      name: 'register.mint_test_tokens',
-      props: true
-    },
-    {
-      path: '/register/networks/:network/mint-transactions',
-      component: MintTransactions,
-      name: 'register.minted_test_tokens',
-      props: true
-    },
-    {
-      path: '/register/networks/:network/approve-spender',
-      component: ApproveSpender,
-      name: 'register.approve_spender',
-      props: true
-    },
-    {
-      path: '/register/networks/:network/approve-transactions',
-      component: ApproveTransactions,
-      name: 'register.approve_transactions',
-      props: true
-    },
-    {
-      path: '/register/networks/:network/new-chain',
-      component: RegisterChain,
-      name: 'register.new_chain',
-      props: true
-    },
-    {
-      path: '/register/networks/:network/chains/:chain/completed',
-      component: RegistrationCompleted,
-      name: 'register.completed',
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain',
-      name: 'interact',
-      component: InteractWithSideChain,
-      props: true
-    },
-    {
-      path: '/interact/provide-sidechain-id',
-      name: 'interact.provide_sidechain_id',
-      component: ProvideSidechainId
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/vesting',
-      name: 'interact.vesting',
-      component: Vesting,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/vest-in-chain',
-      name: 'interact.vest_in_chain',
-      component: VestInChain,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/vest-in-chain-completed',
-      name: 'interact.vest_in_chain_completed',
-      component: VestInChainCompleted,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/withdraw-vesting',
-      name: 'interact.withdraw_vesting',
-      component: WithdrawVesting,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/withdraw-vesting-completed',
-      name: 'interact.withdraw_vesting_completed',
-      component: WithdrawVestingCompleted,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/confirm-vest',
-      name: 'interact.confirm_vest',
-      component: ConfirmVestInChain,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/deposits',
-      name: 'interact.deposits',
-      component: Deposits,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/deposit-in-chain',
-      name: 'interact.deposit_in_chain',
-      component: DepositInChain,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/deposit-in-chain-completed',
-      name: 'interact.deposit_in_chain_completed',
-      component: DepositInChainCompleted,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/withdraw-deposit',
-      name: 'interact.withdraw_deposit',
-      component: WithdrawDeposit,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/withdraw-deposit-completed',
-      name: 'interact.withdraw_deposit_completed',
-      component: WithdrawDepositCompleted,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/confirm-deposit-withdrawal',
-      name: 'interact.confirm_deposit_withdrawal',
-      component: ConfirmDepositWithdrawal,
-      props: true
-    },
-    {
-      path: '/interact/networks/:network/chains/:chain/mining',
-      name: 'interact.mining',
-      component: Mining,
-      props: true
-    },
-    {
-      path: '*',
-      redirect: { name: 'welcome' }
-    }
-  ]
-})
+export default (ethereum) => {
+  const router = new Router({
+    routes: [
+      {
+        path: '/',
+        name: 'welcome',
+        component: Welcome
+      },
+      {
+        path: '/register/choose-network',
+        component: RegisterChooseNetwork,
+        name: 'register.network'
+      },
+      {
+        path: '/register/networks/:network/mint-test-tokens',
+        component: MintTestTokens,
+        name: 'register.mint_test_tokens',
+        props: true
+      },
+      {
+        path: '/register/networks/:network/mint-transactions',
+        component: MintTransactions,
+        name: 'register.minted_test_tokens',
+        props: true
+      },
+      {
+        path: '/register/networks/:network/approve-spender',
+        component: ApproveSpender,
+        name: 'register.approve_spender',
+        props: true
+      },
+      {
+        path: '/register/networks/:network/approve-transactions',
+        component: ApproveTransactions,
+        name: 'register.approve_transactions',
+        props: true
+      },
+      {
+        path: '/register/networks/:network/new-chain',
+        component: RegisterChain,
+        name: 'register.new_chain',
+        props: true
+      },
+      {
+        path: '/register/networks/:network/chains/:chain/completed',
+        component: RegistrationCompleted,
+        name: 'register.completed',
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain',
+        name: 'interact',
+        component: InteractWithSideChain,
+        props: true
+      },
+      {
+        path: '/interact/provide-sidechain-id',
+        name: 'interact.provide_sidechain_id',
+        component: ProvideSidechainId
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/vesting',
+        name: 'interact.vesting',
+        component: Vesting,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/vest-in-chain',
+        name: 'interact.vest_in_chain',
+        component: VestInChain,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/vest-in-chain-completed',
+        name: 'interact.vest_in_chain_completed',
+        component: VestInChainCompleted,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/withdraw-vesting',
+        name: 'interact.withdraw_vesting',
+        component: WithdrawVesting,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/withdraw-vesting-completed',
+        name: 'interact.withdraw_vesting_completed',
+        component: WithdrawVestingCompleted,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/confirm-vest',
+        name: 'interact.confirm_vest',
+        component: ConfirmVestInChain,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/deposits',
+        name: 'interact.deposits',
+        component: Deposits,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/deposit-in-chain',
+        name: 'interact.deposit_in_chain',
+        component: DepositInChain,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/deposit-in-chain-completed',
+        name: 'interact.deposit_in_chain_completed',
+        component: DepositInChainCompleted,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/withdraw-deposit',
+        name: 'interact.withdraw_deposit',
+        component: WithdrawDeposit,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/withdraw-deposit-completed',
+        name: 'interact.withdraw_deposit_completed',
+        component: WithdrawDepositCompleted,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/confirm-deposit-withdrawal',
+        name: 'interact.confirm_deposit_withdrawal',
+        component: ConfirmDepositWithdrawal,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/mining',
+        name: 'interact.mining',
+        component: Mining,
+        props: true
+      },
+      {
+        path: '/install-metamask',
+        name: 'install.metamask',
+        component: InstallMetaMask
+      },
+      {
+        path: '*',
+        redirect: { name: 'welcome' }
+      }
+    ]
+  })
 
-function validNetworkOrRedirect (to, next, redirectName) {
-  const isSpecificNetowrk = to.fullPath.indexOf('networks') !== -1
-  if (isSpecificNetowrk) {
-    if (!Object.prototype.hasOwnProperty.call(to.params, 'network')) {
-      next({ name: redirectName })
-    }
+  function validNetworkOrRedirect (to, next, redirectName) {
+    const isSpecificNetowrk = to.fullPath.indexOf('networks') !== -1
+    if (isSpecificNetowrk) {
+      if (!Object.prototype.hasOwnProperty.call(to.params, 'network')) {
+        next({ name: redirectName })
+      }
 
-    if (!isValidNetwork(to.params.network)) {
-      next({ name: redirectName })
+      if (!isValidNetwork(to.params.network)) {
+        next({ name: redirectName })
+      }
     }
   }
+
+  router.beforeEach((to, from, next) => {
+
+    if (ethereum === null && to.name !== 'install.metamask') {
+      next({ name: 'install.metamask' })
+    }
+
+    const isInteracting = to.matched.some(route => route.name.indexOf('interact') !== -1)
+    if (isInteracting) {
+      const isSpecificChain = to.fullPath.indexOf('chains') !== -1
+      if (isSpecificChain) {
+        if (!Object.prototype.hasOwnProperty.call(to.params, 'chain')) {
+          next({ name: 'interact.provide_sidechain_id' })
+        }
+        if (!isNumeric(to.params.chain)) {
+          next({ name: 'interact.provide_sidechain_id' })
+        }
+      }
+
+      validNetworkOrRedirect(to, next, 'interact.provide_sidechain_id')
+    }
+
+    const isRegistering = to.matched.some(route => route.name.indexOf('register') !== -1)
+    if (isRegistering) {
+      validNetworkOrRedirect(to, next, 'register.network')
+    }
+
+    next()
+  })
+
+  return router
 }
-
-router.beforeEach((to, from, next) => {
-  const isInteracting = to.matched.some(route => route.name.indexOf('interact') !== -1)
-  if (isInteracting) {
-    const isSpecificChain = to.fullPath.indexOf('chains') !== -1
-    if (isSpecificChain) {
-      if (!Object.prototype.hasOwnProperty.call(to.params, 'chain')) {
-        next({ name: 'interact.provide_sidechain_id' })
-      }
-      if (!isNumeric(to.params.chain)) {
-        next({ name: 'interact.provide_sidechain_id' })
-      }
-    }
-
-    validNetworkOrRedirect(to, next, 'interact.provide_sidechain_id')
-  }
-
-  const isRegistering = to.matched.some(route => route.name.indexOf('register') !== -1)
-  if (isRegistering) {
-    validNetworkOrRedirect(to, next, 'register.network')
-  }
-
-  next()
-})
-
-export default router

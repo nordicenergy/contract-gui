@@ -12,7 +12,7 @@ const app = (ethereum) => {
   new Vue({
     el: '#app',
     render: createElement => createElement(App),
-    router,
+    router: router(ethereum),
     store,
     i18n,
     provide: {
@@ -30,5 +30,6 @@ bootstrap()
   })
   .catch(async error => {
     hasEthereumClient = false
+    app(null)
   })
 

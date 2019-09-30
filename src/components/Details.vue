@@ -4,11 +4,15 @@
       <span @click="visibleUserDetails = !visibleUserDetails" class="text-white cursor-pointer">User details</span>
       <div v-if="visibleUserDetails" class="mt-2 flex flex-col text-sm text-lition-gray">
         <p><span @click="fetchUserDetails" class="uppercase font-medium text-white text-xs cursor-pointer">Reload</span></p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Deposit</span><span class="ml-2 text-xs text-white">{{ userDetails.deposit }}</span>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Deposit</span><span class="ml-2 text-xs text-white">{{ tokensToLit(userDetails.deposit) }}</span>
+        </p>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Whitelisted</span><span class="ml-2 text-xs text-white">{{ userDetails.whitelisted }}</span>
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Deposit F. With. Request Exist</span><span class="ml-2 text-xs text-white">{{ userDetails.depositFullWithdrawalReqExist }}</span>
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Deposit Request Notary</span><span class="ml-2 text-xs text-white">{{ userDetails.depositReqNotary }}</span>
+        </p>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Vesting</span><span class="ml-2 text-xs text-white">{{ tokensToLit(userDetails.vesting) }}</span>
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Mining</span><span class="ml-2 text-xs text-white">{{ userDetails.mining }}</span>
         </p>
@@ -16,11 +20,11 @@
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Second Previous Notary Mined</span><span class="ml-2 text-xs text-white">{{ userDetails.secondPrevNotaryMined }}</span>
         </p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Vesting</span><span class="ml-2 text-xs text-white">{{ userDetails.vesting }}</span>
-        </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Vesting increase request exist</span><span class="ml-2 text-xs text-white">{{ userDetails.vestingIncreaceReqExist }}</span>
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Vesting Request Notary</span><span class="ml-2 text-xs text-white">{{ userDetails.vestingReqNotary }}</span>
+        </p>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Vesting Request Notary</span><span class="ml-2 text-xs text-white">{{ tokensToLit(userDetails.vestingReqValue) }}</span>
         </p>
       </div>
     </div>
@@ -31,9 +35,11 @@
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Endpoint</span><span class="ml-2 text-xs text-white">{{ chainStaticDetails.endpoint }}</span>
         </p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Max Num of Transactors</span><span class="ml-2 text-xs text-white">{{ chainStaticDetails.maxNumOfTransactors }}</span>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Registered</span><span class="ml-2 text-xs text-white">{{ chainStaticDetails.registered }}</span>
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Max Num of Validators</span><span class="ml-2 text-xs text-white">{{ chainStaticDetails.maxNumOfValidators }}</span>
+        </p>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Max Num of Transactors</span><span class="ml-2 text-xs text-white">{{ chainStaticDetails.maxNumOfTransactors }}</span>
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Involved Vesting > 50%</span><span class="ml-2 text-xs text-white">{{ chainStaticDetails.involvedVestingNotaryCond }}</span>
         </p>
@@ -47,17 +53,17 @@
         <p><span @click="fetchDynamicDetails" class="uppercase font-medium text-white text-xs cursor-pointer">Reload</span></p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Active</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.active }}</span>
         </p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Last Notary Block</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.lastNotaryBlock }}</span>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Total Vesting</span><span class="ml-2 text-xs text-white">{{ tokensToLit(chainDynamicDetails.totalVesting) }}</span>
         </p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Lats Notary Timestamp</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.lastNotaryTimestamp }}</span>
-        </p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Last Validator Vesting</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.lastValidatorVesting }}</span>
-        </p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Total Vesting</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.totalVesting }}</span>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Validators Count</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.validatorsCount }}</span>
         </p>
         <p><span class="uppercase font-medium" style="font-size: 10px;">Transactors Count</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.transactorsCount }}</span>
         </p>
-        <p><span class="uppercase font-medium" style="font-size: 10px;">Validators Count</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.validatorsCount }}</span>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Last Validator Vesting</span><span class="ml-2 text-xs text-white">{{ tokensToLit(chainDynamicDetails.lastValidatorVesting) }}</span>
+        </p>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Last Notary Block</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.lastNotaryBlock }}</span>
+        </p>
+        <p><span class="uppercase font-medium" style="font-size: 10px;">Lats Notary Timestamp</span><span class="ml-2 text-xs text-white">{{ chainDynamicDetails.lastNotaryTimestamp }}</span>
         </p>
       </div>
     </div>
@@ -65,6 +71,8 @@
 </template>
 
 <script>
+import { tokensToLit } from '../utils'
+
 export default {
   inject: ['ethereum'],
   data () {
@@ -116,6 +124,9 @@ export default {
       }
 
       this.chainDynamicDetails = await this.ethereum.getChainDynamicDetails(this.chain)
+    },
+    tokensToLit (tokens) {
+      return tokensToLit(tokens)
     }
   }
 }

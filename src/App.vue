@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="flex bg-lition-background">
-    <nav class="h-screen bg-lition-black text-md overflow-y-auto pb-10" style="min-width: 300px">
+    <nav v-if="ethereum" class="h-screen bg-lition-black text-md overflow-y-auto pb-10" style="min-width: 300px">
       <div class="flex items-center pl-8 bg-lition-black-nav">
         <router-link :to="{ name: 'welcome' }"><img src="lition-logo.png" alt="Lition Logo"></router-link>
       </div>
@@ -43,9 +43,11 @@ export default {
   inject: ['ethereum'],
   components: { NavigationRouteLink, RegisterSteps, InteractionSideMenu, Details },
   created () {
-    this.ethereum.getNetworkType().then(network => {
-      this.$store.dispatch('setNetwork', network)
-    })
+    if (this.ethereum) {
+      this.ethereum.getNetworkType().then(network => {
+        this.$store.dispatch('setNetwork', network)
+      })
+    }
   },
   computed: {
     isRegistering () {
