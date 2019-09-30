@@ -23,6 +23,7 @@
       <div class="w-full mt-8" style="background-color: #1A263C; height: 0.2rem"></div>
       <RegisterSteps v-if="isRegistering"></RegisterSteps>
       <InteractionSideMenu v-if="isInteracting"></InteractionSideMenu>
+      <Details></Details>
     </nav>
     <main class="flex w-full items-center justify-center">
       <router-view></router-view>
@@ -36,20 +37,15 @@ import RegisterSteps from './views/RegisterSideChain/RegisterSteps'
 import InteractionSideMenu from './views/InteractWithSideChain/InteractionSideMenu'
 import config from './config'
 import { etherScanAddress } from './utils'
+import Details from './components/Details'
 
 export default {
   inject: ['ethereum'],
-  components: { NavigationRouteLink, RegisterSteps, InteractionSideMenu },
+  components: { NavigationRouteLink, RegisterSteps, InteractionSideMenu, Details },
   created () {
     this.ethereum.getNetworkType().then(network => {
       this.$store.dispatch('setNetwork', network)
     })
-  },
-  mounted () {
-    this.ethereum.getTransaction('0xefc88f404cc77592c593eaeb29112047bc58bee9f2218b29acd29fa7e7639e69')
-      .then(result => {
-        console.log(result)
-      })
   },
   computed: {
     isRegistering () {
