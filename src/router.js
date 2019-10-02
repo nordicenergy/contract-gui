@@ -25,6 +25,7 @@ import WithdrawDepositCompleted from './views/InteractWithSideChain/WithdrawDepo
 import ConfirmVestInChain from './views/InteractWithSideChain/ConfirmVestInChain'
 import ConfirmDepositWithdrawal from './views/InteractWithSideChain/ConfirmDepositWithdrawal'
 import InstallMetaMask from './views/InstallMetaMask'
+import AddressAutomator from './views/AddressAutomator'
 
 Vue.use(Router)
 
@@ -170,6 +171,11 @@ export default (ethereum) => {
         path: '/install-metamask',
         name: 'install.metamask',
         component: InstallMetaMask
+      },
+      {
+        path: '/address-automator',
+        name: 'address.automator',
+        component: AddressAutomator
       },
       {
         path: '*',

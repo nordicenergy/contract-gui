@@ -1,0 +1,112 @@
+<template>
+  <div>
+    <div class="flex flex-col items-center">
+      <h1 class="font-lition text-3xl font-bold">Automator</h1>
+      <div class="flex flex-col mt-2">
+        <label class="text-xs text-lition-gray font-medium">SC address</label>
+        <TextInput v-model="smartContractAddress"></TextInput>
+      </div>
+      <div class="flex flex-col mt-2">
+        <label class="text-xs text-lition-gray font-medium">Chain Id</label>
+        <TextInput v-model="chainId"></TextInput>
+      </div>
+      <div class="flex flex-col items-start w-full">
+        <div class="flex flex-col mt-2">
+          <label class="text-xs text-lition-gray font-medium">Vesting</label>
+          <CheckboxInput :value="isVesting" @input="toggleVesting"></CheckboxInput>
+          <TextInput class="mt-2" v-if="isVesting" v-model="vesting"></TextInput>
+        </div>
+        <div class="flex flex-col mt-2">
+          <label class="text-xs text-lition-gray font-medium">Deposit</label>
+          <CheckboxInput :value="isDeposit" @input="toggleDeposit"></CheckboxInput>
+          <TextInput class="mt-2" v-if="isDeposit" v-model="deposit"></TextInput>
+        </div>
+      </div>
+      <div class="mt-8">
+        <ConfirmButton @click.native="handleRunAutomation">Run automation</ConfirmButton>
+      </div>
+      <div class="mt-4 text-sm" v-if="step">
+        <p>
+          <span v-if="step >= 1">Minting ... </span><span v-if="step >= 2">Minted</span>
+        </p>
+        <p>
+          <span v-if="step >= 2">Approving ... </span><span v-if="step >= 3">Approved</span>
+        </p>
+        <p>
+          <span v-if="step >= 3">Vesting or depositing ... </span><span v-if="step >= 4">Vested or deposited</span>
+        </p>
+        <p>
+          <span v-if="step >= 4">Confirming vesting ... </span><span v-if="step >= 5">Vesting confirmed</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import TextInput from '../components/TextInput'
+import ConfirmButton from '../components/ConfirmButton'
+import LitionERC20Abi from '../abi/ERC20'
+import LitionRegistryAbi from '../abi/dev/LitionRegistry'
+import CheckboxInput from '../components/CheckboxInput'
+
+export default {
+  inject: ['ethereum'],
+  components: { TextInput, ConfirmButton, CheckboxInput },
+  data () {
+    return {
+      address: null,
+      smartContractAddress: '0xA1e73CCF0715E2f9080c5168f0272a8c21e243e8',
+      isVesting: true,
+      isDeposit: false,
+      vesting: '20000',
+      deposit: '20000',
+      chainId: null,
+      step: null
+    }
+  },
+  async beforeRouteLeave (to, from, next) {
+    await this.ethereum.reinitialize()
+    next()
+  },
+  mounted () {
+  },
+  methods: {
+    async handleRunAutomation () {
+      try {
+        this.ethereum.reinitialize(LitionERC20Abi, LitionRegistryAbi, '0x65fc0f7d2bb96a9be30a770fb5fcd5a7762ad659', this.smartContractAddress)
+
+        const tokens = 100000
+
+        this.step = 1
+        await this.ethereum.mint(tokens)
+        this.step = 2
+        console.log('minting finished')
+        await this.ethereum.approve(tokens)
+        console.log('tokens approved')
+        this.step = 3
+        if (this.isVesting) {
+          await this.ethereum.requestVestInChain(this.chainId, this.vesting)
+          console.log('vesting processed')
+          this.step = 4
+          await this.ethereum.confirmVestInChain(this.chainId)
+          this.step = 5
+        } else if (this.isDeposit) {
+          await this.ethereum.requestDepositInChain(this.chainId, this.deposit)
+          this.step = 4
+        }
+      } catch (e) {
+        this.step = null
+      }
+    },
+    toggleVesting (isVesting) {
+      this.isVesting = isVesting
+      this.isDeposit = !isVesting
+    },
+    toggleDeposit (isDeposit) {
+      this.isDeposit = isDeposit
+      this.isVesting = !isDeposit
+    }
+  }
+}
+</script>

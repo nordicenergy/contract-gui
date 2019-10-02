@@ -15,11 +15,12 @@ export default (ethereum, web3) => {
   let _litionRegistryContract
   let _web3
   let _account
+  let _accountsChangedEventRegistered = false
 
-  function initialize () {
+  function initialize (litionErc20Abi = LitionERC20Abi, litionRegistryAbi = LitionRegistryAbi, erc20ContractAddress = config.litionErc20TokenContractAddress, litionRegistryContractAddress = config.litionRegistryContractAddress) {
     _web3 = new Web3(_currentProvider)
-    _erc20Contract = new _web3.eth.Contract(LitionERC20Abi, config.litionErc20TokenContractAddress)
-    _litionRegistryContract = new _web3.eth.Contract(LitionRegistryAbi, config.litionRegistryContractAddress)
+    _erc20Contract = new _web3.eth.Contract(litionErc20Abi, erc20ContractAddress)
+    _litionRegistryContract = new _web3.eth.Contract(litionRegistryAbi, litionRegistryContractAddress)
   }
 
   initialize()
@@ -36,6 +37,17 @@ export default (ethereum, web3) => {
       }
 
       _account = accounts[0]
+
+      if (!_accountsChangedEventRegistered) {
+        _ethereum.on('accountsChanged', accounts => {
+          _account = accounts[0]
+        })
+
+        _accountsChangedEventRegistered = true
+      }
+    },
+    reinitialize (litionErc20Abi = LitionERC20Abi, litionRegistryAbi = LitionRegistryAbi, erc20ContractAddress = config.litionErc20TokenContractAddress, litionRegistryContractAddress = config.litionRegistryContractAddress) {
+      initialize(litionErc20Abi, litionRegistryAbi, erc20ContractAddress, litionRegistryContractAddress)
     },
     async getNetworkType () {
       return _web3.eth.net.getNetworkType()
