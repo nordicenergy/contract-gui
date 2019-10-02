@@ -15,9 +15,11 @@ export default (ethereum, web3) => {
   let _litionRegistryContract
   let _web3
   let _account
+  let _litionRegistryContractAddress
   let _accountsChangedEventRegistered = false
 
   function initialize (litionErc20Abi = LitionERC20Abi, litionRegistryAbi = LitionRegistryAbi, erc20ContractAddress = config.litionErc20TokenContractAddress, litionRegistryContractAddress = config.litionRegistryContractAddress) {
+    _litionRegistryContractAddress = litionRegistryContractAddress
     _web3 = new Web3(_currentProvider)
     _erc20Contract = new _web3.eth.Contract(litionErc20Abi, erc20ContractAddress)
     _litionRegistryContract = new _web3.eth.Contract(litionRegistryAbi, litionRegistryContractAddress)
@@ -87,7 +89,7 @@ export default (ethereum, web3) => {
 
       return _erc20Contract
         .methods
-        .approve(config.litionRegistryContractAddress, tokensToHex(tokens))
+        .approve(_litionRegistryContractAddress, tokensToHex(tokens))
         .send({
           from: _account
         })

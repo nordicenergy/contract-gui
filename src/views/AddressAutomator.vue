@@ -22,6 +22,19 @@
           <TextInput class="mt-2" v-if="isDeposit" v-model="deposit"></TextInput>
         </div>
       </div>
+      <div class="flex flex-col mt-2 w-full">
+        <label class="text-xs text-lition-gray font-medium">Run these actions</label>
+        <label class="text-xs text-lition-gray font-medium">Mint</label>
+        <CheckboxInput v-model="shouldMint"></CheckboxInput>
+        <label class="text-xs text-lition-gray font-medium">Approve</label>
+        <CheckboxInput v-model="shouldApprove"></CheckboxInput>
+        <label class="text-xs text-lition-gray font-medium">Vest</label>
+        <CheckboxInput v-model="shouldVest"></CheckboxInput>
+        <label class="text-xs text-lition-gray font-medium">Confirm Vest</label>
+        <CheckboxInput v-model="shouldConfirmVest"></CheckboxInput>
+        <label class="text-xs text-lition-gray font-medium">Deposit</label>
+        <CheckboxInput v-model="shouldDeposit"></CheckboxInput>
+      </div>
       <div class="mt-8">
         <ConfirmButton @click.native="handleRunAutomation">Run automation</ConfirmButton>
       </div>
@@ -56,20 +69,23 @@ export default {
   data () {
     return {
       address: null,
-      smartContractAddress: '0xA1e73CCF0715E2f9080c5168f0272a8c21e243e8',
+      smartContractAddress: '0xFa7C55a11E2707B17a60daf24E5Ac95E3CBFF838',
       isVesting: true,
       isDeposit: false,
       vesting: '20000',
       deposit: '20000',
       chainId: null,
-      step: null
+      step: null,
+      shouldMint: true,
+      shouldApprove: true,
+      shouldVest: true,
+      shouldConfirmVest: true,
+      shouldDeposit: false
     }
   },
   async beforeRouteLeave (to, from, next) {
     await this.ethereum.reinitialize()
     next()
-  },
-  mounted () {
   },
   methods: {
     async handleRunAutomation () {
@@ -79,33 +95,50 @@ export default {
         const tokens = 100000
 
         this.step = 1
-        await this.ethereum.mint(tokens)
+        if (this.shouldMint) {
+          await this.ethereum.mint(tokens)
+        }
         this.step = 2
         console.log('minting finished')
-        await this.ethereum.approve(tokens)
+        if (this.shouldApprove) {
+          await this.ethereum.approve(tokens)
+        }
         console.log('tokens approved')
         this.step = 3
         if (this.isVesting) {
-          await this.ethereum.requestVestInChain(this.chainId, parseInt(this.vesting))
+          if (this.shouldVest) {
+            await this.ethereum.requestVestInChain(this.chainId, parseInt(this.vesting))
+          }
           console.log('vesting processed')
           this.step = 4
-          await this.ethereum.confirmVestInChain(this.chainId)
+          if (this.shouldConfirmVest) {
+            await this.ethereum.confirmVestInChain(this.chainId)
+          }
           this.step = 5
         } else if (this.isDeposit) {
-          await this.ethereum.requestDepositInChain(this.chainId, parseInt(this.deposit))
+          if (this.shouldDeposit) {
+            await this.ethereum.requestDepositInChain(this.chainId, parseInt(this.deposit))
+          }
           this.step = 4
         }
       } catch (e) {
         this.step = null
+        console.log(e)
       }
     },
     toggleVesting (isVesting) {
       this.isVesting = isVesting
       this.isDeposit = !isVesting
+      this.shouldVest = isVesting
+      this.shouldConfirmVest = isVesting
+      this.shouldDeposit = !isVesting
     },
     toggleDeposit (isDeposit) {
       this.isDeposit = isDeposit
       this.isVesting = !isDeposit
+      this.shouldVest = !isDeposit
+      this.shouldConfirmVest = !isDeposit
+      this.shouldDeposit = isDeposit
     }
   }
 }
