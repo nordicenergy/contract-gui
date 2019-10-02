@@ -86,13 +86,13 @@ export default {
         console.log('tokens approved')
         this.step = 3
         if (this.isVesting) {
-          await this.ethereum.requestVestInChain(this.chainId, this.vesting)
+          await this.ethereum.requestVestInChain(this.chainId, parseInt(this.vesting))
           console.log('vesting processed')
           this.step = 4
           await this.ethereum.confirmVestInChain(this.chainId)
           this.step = 5
         } else if (this.isDeposit) {
-          await this.ethereum.requestDepositInChain(this.chainId, this.deposit)
+          await this.ethereum.requestDepositInChain(this.chainId, parseInt(this.deposit))
           this.step = 4
         }
       } catch (e) {
