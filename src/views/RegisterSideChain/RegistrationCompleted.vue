@@ -8,8 +8,13 @@
           <span class="uppercase">{{ $t('registration_completed.chain_id') }}:</span>
           <span class="uppercase">{{ $t('registration_completed.description') }}:</span>
           <span class="uppercase">{{ $t('registration_completed.endpoint') }}:</span>
-          <span class="uppercase">{{ $t('registration_completed.max_validators') }}:</span>
+          <span class="uppercase">Min Required Deposit:</span>
+          <span class="uppercase">Min Required Vesting:</span>
+          <span class="uppercase">Reward Bonus Required Vesting:</span>
+          <span class="uppercase">Reward Bonus Percentage:</span>
+          <span class="uppercase">Notary Period:</span>
           <span class="uppercase">{{ $t('registration_completed.max_transactors') }}:</span>
+          <span class="uppercase">{{ $t('registration_completed.max_validators') }}:</span>
           <span class="uppercase">{{ $t('registration_completed.vesting_cond') }}:</span>
           <span class="uppercase">{{ $t('registration_completed.participation_cond') }}:</span>
         </div>
@@ -17,8 +22,13 @@
           <span>{{ chain }}</span>
           <span>{{ chainDetails.description }}</span>
           <span>{{ chainDetails.endpoint }}</span>
-          <span>{{ chainDetails.maxNumOfValidators }}</span>
+          <span>{{ fromLitPrecisionToTokens(chainDetails.minRequiredDeposit) }}</span>
+          <span>{{ fromLitPrecisionToTokens(chainDetails.minRequiredVesting) }}</span>
+          <span>{{ fromLitPrecisionToTokens(chainDetails.rewardBonusRequiredVesting) }}</span>
+          <span>{{ chainDetails.rewardBonusPercentage }}</span>
+          <span>{{ chainDetails.notaryPeriod }}</span>
           <span>{{ chainDetails.maxNumOfTransactors }}</span>
+          <span>{{ chainDetails.maxNumOfValidators }}</span>
           <span>{{ chainDetails.involvedVestingNotaryCond }}</span>
           <span>{{ chainDetails.participationNotaryCond }}</span>
         </div>
@@ -37,6 +47,7 @@
 <script>
 import Check from '../../components/Check'
 import NextButton from '../../components/NextButton'
+import { fromLitPrecisionToTokens } from '../../utils'
 
 export default {
   inject: ['ethereum'],
@@ -58,6 +69,9 @@ export default {
     this.fetchChainDetails()
   },
   methods: {
+    fromLitPrecisionToTokens (litPrecision) {
+      return fromLitPrecisionToTokens(litPrecision)
+    },
     next () {
       this.$router.push({ name: 'interact', params: { chain: this.chain } })
     },
