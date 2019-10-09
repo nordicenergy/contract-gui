@@ -59,8 +59,8 @@
 <script>
 import TextInput from '../components/TextInput'
 import ConfirmButton from '../components/ConfirmButton'
-import LitionERC20Abi from '../abi/ERC20'
-import LitionRegistryAbi from '../abi/dev/LitionRegistry'
+// import LitionERC20Abi from '../abi/ERC20'
+// import LitionRegistryAbi from '../abi/dev/LitionRegistry'
 import CheckboxInput from '../components/CheckboxInput'
 
 export default {

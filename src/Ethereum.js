@@ -1,14 +1,22 @@
-import LitionERC20Abi from './abi/ERC20'
-import LitionRegistryAbi from './abi/LitionRegistry'
+import { getErc20Abi, getLitionRegistryAbi } from './abi/abi'
 import config from './config'
-import { tokensToHex, tokensToLit } from './utils'
+import { tokensToLitPrecision, fromLitPrecisionToTokens, getErc20ContractAddress, getLitionRegistryAddress } from './utils'
 import Web3 from 'web3'
 
-export default (ethereum, web3) => {
+export default async (ethereum, web3) => {
   if (typeof ethereum === 'undefined' || typeof web3 === 'undefined' || !Object.prototype.hasOwnProperty.call(web3, 'currentProvider')) {
     throw Error('No ethereum compatible client installed')
   }
 
+  function getCurrentNetwork (ethereum) {
+    if (ethereum.networkVersion === '1') {
+      return 'main'
+    } else if (ethereum.networkVersion === '3') {
+      return 'ropsten'
+    }
+  }
+
+  let _network = getCurrentNetwork(ethereum)
   const _ethereum = ethereum
   const _currentProvider = web3.currentProvider
   let _erc20Contract
@@ -18,14 +26,19 @@ export default (ethereum, web3) => {
   let _litionRegistryContractAddress
   let _accountsChangedEventRegistered = false
 
-  function initialize (litionErc20Abi = LitionERC20Abi, litionRegistryAbi = LitionRegistryAbi, erc20ContractAddress = config.litionErc20TokenContractAddress, litionRegistryContractAddress = config.litionRegistryContractAddress) {
+  function initialize (litionErc20Abi = getErc20Abi(), litionRegistryAbi = getLitionRegistryAbi(), erc20ContractAddress = getErc20ContractAddress(), litionRegistryContractAddress = getLitionRegistryAddress()) {
     _litionRegistryContractAddress = litionRegistryContractAddress
     _web3 = new Web3(_currentProvider)
     _erc20Contract = new _web3.eth.Contract(litionErc20Abi, erc20ContractAddress)
     _litionRegistryContract = new _web3.eth.Contract(litionRegistryAbi, litionRegistryContractAddress)
   }
 
-  initialize()
+  initialize(
+    getErc20Abi(_network),
+    getLitionRegistryAbi(_network),
+    getErc20ContractAddress(_network),
+    getLitionRegistryAddress(_network)
+  )
 
   return {
     hasMetaMask () {
@@ -48,27 +61,11 @@ export default (ethereum, web3) => {
         _accountsChangedEventRegistered = true
       }
     },
-    reinitialize (litionErc20Abi = LitionERC20Abi, litionRegistryAbi = LitionRegistryAbi, erc20ContractAddress = config.litionErc20TokenContractAddress, litionRegistryContractAddress = config.litionRegistryContractAddress) {
+    reinitialize (litionErc20Abi = getErc20Abi(), litionRegistryAbi = getLitionRegistryAbi(), erc20ContractAddress = getErc20ContractAddress(), litionRegistryContractAddress = getLitionRegistryAddress()) {
       initialize(litionErc20Abi, litionRegistryAbi, erc20ContractAddress, litionRegistryContractAddress)
     },
     async getNetworkType () {
       return _web3.eth.net.getNetworkType()
-    },
-    async transactions () {
-      // if (typeof _account === 'undefined') {
-      //   await this.login()
-      // }
-      //
-      // const count = await _web3.eth.getTransactionCount(_account)
-      // let transactions = []
-      // for (let i = 0; i < count; i++) {
-      //   const block = await _web3.eth.getBlock(count - i)
-      //   // transactions.push(block)
-      //   // console.log(_web3.eth.getTransactionFromBlock(block.hash))
-      //   transactions.push(_web3.eth.getTransactionFromBlock(block.hash))
-      // }
-      //
-      // return Promise.all(transactions)
     },
     async mint (tokens) {
       if (typeof _account === 'undefined') {
@@ -77,7 +74,7 @@ export default (ethereum, web3) => {
 
       return _erc20Contract
         .methods
-        .mint(_account, tokensToHex(tokens))
+        .mint(_account, tokensToLitPrecision(tokens))
         .send({
           from: _account
         })
@@ -89,7 +86,7 @@ export default (ethereum, web3) => {
 
       return _erc20Contract
         .methods
-        .approve(_litionRegistryContractAddress, tokensToHex(tokens))
+        .approve(_litionRegistryContractAddress, tokensToLitPrecision(tokens))
         .send({
           from: _account
         })
@@ -97,11 +94,14 @@ export default (ethereum, web3) => {
     async registerChain (
       description,
       initEndpoint,
-      validatorAddress,
-      vesting,
-      deposit,
-      maxNumberOfValidators,
-      maxNumberOfTransactors,
+      chainValidator,
+      minRequiredDeposit,
+      minRequiredVesting,
+      rewardBonusRequiredVesting,
+      rewardBonusPercentage,
+      notaryPeriod,
+      maxValidators,
+      maxTransactors,
       notaryVesting,
       notaryParticipation
     ) {
@@ -109,16 +109,23 @@ export default (ethereum, web3) => {
         await this.login()
       }
 
+      if (chainValidator == 0) {
+        chainValidator = '0x0000000000000000000000000000000000000000'
+      }
+
       return _litionRegistryContract
         .methods
         .registerChain(
           description,
           initEndpoint,
-          validatorAddress,
-          tokensToHex(vesting),
-          tokensToHex(deposit),
-          maxNumberOfValidators,
-          maxNumberOfTransactors,
+          chainValidator,
+          tokensToLitPrecision(minRequiredDeposit),
+          tokensToLitPrecision(minRequiredVesting),
+          tokensToLitPrecision(rewardBonusRequiredVesting),
+          rewardBonusPercentage,
+          notaryPeriod,
+          maxValidators,
+          maxTransactors,
           notaryVesting,
           notaryParticipation
         )
@@ -153,7 +160,7 @@ export default (ethereum, web3) => {
 
       return _litionRegistryContract
         .methods
-        .requestVestInChain(chainId, tokensToHex(tokens))
+        .requestVestInChain(chainId, tokensToLitPrecision(tokens))
         .send({
           from: _account
         })
@@ -164,12 +171,12 @@ export default (ethereum, web3) => {
       }
 
       const userDetails = await this.getUserDetails(chainId)
-      const totalVesting = parseInt(tokensToLit(userDetails.vesting))
+      const totalVesting = parseInt(fromLitPrecisionToTokens(userDetails.vesting))
       const newVesting = totalVesting + parseInt(tokens)
 
       return _litionRegistryContract
         .methods
-        .requestVestInChain(chainId, tokensToHex(newVesting))
+        .requestVestInChain(chainId, tokensToLitPrecision(newVesting))
         .send({
           from: _account
         })
@@ -193,7 +200,7 @@ export default (ethereum, web3) => {
 
       return _litionRegistryContract
         .methods
-        .requestDepositInChain(chainId, tokensToHex(tokens))
+        .requestDepositInChain(chainId, tokensToLitPrecision(tokens))
         .send({
           from: _account
         })
@@ -204,12 +211,12 @@ export default (ethereum, web3) => {
       }
 
       const userDetails = await this.getUserDetails(chainId)
-      const totalDeposit = parseInt(tokensToLit(userDetails.deposit))
+      const totalDeposit = parseInt(fromLitPrecisionToTokens(userDetails.deposit))
       const newDeposit = totalDeposit + parseInt(tokens)
 
       return _litionRegistryContract
         .methods
-        .requestDepositInChain(chainId, tokensToHex(newDeposit))
+        .requestDepositInChain(chainId, tokensToLitPrecision(newDeposit))
         .send({
           from: _account
         })
@@ -230,7 +237,7 @@ export default (ethereum, web3) => {
       }
 
       const userDetails = await this.getUserDetails(chainId)
-      const totalVesting = parseInt(tokensToLit(userDetails.vesting))
+      const totalVesting = parseInt(fromLitPrecisionToTokens(userDetails.vesting))
 
       if (tokens > totalVesting) {
         throw new Error(`You can withdraw maximum of ${totalVesting} tokens from vesting`)
@@ -244,7 +251,7 @@ export default (ethereum, web3) => {
       }
 
       const userDetails = await this.getUserDetails(chainId)
-      const totalDeposit = parseInt(tokensToLit(userDetails.deposit))
+      const totalDeposit = parseInt(fromLitPrecisionToTokens(userDetails.deposit))
 
       if (tokens > totalDeposit) {
         throw new Error(`You can withdraw maximum of ${totalDeposit} tokens from deposit`)

@@ -26,7 +26,7 @@
 <script>
 import LitTextInput from '../../components/LitTextInput'
 import BackButton from '../../components/BackButton'
-import { tokensToLit } from '../../utils'
+import { fromLitPrecisionToTokens } from '../../utils'
 
 export default {
   inject: ['ethereum'],
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     formatTokens (tokens) {
-      return tokensToLit(tokens)
+      return fromLitPrecisionToTokens(tokens)
     },
     async fetchUserDetails () {
       this.userDetails = await this.ethereum.getUserDetails(this.chain)

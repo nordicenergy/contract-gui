@@ -26,7 +26,7 @@
       <Details v-if="hasChainId"></Details>
     </nav>
     <main class="flex w-full items-center justify-center">
-      <router-view></router-view>
+      <router-view class="overflow-y-auto"></router-view>
     </main>
   </div>
 </template>
@@ -35,9 +35,9 @@
 import NavigationRouteLink from './components/NavigationRouteLink'
 import RegisterSteps from './views/RegisterSideChain/RegisterSteps'
 import InteractionSideMenu from './views/InteractWithSideChain/InteractionSideMenu'
-import config from './config'
-import { etherScanAddress } from './utils'
+import { etherScanAddress, getLitionRegistryAddress } from './utils'
 import Details from './components/Details'
+import { mapGetters } from 'vuex'
 
 export default {
   inject: ['ethereum'],
@@ -50,6 +50,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'network'
+    ]),
     isRegistering () {
       if (!Object.prototype.hasOwnProperty.call(this.$route, 'name')) {
         return false
@@ -65,7 +68,7 @@ export default {
       return this.$route.name.indexOf('interact') !== -1
     },
     smartContractLink () {
-      return etherScanAddress('ropsten', config.litionRegistryContractAddress)
+      return etherScanAddress(this.network, getLitionRegistryAddress(this.network))
     },
     hasChainId () {
       if (!Object.prototype.hasOwnProperty.call(this.$route, 'params')) {

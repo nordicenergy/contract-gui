@@ -26,10 +26,7 @@
       <div v-else class="w-full mt-8 flex justify-center h-12">
         <span class="spinner-in-page"></span>
       </div>
-      <p class="mt-8 text-lition-gray text-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-        facilisis nunc eu lorem luctus, a malesuada
-        arcu dignissim. Nulla facilisi. Vivamus vehicula pretium fermentum. Ut lacinia magna malesuada elementum luctus.
-        Vivamus euismod neque vel tellus iaculis mattis.</p>
+      <p class="mt-8 text-lition-gray text-md"></p>
       <div class="mt-12 w-full flex justify-end">
         <NextButton @click.native="next">{{ $t('button.interact_with_chain') }}</NextButton>
       </div>

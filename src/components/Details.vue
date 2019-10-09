@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { tokensToLit } from '../utils'
+import { fromLitPrecisionToTokens } from '../utils'
 
 export default {
   inject: ['ethereum'],
@@ -126,7 +126,7 @@ export default {
       this.chainDynamicDetails = await this.ethereum.getChainDynamicDetails(this.chain)
     },
     tokensToLit (tokens) {
-      return tokensToLit(tokens)
+      return fromLitPrecisionToTokens(tokens)
     }
   }
 }

@@ -30,8 +30,7 @@
 import BackButton from '../../components/BackButton'
 import NextButton from '../../components/NextButton'
 import ApproveSpenderInput from '../../components/ApproveSpenderInput'
-import { etherScanAddress } from '../../utils'
-import config from '../../config'
+import { etherScanAddress, getLitionRegistryAddress } from '../../utils'
 
 export default {
   components: { NextButton, BackButton, ApproveSpenderInput },
@@ -44,7 +43,7 @@ export default {
   },
   computed: {
     smartContractLink () {
-      return etherScanAddress(this.network, config.litionRegistryContractAddress)
+      return etherScanAddress(this.network, getLitionRegistryAddress(this.network))
     }
   },
   data () {

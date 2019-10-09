@@ -33,23 +33,56 @@
         </Tooltip>
       </div>
       <div class="relative mt-2 flex flex-col w-full">
-        <label class="text-xs text-lition-gray font-medium">{{ $t('label.vesting') }}</label>
-        <TextInput v-model="vesting" ref="vesting" @focus.native="focus = 'vesting'"
+        <label class="text-xs text-lition-gray font-medium">{{ $t('label.min_required_deposit') }}</label>
+        <TextInput v-model="minRequiredDeposit" ref="minRequiredDeposit" @focus.native="focus = 'minRequiredDeposit'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'vesting'" class="absolute right-0 -mr-48">
-          <template slot="headline">Vesting</template>
-          <template slot="text">Some explanation text about vesting ?</template>
+        <Tooltip v-if="active === 'minRequiredDeposit'" class="absolute right-0 -mr-48">
+          <template slot="headline">Deposit</template>
+          <template slot="text">Some explanation text about deposit ?</template>
         </Tooltip>
       </div>
       <div class="relative mt-2 flex flex-col w-full">
-        <label class="text-xs text-lition-gray font-medium">{{ $t('label.deposit') }}</label>
-        <TextInput v-model="deposit" ref="deposit" @focus.native="focus = 'deposit'"
+        <label class="text-xs text-lition-gray font-medium">{{ $t('label.min_required_vesting') }}</label>
+        <TextInput v-model="minRequiredVesting" ref="minRequiredDeposit" @focus.native="focus = 'minRequiredVesting'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'deposit'" class="absolute right-0 -mr-48">
-          <template slot="headline">Deposit</template>
-          <template slot="text">Some explanation text about deposit ?</template>
+        <Tooltip v-if="active === 'minRequiredVesting'" class="absolute right-0 -mr-48">
+          <template slot="headline">Min required vesting</template>
+          <template slot="text">Some explanation text about min required vesting ?</template>
+        </Tooltip>
+      </div>
+      <div class="relative mt-2 flex flex-col w-full">
+        <label class="text-xs text-lition-gray font-medium">{{ $t('label.reward_bonus_required_vesting') }}</label>
+        <TextInput v-model="rewardBonusRequiredVesting" ref="rewardBonusRequiredVesting"
+                   @focus.native="focus = 'rewardBonusRequiredVesting'"
+                   @blur.native="focus = null"
+                   class="w-full"></TextInput>
+        <Tooltip v-if="active === 'rewardBonusRequiredVesting'" class="absolute right-0 -mr-48">
+          <template slot="headline">Reward bonus required vesting</template>
+          <template slot="text">.... ?</template>
+        </Tooltip>
+      </div>
+      <div class="relative mt-2 flex flex-col w-full">
+        <label class="text-xs text-lition-gray font-medium">{{ $t('label.reward_bonus_percentage') }}</label>
+        <TextInput v-model="rewardBonusPercentage" ref="rewardBonusPercentage"
+                   @focus.native="focus = 'rewardBonusPercentage'"
+                   @blur.native="focus = null"
+                   class="w-full"></TextInput>
+        <Tooltip v-if="active === 'rewardBonusPercentage'" class="absolute right-0 -mr-48">
+          <template slot="headline">Reward bonus percentage</template>
+          <template slot="text">.... ?</template>
+        </Tooltip>
+      </div>
+      <div class="relative mt-2 flex flex-col w-full">
+        <label class="text-xs text-lition-gray font-medium">{{ $t('label.notary_period') }}</label>
+        <TextInput v-model="notaryPeriod" ref="notaryPeriod"
+                   @focus.native="focus = 'notaryPeriod'"
+                   @blur.native="focus = null"
+                   class="w-full"></TextInput>
+        <Tooltip v-if="active === 'notaryPeriod'" class="absolute right-0 -mr-48">
+          <template slot="headline">Notary period</template>
+          <template slot="text">.... ?</template>
         </Tooltip>
       </div>
       <div class="relative mt-2 flex flex-col w-full">
@@ -114,8 +147,7 @@ import ConfirmButton from '../../components/ConfirmButton'
 import TextInput from '../../components/TextInput'
 import CheckboxInput from '../../components/CheckboxInput'
 import Tooltip from '../../components/Tooltip'
-import { etherScanAddress } from '../../utils'
-import config from '../../config'
+import { etherScanAddress, getValidatorAddress, getLitionRegistryAddress } from '../../utils'
 import { getChainId } from '../../transactionUtils'
 
 export default {
@@ -129,7 +161,7 @@ export default {
   },
   computed: {
     smartContractLink () {
-      return etherScanAddress(this.network, config.litionRegistryContractAddress)
+      return etherScanAddress(this.network, getLitionRegistryAddress(this.network))
     },
     active () {
       if (this.focus !== null) {
@@ -146,13 +178,16 @@ export default {
       processing: false,
       description: null,
       initEndpoint: null,
-      chainValidator: config.litionValidatorContractAddress,
-      vesting: null,
-      deposit: null,
+      chainValidator: getValidatorAddress(this.network),
       maxValidators: null,
       maxTransactors: null,
       notaryVesting: false,
-      notaryParticipation: false
+      notaryParticipation: false,
+      minRequiredDeposit: null,
+      minRequiredVesting: null,
+      rewardBonusRequiredVesting: null,
+      rewardBonusPercentage: null,
+      notaryPeriod: null
     }
   },
   mounted () {
@@ -186,10 +221,13 @@ export default {
           this.description,
           this.initEndpoint,
           this.chainValidator,
-          this.vesting,
-          this.deposit,
+          this.minRequiredDeposit,
+          this.minRequiredVesting,
+          this.rewardBonusRequiredVesting,
+          this.rewardBonusPercentage,
+          this.notaryPeriod,
           this.maxTransactors,
-          this.maxTransactors,
+          this.maxValidators,
           this.notaryVesting,
           this.notaryParticipation
         )
