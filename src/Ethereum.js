@@ -64,8 +64,8 @@ export default async (ethereum, web3) => {
     reinitialize (litionErc20Abi = getErc20Abi(), litionRegistryAbi = getLitionRegistryAbi(), erc20ContractAddress = getErc20ContractAddress(), litionRegistryContractAddress = getLitionRegistryAddress()) {
       initialize(litionErc20Abi, litionRegistryAbi, erc20ContractAddress, litionRegistryContractAddress)
     },
-    async getNetworkType () {
-      return _web3.eth.net.getNetworkType()
+    getNetworkName () {
+      return _network
     },
     async mint (tokens) {
       if (typeof _account === 'undefined') {

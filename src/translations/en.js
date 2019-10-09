@@ -72,10 +72,10 @@ export default {
   register: {
     select_network: 'Select network',
     steps: {
-      one: '1. Choose network',
-      two: '2. Mint test tokens',
-      three: '3. Approve spender',
-      four: '4. Register chain'
+      one: 'Choose network',
+      two: 'Mint test tokens',
+      three: 'Approve spender',
+      four: 'Register chain'
     }
   },
   registration_completed: {

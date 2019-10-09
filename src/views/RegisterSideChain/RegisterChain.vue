@@ -1,109 +1,109 @@
 <template>
-  <div>
+  <div class="h-screen pt-12">
     <div class="flex flex-col items-center" style="width: 350px;">
-      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} 3/4</span>
+      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} {{ stepNumber }}/{{ totalSteps }}</span>
       <h1 class="font-lition text-3xl font-bold">{{ $t('headline.register_chain') }}</h1>
       <div class="relative mt-8 flex flex-col w-full">
         <label class="text-xs text-lition-gray font-medium">{{ $t('label.description') }}</label>
         <TextInput v-model="description" ref="description" @focus.native="focus = 'description'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'description'" class="absolute right-0 -mr-48">
-          <template slot="headline">Description</template>
-          <template slot="text">Some explanation text about description ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'description'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Description</template>-->
+<!--          <template slot="text">Some explanation text about description ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
         <label class="text-xs text-lition-gray font-medium">{{ $t('label.init_endpoint') }}</label>
         <TextInput v-model="initEndpoint" ref="endpoint" @focus.native="focus = 'endpoint'" @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'endpoint'" class="absolute right-0 -mr-48">
-          <template slot="headline">Initial endoint</template>
-          <template slot="text">Some explanation text about endpoint ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'endpoint'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Initial endoint</template>-->
+<!--          <template slot="text">Some explanation text about endpoint ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
         <label class="text-xs text-lition-gray font-medium">{{ $t('label.chain_validator') }}</label>
         <TextInput v-model="chainValidator" ref="validator" @focus.native="focus = 'validator'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'validator'" class="absolute right-0 -mr-48">
-          <template slot="headline">Chain Validator</template>
-          <template slot="text">Some explanation text about chain validator ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'validator'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Chain Validator</template>-->
+<!--          <template slot="text">Some explanation text about chain validator ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
-        <label class="text-xs text-lition-gray font-medium">{{ $t('label.min_required_deposit') }}</label>
+        <label class="text-xs text-lition-gray font-medium">Min required deposit</label>
         <TextInput v-model="minRequiredDeposit" ref="minRequiredDeposit" @focus.native="focus = 'minRequiredDeposit'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'minRequiredDeposit'" class="absolute right-0 -mr-48">
-          <template slot="headline">Deposit</template>
-          <template slot="text">Some explanation text about deposit ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'minRequiredDeposit'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Deposit</template>-->
+<!--          <template slot="text">Some explanation text about deposit ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
-        <label class="text-xs text-lition-gray font-medium">{{ $t('label.min_required_vesting') }}</label>
-        <TextInput v-model="minRequiredVesting" ref="minRequiredDeposit" @focus.native="focus = 'minRequiredVesting'"
+        <label class="text-xs text-lition-gray font-medium">Min required vesting</label>
+        <TextInput v-model="minRequiredVesting" ref="minRequiredVesting" @focus.native="focus = 'minRequiredVesting'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'minRequiredVesting'" class="absolute right-0 -mr-48">
-          <template slot="headline">Min required vesting</template>
-          <template slot="text">Some explanation text about min required vesting ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'minRequiredVesting'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Min required vesting</template>-->
+<!--          <template slot="text">Some explanation text about min required vesting ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
-        <label class="text-xs text-lition-gray font-medium">{{ $t('label.reward_bonus_required_vesting') }}</label>
+        <label class="text-xs text-lition-gray font-medium">Reward bonus required vesting</label>
         <TextInput v-model="rewardBonusRequiredVesting" ref="rewardBonusRequiredVesting"
                    @focus.native="focus = 'rewardBonusRequiredVesting'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'rewardBonusRequiredVesting'" class="absolute right-0 -mr-48">
-          <template slot="headline">Reward bonus required vesting</template>
-          <template slot="text">.... ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'rewardBonusRequiredVesting'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Reward bonus required vesting</template>-->
+<!--          <template slot="text">.... ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
-        <label class="text-xs text-lition-gray font-medium">{{ $t('label.reward_bonus_percentage') }}</label>
+        <label class="text-xs text-lition-gray font-medium">Reward bonus percentage</label>
         <TextInput v-model="rewardBonusPercentage" ref="rewardBonusPercentage"
                    @focus.native="focus = 'rewardBonusPercentage'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'rewardBonusPercentage'" class="absolute right-0 -mr-48">
-          <template slot="headline">Reward bonus percentage</template>
-          <template slot="text">.... ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'rewardBonusPercentage'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Reward bonus percentage</template>-->
+<!--          <template slot="text">.... ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
-        <label class="text-xs text-lition-gray font-medium">{{ $t('label.notary_period') }}</label>
+        <label class="text-xs text-lition-gray font-medium">Notary period</label>
         <TextInput v-model="notaryPeriod" ref="notaryPeriod"
                    @focus.native="focus = 'notaryPeriod'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'notaryPeriod'" class="absolute right-0 -mr-48">
-          <template slot="headline">Notary period</template>
-          <template slot="text">.... ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'notaryPeriod'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Notary period</template>-->
+<!--          <template slot="text">.... ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
         <label class="text-xs text-lition-gray font-medium">{{ $t('label.max_validators') }}</label>
         <TextInput v-model="maxValidators" ref="max_validators" @focus.native="focus = 'max_validators'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'max_validators'" class="absolute right-0 -mr-48">
-          <template slot="headline">Max number of validators</template>
-          <template slot="text">Some explanation text about maximum number of validators ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'max_validators'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Max number of validators</template>-->
+<!--          <template slot="text">Some explanation text about maximum number of validators ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="relative mt-2 flex flex-col w-full">
         <label class="text-xs text-lition-gray font-medium">{{ $t('label.max_transactors') }}</label>
         <TextInput v-model="maxTransactors" ref="max_transactors" @focus.native="focus = 'max_transactors'"
                    @blur.native="focus = null"
                    class="w-full"></TextInput>
-        <Tooltip v-if="active === 'max_transactors'" class="absolute right-0 -mr-48">
-          <template slot="headline">Max number of transactors</template>
-          <template slot="text">Some explanation text about maximum number of transactors ?</template>
-        </Tooltip>
+<!--        <Tooltip v-if="active === 'max_transactors'" class="absolute right-0 -mr-48">-->
+<!--          <template slot="headline">Max number of transactors</template>-->
+<!--          <template slot="text">Some explanation text about maximum number of transactors ?</template>-->
+<!--        </Tooltip>-->
       </div>
       <div class="mt-2 w-full">
         <label class="text-xs text-lition-gray font-medium cursor-pointer">{{ $t('label.notary_conditions') }}</label>
@@ -113,24 +113,24 @@
           <CheckboxInput ref="vesting_cond" v-model="notaryVesting"></CheckboxInput>
           <label @click="notaryVesting = !notaryVesting"
                  class="ml-2 text-xs text-lition-gray font-medium cursor-pointer">{{ $t('label.vesting_cond') }}</label>
-          <Tooltip v-if="active === 'vesting_cond'" class="absolute right-0 top-0 -mt-8 -mr-40 z-10">
-            <template slot="headline">Vesting condition</template>
-            <template slot="text">Some explanation text about vesting condition ?</template>
-          </Tooltip>
+<!--          <Tooltip v-if="active === 'vesting_cond'" class="absolute right-0 top-0 -mt-8 -mr-40 z-10">-->
+<!--            <template slot="headline">Vesting condition</template>-->
+<!--            <template slot="text">Some explanation text about vesting condition ?</template>-->
+<!--          </Tooltip>-->
         </div>
         <div class="relative flex items-center w-1/2">
           <CheckboxInput ref="participation_cond" v-model="notaryParticipation"></CheckboxInput>
           <label @click="notaryParticipation = !notaryParticipation"
                  class="ml-2 text-xs text-lition-gray font-medium cursor-pointer">{{ $t('label.participation_cond')
             }}</label>
-          <Tooltip v-if="active === 'participation_cond'" class="absolute right-0 top-0 -mt-8 -mr-40 z-10">
-            <template slot="headline">Participation condition</template>
-            <template slot="text">Some explanation text about participation condition ?</template>
-          </Tooltip>
+<!--          <Tooltip v-if="active === 'participation_cond'" class="absolute right-0 top-0 -mt-8 -mr-40 z-10">-->
+<!--            <template slot="headline">Participation condition</template>-->
+<!--            <template slot="text">Some explanation text about participation condition ?</template>-->
+<!--          </Tooltip>-->
         </div>
       </div>
     </div>
-    <div class="mt-12 flex justify-between">
+    <div class="mt-12 mb-12 flex justify-between">
       <BackButton @click.native="previous">{{ $t('button.approve_spender') }}</BackButton>
       <ConfirmButton @click.native="handleRegistration" :disabled="processing">
         <span v-if="!processing">{{ $t('button.register_chain') }}</span>
@@ -169,6 +169,18 @@ export default {
       }
 
       return this.activeHover
+    },
+    stepNumber () {
+      if (this.network === 'main') {
+        return '3'
+      }
+      return '4'
+    },
+    totalSteps () {
+      if (this.network === 'main') {
+        return '3'
+      }
+      return '4'
     }
   },
   data () {

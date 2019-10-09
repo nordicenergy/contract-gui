@@ -2,7 +2,6 @@
   <div>
     <div class="flex flex-col items-center">
       <h1 class="font-lition text-3xl font-bold" v-html="$t('headline.register.network', { network: network }) "></h1>
-      <p class="mt-2 text-lition-gray font-medium">{{ $t('subheadline.register.network') }}</p>
       <p class="mt-2 text-lition-gray font-medium" v-html="$t('subheadline.register.network_change')"></p>
       <h1 class="mt-8 font-lition text-3xl font-bold">{{ $t('headline.provide_sidechain') }}</h1>
       <div class="mt-8 flex flex-col">
@@ -36,7 +35,7 @@ export default {
       'network'
     ]),
     valid () {
-      return isNumeric(this.chain) && isValidNetwork(this.network)
+      return isNumeric(this.chain)
     }
   },
   methods: {

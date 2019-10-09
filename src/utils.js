@@ -34,7 +34,7 @@ export const isNumeric = (number) => {
 }
 
 export const isValidNetwork = (network) => {
-  const allowedNetworks = ['ropsten']
+  const allowedNetworks = ['ropsten', 'main']
 
   return allowedNetworks.indexOf(network) !== -1
 }

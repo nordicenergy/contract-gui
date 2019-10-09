@@ -6,6 +6,7 @@ import InteractWithSideChain from './views/InteractWithSideChain/InteractWithSid
 import MintTestTokens from './views/RegisterSideChain/MintTestTokens'
 import MintTransactions from './views/RegisterSideChain/MintTransactions'
 import ApproveSpender from './views/RegisterSideChain/ApproveSpender'
+import InteractApproveSpender from './views/InteractWithSideChain/ApproveSpender'
 import ApproveTransactions from './views/RegisterSideChain/ApproveTransactions'
 import RegisterChain from './views/RegisterSideChain/RegisterChain'
 import RegistrationCompleted from './views/RegisterSideChain/RegistrationCompleted'
@@ -13,7 +14,7 @@ import ProvideSidechainId from './views/InteractWithSideChain/ProvideSidechainId
 import Vesting from './views/InteractWithSideChain/Vesting'
 import Deposits from './views/InteractWithSideChain/Deposits'
 import Mining from './views/InteractWithSideChain/Mining'
-import { isNumeric, isValidNetwork } from './utils'
+import { isNumeric } from './utils'
 import VestInChain from './views/InteractWithSideChain/VestInChain'
 import VestInChainCompleted from './views/InteractWithSideChain/VestInChainCompleted'
 import DepositInChain from './views/InteractWithSideChain/DepositInChain'
@@ -24,6 +25,7 @@ import WithdrawDeposit from './views/InteractWithSideChain/WithdrawDeposit'
 import WithdrawDepositCompleted from './views/InteractWithSideChain/WithdrawDepositCompleted'
 import ConfirmVestInChain from './views/InteractWithSideChain/ConfirmVestInChain'
 import ConfirmDepositWithdrawal from './views/InteractWithSideChain/ConfirmDepositWithdrawal'
+import InteractMintTestTokens from './views/InteractWithSideChain/MintTestTokens'
 import InstallMetaMask from './views/InstallMetaMask'
 import AddressAutomator from './views/AddressAutomator'
 
@@ -168,6 +170,18 @@ export default (ethereum) => {
         props: true
       },
       {
+        path: '/interact/networks/:network/chains/:chain/approve',
+        name: 'interact.approve_spender',
+        component: InteractApproveSpender,
+        props: true
+      },
+      {
+        path: '/interact/networks/:network/chains/:chain/mint-test-tokens',
+        name: 'interact.mint_test_tokens',
+        component: InteractMintTestTokens,
+        props: true
+      },
+      {
         path: '/install-metamask',
         name: 'install.metamask',
         component: InstallMetaMask
@@ -191,7 +205,7 @@ export default (ethereum) => {
         next({ name: redirectName })
       }
 
-      if (!isValidNetwork(to.params.network)) {
+      if (to.params.network !== ethereum.getNetworkName()) {
         next({ name: redirectName })
       }
     }

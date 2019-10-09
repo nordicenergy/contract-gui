@@ -12,11 +12,9 @@
           <NavigationRouteLink route="interact.provide_sidechain_id" active-on-segment="interact">{{ $t('nav.interact_with_chain') }}</NavigationRouteLink>
         </li>
         <li class="mt-4">
-<!--          @TODO Add tutorial-->
-          <a href="#tutorial" target="_blank">Vest without running a node</a>
+          <a href="https://lition.io" target="_blank">Vest without running a node</a>
         </li>
         <li class="mt-4">
-          <!--          @TODO Add tutorial-->
           <a :href="smartContractLink" target="_blank">Advanced section</a>
         </li>
       </ul>
@@ -25,8 +23,8 @@
       <InteractionSideMenu v-if="isInteracting"></InteractionSideMenu>
       <Details v-if="hasChainId"></Details>
     </nav>
-    <main class="flex w-full items-center justify-center">
-      <router-view class="overflow-y-auto"></router-view>
+    <main class="flex items-center justify-center w-full overflow-y-auto">
+      <router-view></router-view>
     </main>
   </div>
 </template>
@@ -43,11 +41,7 @@ export default {
   inject: ['ethereum'],
   components: { NavigationRouteLink, RegisterSteps, InteractionSideMenu, Details },
   created () {
-    if (this.ethereum) {
-      this.ethereum.getNetworkType().then(network => {
-        this.$store.dispatch('setNetwork', network)
-      })
-    }
+    this.$store.dispatch('setNetwork', this.ethereum.getNetworkName())
   },
   computed: {
     ...mapGetters([

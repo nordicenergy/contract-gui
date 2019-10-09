@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} 2/4</span>
+      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} 2/{{ totalSteps }}</span>
       <h1 class="font-lition text-3xl font-bold">
         {{ $t('headline.mint.mint') }} <span class="text-active">{{ $t('headline.mint.lit') }}</span> {{
         $t('headline.mint.test_tokens') }}
@@ -33,18 +33,27 @@ import MintTokensInput from '../../components/MintTokensInput'
 import { mapGetters } from 'vuex'
 
 export default {
+  beforeRouteEnter (to, from, next) {
+    if (to.params.network === 'main') {
+      next({ name: 'register.network', params: { network: this.ethereum.getNetworkName() } })
+    }
+
+    next()
+  },
   components: { MintTokensInput, NextButton, BackButton },
   inject: ['ethereum'],
-  props: {
-    network: {
-      type: String,
-      default: 'ropsten'
-    }
-  },
   computed: {
     ...mapGetters([
-      'mints'
-    ])
+      'mints',
+      'network'
+    ]),
+    totalSteps () {
+      if (this.network === 'main') {
+        return '3'
+      }
+
+      return '4'
+    }
   },
   data () {
     return {

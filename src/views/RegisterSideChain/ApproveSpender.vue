@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} 3/4</span>
+      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} {{ stepNumber }}/{{ totalSteps }}</span>
       <h1 class="font-lition text-3xl font-bold">{{ $t('headline.approve_spender') }}</h1>
       <p class="mt-2 text-lition-gray font-medium"
          v-html="$t('approve.smart_contract', { smartContractLink: smartContractLink } )"></p>
@@ -20,7 +20,8 @@
       </div>
     </div>
     <div class="mt-12 flex justify-between">
-      <BackButton @click.native="previous">{{ $t('button.mint_tokens') }}</BackButton>
+      <BackButton v-if="network === 'main'" @click.native="previousChooseNetwork">{{ $t('button.choose_network') }}</BackButton>
+      <BackButton v-if="network === 'ropsten'" @click.native="previousMint">{{ $t('button.mint_tokens') }}</BackButton>
       <NextButton @click.native="next">{{ $t('button.register_chain') }}</NextButton>
     </div>
   </div>
@@ -44,6 +45,18 @@ export default {
   computed: {
     smartContractLink () {
       return etherScanAddress(this.network, getLitionRegistryAddress(this.network))
+    },
+    stepNumber () {
+      if (this.network === 'main') {
+        return '2'
+      }
+      return '3'
+    },
+    totalSteps () {
+      if (this.network === 'main') {
+        return '3'
+      }
+      return '4'
     }
   },
   data () {
@@ -53,7 +66,10 @@ export default {
     }
   },
   methods: {
-    previous () {
+    previousChooseNetwork () {
+      this.$router.push({ name: 'register.network' })
+    },
+    previousMint () {
       this.$router.push({ name: 'register.mint_test_tokens', params: { network: this.network } })
     },
     next () {
