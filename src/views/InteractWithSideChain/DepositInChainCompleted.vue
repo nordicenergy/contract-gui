@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="mt-12 flex justify-between">
-      <BackButton @click.native="previous">Back to Vesting menu</BackButton>
+      <BackButton @click.native="previous">Back to Deposit menu</BackButton>
     </div>
   </div>
 </template>

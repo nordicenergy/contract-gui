@@ -10,6 +10,19 @@
     <div class="mt-2">
       <router-link class="inline-block mt-4 text-sm font-medium text-secondary hover:underline" :to="{ name: 'interact.provide_sidechain_id' }">Change chain id</router-link>
     </div>
+    <div v-if="lastConfirmDepositWithdrawal" class="mt-8">
+      <div class="mt-2">
+        <div class="flex items-center">
+          <Check size="xxs"></Check>
+          <p class="ml-4 text-md font-bold">Deposit withdrawal successfully confirmed</p>
+        </div>
+        <p class="ml-8 text-md text-lition-gray">
+          <a class="hover:text-secondary" :href="etherScan(network, lastConfirmDepositWithdrawal.transaction)" target="_blank">{{
+            lastConfirmDepositWithdrawal.transaction.from
+            }}</a>
+        </p>
+      </div>
+    </div>
     <div class="mt-12 flex justify-between">
       <BackButton @click.native="previous">Back to deposits menu</BackButton>
       <ConfirmButton @click.native="handleAction">Confirm deposit withdrawal</ConfirmButton>
@@ -20,8 +33,11 @@
 <script>
 import ConfirmButton from '../../components/ConfirmButton'
 import BackButton from '../../components/BackButton'
+import WithEtherScan from '../../components/WithEtherScan'
+import Check from '../../components/Check'
 
 export default {
+  mixins: [WithEtherScan],
   inject: ['ethereum'],
   props: {
     chain: {
@@ -31,11 +47,11 @@ export default {
       type: String
     }
   },
-  components: { BackButton, ConfirmButton },
+  components: { BackButton, ConfirmButton, Check },
   data () {
     return {
-      tokens: null,
-      processing: false
+      processing: false,
+      lastConfirmDepositWithdrawal: null
     }
   },
   methods: {
@@ -43,17 +59,9 @@ export default {
       this.processing = true
       try {
         const response = await this.ethereum.confirmDepositWithdrawalFromChain(this.chain)
-        console.log(response)
-        // this.$store.dispatch('setConfirmVestIncreaseInChain', {
-        //   chain: this.chain,
-        //   timestamp: new Date(),
-        //   transaction: response
-        // })
-        //
-        // await this.$router.push({
-        //   name: 'interact.confirm_vest_increase_completed',
-        //   params: { chain: this.chain, network: this.network }
-        // })
+        this.lastConfirmDepositWithdrawal = {
+          transaction: response
+        }
       } catch (e) {
         // @TODO handle error
         console.log(e)

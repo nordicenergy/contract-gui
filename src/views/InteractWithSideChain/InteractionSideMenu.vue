@@ -12,6 +12,7 @@
       <router-link :to="{ name: 'interact.confirm_deposit_withdrawal', params: { chain: chain, network: network } }" class="inline-block text-md text-lition-gray mt-4">{{ $t('interaction_menu.confirm_deposit_withdrawal') }}</router-link>
       <router-link :class="miningActiveClass" :to="{ name: 'interact.mining', params: { chain: chain, network: network } }" class="inline-block text-md text-white mt-8">{{ $t('interaction_menu.mining') }}</router-link>
       <router-link :class="approveActiveClass" :to="{ name: 'interact.approve_spender', params: { chain: chain, network: network } }" class="inline-block text-md text-white mt-8">Approve</router-link>
+      <router-link v-if="network !== 'main'" :class="mintActiveClass" :to="{ name: 'interact.mint_test_tokens', params: { chain: chain, network: network } }" class="inline-block text-md text-white mt-8">Mint</router-link>
     </div>
   </div>
 </template>

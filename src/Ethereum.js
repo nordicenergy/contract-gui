@@ -214,6 +214,8 @@ export default async (ethereum, web3) => {
       const totalDeposit = parseInt(fromLitPrecisionToTokens(userDetails.deposit))
       const newDeposit = totalDeposit + parseInt(tokens)
 
+      console.log(chainId, tokensToLitPrecision(newDeposit))
+
       return _litionRegistryContract
         .methods
         .requestDepositInChain(chainId, tokensToLitPrecision(newDeposit))
