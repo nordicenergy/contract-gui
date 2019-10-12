@@ -10,20 +10,28 @@
         <span class="spinner-in-page"></span>
       </div>
     </div>
-    <div v-if="userDetails" class="mt-12 flex justify-center">
+    <div v-if="userDetails" class="relative mt-12 flex justify-center">
       <ConfirmButton @click.native="toggleMining" :disabled="processing">
         <span v-if="userDetails.mining">Stop mining</span>
         <span v-else>Start mining</span>
         <span v-if="processing" class="spinner-button w-5 h-5 mr-2"></span>
       </ConfirmButton>
+      <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
+        <template slot="headline">MetaMask Error</template>
+        <template slot="text">{{ errorMessage }}</template>
+      </Tooltip>
     </div>
   </div>
 </template>
 
 <script>
 import ConfirmButton from '../../components/ConfirmButton'
+import Tooltip from '../../components/Tooltip'
+import WithErrorMessage from '../../components/WithErrorMessage'
+
 export default {
-  components: { ConfirmButton },
+  components: { ConfirmButton, Tooltip },
+  mixins: [WithErrorMessage],
   inject: ['ethereum'],
   props: {
     chain: {
@@ -56,10 +64,8 @@ export default {
         }
 
         this.fetchUserDetails()
-
       } catch (e) {
-        // @TODO handle error
-        console.log(e)
+        this.handleError()
       } finally {
         this.processing = false
       }

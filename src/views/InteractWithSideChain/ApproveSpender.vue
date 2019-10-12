@@ -7,8 +7,14 @@
       <div class="mt-8 w-3/4 mx-auto">
         <label v-if="!processing" class="text-xs text-lition-gray font-medium">{{ $t('label.tokens') }}</label>
         <label v-else class="text-xs text-lition-gray font-medium">{{ $t('approve.approving_spender') }}</label>
-        <ApproveSpenderInput @approve="handleApproval" v-model="tokens" :loading="processing"
-                             placeholder="LIT 0"></ApproveSpenderInput>
+        <div class="relative">
+          <ApproveSpenderInput @approve="handleApproval" v-model="tokens" :loading="processing"
+                               placeholder="LIT 0"></ApproveSpenderInput>
+          <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
+            <template slot="headline">MetaMask Error</template>
+            <template slot="text">{{ errorMessage }}</template>
+          </Tooltip>
+        </div>
       </div>
       <div class="mt-8" v-if="lastApproval">
         <div class="flex items-center">
@@ -29,8 +35,12 @@ import ApproveSpenderInput from '../../components/ApproveSpenderInput'
 import Check from '../../components/Check'
 import { etherScanAddress, getLitionRegistryAddress, etherScanTransaction } from '../../utils'
 import { getSpender } from '../../transactionUtils'
+import Tooltip from '../../components/Tooltip'
+import WithErrorMessage from '../../components/WithErrorMessage'
+
 export default {
-  components: { ApproveSpenderInput, Check },
+  components: { ApproveSpenderInput, Check, Tooltip },
+  mixins: [WithErrorMessage],
   inject: ['ethereum'],
   props: {
     network: {
@@ -69,8 +79,7 @@ export default {
           transaction: response
         }
       } catch (e) {
-        // @TODO handle error
-        console.log(e)
+        this.handleError()
       } finally {
         this.processing = false
       }

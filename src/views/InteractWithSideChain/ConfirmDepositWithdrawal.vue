@@ -69,8 +69,7 @@ export default {
           transaction: response
         }
       } catch (e) {
-        // @TODO handle error
-        console.log(e)
+        this.handleError()
       } finally {
         this.processing = false
       }
