@@ -8,7 +8,14 @@
       <div class="mt-8 w-3/4 mx-auto">
         <label v-if="!processing" class="text-xs text-lition-gray font-medium">{{ $t('label.tokens') }}</label>
         <label v-else class="text-xs text-lition-gray font-medium">{{ $t('mint.minting_tokens') }}</label>
-        <MintTokensInput @mint="handleMinting" v-model="tokens" :loading="processing" placeholder="LIT 0"></MintTokensInput>
+        <div class="relative">
+          <MintTokensInput @mint="handleMinting" v-model="tokens" :loading="processing"
+                           placeholder="LIT 0"></MintTokensInput>
+          <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
+            <template slot="headline">MetaMask Error</template>
+            <template slot="text">{{ errorMessage }}</template>
+          </Tooltip>
+        </div>
       </div>
       <div class="mt-8" v-if="lastMint">
         <div class="flex items-center">
@@ -16,7 +23,8 @@
           <p class="ml-4 text-md font-bold">{{ lastMint.tokens }} LIT tokens successfully minted on</p>
         </div>
         <p class="ml-8 text-md text-lition-gray">
-          <a class="hover:text-secondary" :href="etherScan(network, lastMint.transaction)" target="_blank">{{ lastMint.transaction.from
+          <a class="hover:text-secondary" :href="etherScan(network, lastMint.transaction)" target="_blank">{{
+            lastMint.transaction.from
             }}</a>
         </p>
       </div>
@@ -29,6 +37,8 @@ import MintTokensInput from '../../components/MintTokensInput'
 import { mapGetters } from 'vuex'
 import Check from '../../components/Check'
 import WithEtherScan from '../../components/WithEtherScan'
+import WithErrorMessage from '../../components/WithErrorMessage'
+import Tooltip from '../../components/Tooltip'
 
 export default {
   beforeRouteEnter (to, from, next) {
@@ -38,8 +48,8 @@ export default {
 
     next()
   },
-  mixins: [WithEtherScan],
-  components: { MintTokensInput, Check },
+  mixins: [WithEtherScan, WithErrorMessage],
+  components: { MintTokensInput, Check, Tooltip },
   inject: ['ethereum'],
   computed: {
     ...mapGetters([
@@ -63,9 +73,7 @@ export default {
           transaction: response
         }
       } catch (e) {
-        console.log(e)
-        // @TODO handle error
-        // @TODO handle meta mask transaction cancellation
+        this.handleError()
       } finally {
         this.processing = false
       }

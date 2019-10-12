@@ -15,7 +15,13 @@
       <div class="mt-8 w-3/4 mx-auto">
         <label v-if="!processing" class="text-xs text-lition-gray font-medium">{{ $t('label.tokens') }}</label>
         <label v-else class="text-xs text-lition-gray font-medium">{{ $t('mint.minting_tokens') }}</label>
-        <MintTokensInput @mint="handleMinting" v-model="tokens" :loading="processing" placeholder="LIT 0"></MintTokensInput>
+        <div class="relative">
+          <MintTokensInput @mint="handleMinting" v-model="tokens" :loading="processing" placeholder="LIT 0"></MintTokensInput>
+          <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
+            <template slot="headline">MetaMask Error</template>
+            <template slot="text">{{ errorMessage }}</template>
+          </Tooltip>
+        </div>
         <router-link class="inline-block mt-4 text-sm font-medium text-secondary hover:underline" v-if="mints.length > 0" :to="{ name: 'register.minted_test_tokens', params: { network: network } }">{{ $t('mint.see_mints') }}</router-link>
       </div>
     </div>
@@ -30,6 +36,8 @@
 import BackButton from '../../components/BackButton'
 import NextButton from '../../components/NextButton'
 import MintTokensInput from '../../components/MintTokensInput'
+import Tooltip from '../../components/Tooltip'
+import WithErrorMessage from '../../components/WithErrorMessage'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -40,7 +48,8 @@ export default {
 
     next()
   },
-  components: { MintTokensInput, NextButton, BackButton },
+  mixins: [WithErrorMessage],
+  components: { MintTokensInput, NextButton, BackButton, Tooltip },
   inject: ['ethereum'],
   computed: {
     ...mapGetters([
@@ -79,9 +88,7 @@ export default {
         })
         await this.$router.push({ name: 'register.minted_test_tokens', params: { network: this.network } })
       } catch (e) {
-        console.log(e)
-        // @TODO handle error
-        // @TODO handle meta mask transaction cancellation
+        this.handleError()
       } finally {
         this.processing = false
       }

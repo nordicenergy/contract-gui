@@ -23,9 +23,13 @@
         </p>
       </div>
     </div>
-    <div class="mt-12 flex justify-between">
+    <div class="relative mt-12 flex justify-between">
       <BackButton @click.native="previous">Back to deposits menu</BackButton>
       <ConfirmButton @click.native="handleAction">Confirm deposit withdrawal</ConfirmButton>
+      <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
+        <template slot="headline">MetaMask Error</template>
+        <template slot="text">{{ errorMessage }}</template>
+      </Tooltip>
     </div>
   </div>
 </template>
@@ -35,9 +39,11 @@ import ConfirmButton from '../../components/ConfirmButton'
 import BackButton from '../../components/BackButton'
 import WithEtherScan from '../../components/WithEtherScan'
 import Check from '../../components/Check'
+import Tooltip from '../../components/Tooltip'
+import WithErrorMessage from '../../components/WithErrorMessage'
 
 export default {
-  mixins: [WithEtherScan],
+  mixins: [WithEtherScan, WithErrorMessage],
   inject: ['ethereum'],
   props: {
     chain: {
@@ -47,7 +53,7 @@ export default {
       type: String
     }
   },
-  components: { BackButton, ConfirmButton, Check },
+  components: { BackButton, ConfirmButton, Check, Tooltip },
   data () {
     return {
       processing: false,

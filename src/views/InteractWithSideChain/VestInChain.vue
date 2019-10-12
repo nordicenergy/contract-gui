@@ -15,8 +15,14 @@
     <div class="w-full mt-8">
       <div class="w-3/4">
         <label class="text-xs text-lition-gray font-medium">Add tokens to vesting</label>
-        <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Vest
-        </LitTextInput>
+        <div class="relative">
+          <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="LIT 0">Vest
+          </LitTextInput>
+          <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
+            <template slot="headline">MetaMask Error</template>
+            <template slot="text">{{ errorMessage }}</template>
+          </Tooltip>
+        </div>
       </div>
     </div>
     <div class="mt-12 flex justify-between">
@@ -29,9 +35,12 @@
 import LitTextInput from '../../components/LitTextInput'
 import BackButton from '../../components/BackButton'
 import { fromLitPrecisionToTokens } from '../../utils'
+import Tooltip from '../../components/Tooltip'
+import WithErrorMessage from '../../components/WithErrorMessage'
 
 export default {
   inject: ['ethereum'],
+  mixins: [WithErrorMessage],
   props: {
     chain: {
       type: String
@@ -40,7 +49,7 @@ export default {
       type: String
     }
   },
-  components: { LitTextInput, BackButton },
+  components: { LitTextInput, BackButton, Tooltip },
   data () {
     return {
       tokens: null,
@@ -75,8 +84,7 @@ export default {
           params: { chain: this.chain, network: this.network }
         })
       } catch (e) {
-        // @TODO handle error
-        console.log(e)
+        this.handleError()
       } finally {
         this.processing = false
       }

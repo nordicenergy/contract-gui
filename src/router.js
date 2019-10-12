@@ -212,7 +212,6 @@ export default (ethereum) => {
   }
 
   router.beforeEach((to, from, next) => {
-
     if (ethereum === null && to.name !== 'install.metamask') {
       next({ name: 'install.metamask' })
     }

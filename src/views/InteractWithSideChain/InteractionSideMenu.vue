@@ -56,6 +56,9 @@ export default {
     },
     changeChainIdActive () {
       return this.isOneOfRoutes(['interact.provide_sidechain_id']) ? 'text-sidebar-active' : 'text-white'
+    },
+    mintActiveClass () {
+      return this.isOneOfRoutes(['interact.mint_test_tokens']) ? 'text-sidebar-active' : 'text-white'
     }
   },
   methods: {
