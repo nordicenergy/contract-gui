@@ -106,7 +106,7 @@ import TextInput from '../../components/TextInput'
 import CheckboxInput from '../../components/CheckboxInput'
 import Tooltip from '../../components/Tooltip'
 import WithErrorMessage from '../../components/WithErrorMessage'
-import { etherScanAddress, getValidatorAddress, getLitionRegistryAddress } from '../../utils'
+import { etherScanAddress, getLitionRegistryAddress } from '../../utils'
 import { getChainId } from '../../transactionUtils'
 
 export default {
@@ -150,7 +150,7 @@ export default {
       processing: false,
       description: null,
       initEndpoint: null,
-      chainValidator: getValidatorAddress(this.network),
+      chainValidator: null,
       maxValidators: null,
       maxTransactors: null,
       notaryVesting: false,

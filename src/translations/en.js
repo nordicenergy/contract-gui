@@ -89,7 +89,7 @@ export default {
   },
   interact: {
     vesting: 'Vesting',
-    deposits: 'Deposits',
+    deposits: 'Deposit',
     mining: 'Mining'
   },
   interaction_menu: {
@@ -97,7 +97,7 @@ export default {
     vest_in_chain: 'Vest in chain',
     withdraw_vesting: 'Withdraw vesting',
     confirm_vest: 'Confirm vesting',
-    deposits: 'Deposits',
+    deposits: 'Deposit',
     deposit_in_chain: 'Deposit in chain',
     withdraw_deposit: 'Withdraw deposit',
     confirm_deposit_withdrawal: 'Confirm deposit withdrawal',
