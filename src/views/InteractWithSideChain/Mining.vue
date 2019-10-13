@@ -11,11 +11,14 @@
       </div>
     </div>
     <div v-if="userDetails" class="relative mt-12 flex justify-center">
-      <ConfirmButton @click.native="toggleMining" :disabled="processing">
-        <span v-if="userDetails.mining">Stop mining</span>
-        <span v-else>Start mining</span>
-        <span v-if="processing" class="spinner-button w-5 h-5 mr-2"></span>
-      </ConfirmButton>
+      <NormalButton class="bg-active" @click.native="startMining" :disabled="startProcessing">
+        <span>Start mining</span>
+        <span v-if="startProcessing" class="spinner-button w-5 h-5 mr-2"></span>
+      </NormalButton>
+      <NormalButton class="ml-4 bg-gray-600" @click.native="stopMining" :disabled="stopProcessing">
+        <span>Stop mining</span>
+        <span v-if="stopProcessing" class="spinner-button w-5 h-5 mr-2"></span>
+      </NormalButton>
       <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
         <template slot="headline">MetaMask Error</template>
         <template slot="text">{{ errorMessage }}</template>
@@ -25,12 +28,12 @@
 </template>
 
 <script>
-import ConfirmButton from '../../components/ConfirmButton'
+import NormalButton from '../../components/NormalButton'
 import Tooltip from '../../components/Tooltip'
 import WithErrorMessage from '../../components/WithErrorMessage'
 
 export default {
-  components: { ConfirmButton, Tooltip },
+  components: { NormalButton, Tooltip },
   mixins: [WithErrorMessage],
   inject: ['ethereum'],
   props: {
@@ -44,7 +47,8 @@ export default {
   data () {
     return {
       userDetails: null,
-      processing: false
+      startProcessing: false,
+      stopProcessing: false
     }
   },
   mounted () {
@@ -54,20 +58,26 @@ export default {
     async fetchUserDetails () {
       this.userDetails = await this.ethereum.getUserDetails(this.chain)
     },
-    async toggleMining () {
-      this.processing = true
+    async startMining () {
+      this.startProcessing = true
       try {
-        if (this.userDetails.mining) {
-          await this.ethereum.stopMining(this.chain)
-        } else {
-          await this.ethereum.startMining(this.chain)
-        }
-
+        await this.ethereum.startMining(this.chain)
         this.fetchUserDetails()
       } catch (e) {
         this.handleError()
       } finally {
-        this.processing = false
+        this.startProcessing = false
+      }
+    },
+    async stopMining () {
+      this.stopProcessing = true
+      try {
+        await this.ethereum.stopMining(this.chain)
+        this.fetchUserDetails()
+      } catch (e) {
+        this.handleError()
+      } finally {
+        this.stopProcessing = false
       }
     }
   }
