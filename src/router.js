@@ -28,6 +28,7 @@ import ConfirmDepositWithdrawal from './views/InteractWithSideChain/ConfirmDepos
 import InteractMintTestTokens from './views/InteractWithSideChain/MintTestTokens'
 import InstallMetaMask from './views/InstallMetaMask'
 import AddressAutomator from './views/AddressAutomator'
+import MainnetNotAvailable from './views/MainnetNotAvailable'
 
 Vue.use(Router)
 
@@ -192,6 +193,11 @@ export default (ethereum) => {
         component: AddressAutomator
       },
       {
+        path: '/not-available',
+        name: 'not_available_on_mainnet',
+        component: MainnetNotAvailable
+      },
+      {
         path: '*',
         redirect: { name: 'welcome' }
       }
@@ -214,6 +220,14 @@ export default (ethereum) => {
   router.beforeEach((to, from, next) => {
     if (ethereum === null && to.name !== 'install.metamask') {
       next({ name: 'install.metamask' })
+    }
+
+    if (ethereum.getNetworkName() === 'main' && to.name !== 'not_available_on_mainnet') {
+      next({ name: 'not_available_on_mainnet' })
+    }
+
+    if (ethereum.getNetworkName() === 'ropsten' && to.name === 'not_available_on_mainnet') {
+      next({ name: 'welcome' })
     }
 
     const isInteracting = to.matched.some(route => route.name.indexOf('interact') !== -1)
