@@ -7,9 +7,10 @@
         <h1 class="font-lition text-4xl font-bold text-white">Side Chain Manager</h1>
       </div>
       <p class="text-xl text-white leading-loose text-center">
-        GUI is currently not compatible with the relaunched mainnet. For interaction with the Blockchain, please
-        interact manually with the <a class="text-active hover:underline" href="https://etherscan.io/address/0x7a79868b8375131B4c6A681b112109A51EEa0a6C"
-                                      target="_blank">Smart Contract</a>.
+        To withdraw tokens from old Smart Contract use <a class="text-active hover:underline" href="http://lition.io/sidechainmanagerv1" target="_blank">http://lition.io/sidechainmanagerv1</a>
+      </p>
+      <p class="text-xl text-white leading-loose text-center">
+        To interact with current Smart Contract use <a class="text-active hover:underline" href="http://lition.io/sidechainmanagerv2" target="_blank">http://lition.io/sidechainmanagerv2</a>
       </p>
     </div>
   </main>

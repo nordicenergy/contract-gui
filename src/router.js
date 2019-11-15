@@ -193,7 +193,7 @@ export default (ethereum) => {
         component: AddressAutomator
       },
       {
-        path: '/not-available',
+        path: '/information',
         name: 'not_available_on_mainnet',
         component: MainnetNotAvailable
       },
@@ -218,16 +218,12 @@ export default (ethereum) => {
   }
 
   router.beforeEach((to, from, next) => {
-    if (ethereum === null && to.name !== 'install.metamask') {
-      next({ name: 'install.metamask' })
-    }
-
-    if (ethereum.getNetworkName() === 'main' && to.name !== 'not_available_on_mainnet') {
+    if (to.name !== 'not_available_on_mainnet') {
       next({ name: 'not_available_on_mainnet' })
     }
 
-    if (ethereum.getNetworkName() === 'ropsten' && to.name === 'not_available_on_mainnet') {
-      next({ name: 'welcome' })
+    if (ethereum === null && to.name !== 'install.metamask') {
+      next({ name: 'install.metamask' })
     }
 
     const isInteracting = to.matched.some(route => route.name.indexOf('interact') !== -1)
