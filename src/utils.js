@@ -47,7 +47,7 @@ export const getErc20ContractAddress = (network = 'ropsten') => {
   }
 }
 
-export const getLitionRegistryAddress = (network = 'ropsten') => {
+export const getNordicEnergyRegistryAddress = (network = 'ropsten') => {
   if (network === 'main') {
     return config.registryAddress.main
   } else if (network === 'ropsten') {

@@ -1,6 +1,6 @@
-import { getErc20Abi, getLitionRegistryAbi } from './abi/abi'
+import { getErc20Abi, getNordicEnergyRegistryAbi } from './abi/abi'
 import config from './config'
-import { tokensToLitPrecision, fromLitPrecisionToTokens, getErc20ContractAddress, getLitionRegistryAddress } from './utils'
+import { tokensToLitPrecision, fromLitPrecisionToTokens, getErc20ContractAddress, getNordicEnergyRegistryAddress } from './utils'
 import Web3 from 'web3'
 
 export default async (ethereum, web3) => {
@@ -20,24 +20,24 @@ export default async (ethereum, web3) => {
   const _ethereum = ethereum
   const _currentProvider = web3.currentProvider
   let _erc20Contract
-  let _litionRegistryContract
+  let _nordicenergyRegistryContract
   let _web3
   let _account
-  let _litionRegistryContractAddress
+  let _nordicenergyRegistryContractAddress
   let _accountsChangedEventRegistered = false
 
-  function initialize (litionErc20Abi = getErc20Abi(), litionRegistryAbi = getLitionRegistryAbi(), erc20ContractAddress = getErc20ContractAddress(), litionRegistryContractAddress = getLitionRegistryAddress()) {
-    _litionRegistryContractAddress = litionRegistryContractAddress
+  function initialize (nordicenergyErc20Abi = getErc20Abi(), nordicenergyRegistryAbi = getNordicEnergyRegistryAbi(), erc20ContractAddress = getErc20ContractAddress(), nordicenergyRegistryContractAddress = getNordicEnergyRegistryAddress()) {
+    _nordicenergyRegistryContractAddress = nordicenergyRegistryContractAddress
     _web3 = new Web3(_currentProvider)
-    _erc20Contract = new _web3.eth.Contract(litionErc20Abi, erc20ContractAddress)
-    _litionRegistryContract = new _web3.eth.Contract(litionRegistryAbi, litionRegistryContractAddress)
+    _erc20Contract = new _web3.eth.Contract(nordicenergyErc20Abi, erc20ContractAddress)
+    _nordicenergyRegistryContract = new _web3.eth.Contract(nordicenergyRegistryAbi, nordicenergyRegistryContractAddress)
   }
 
   initialize(
     getErc20Abi(_network),
-    getLitionRegistryAbi(_network),
+    getNordicEnergyRegistryAbi(_network),
     getErc20ContractAddress(_network),
-    getLitionRegistryAddress(_network)
+    getNordicEnergyRegistryAddress(_network)
   )
 
   return {
@@ -61,8 +61,8 @@ export default async (ethereum, web3) => {
         _accountsChangedEventRegistered = true
       }
     },
-    reinitialize (litionErc20Abi = getErc20Abi(), litionRegistryAbi = getLitionRegistryAbi(), erc20ContractAddress = getErc20ContractAddress(), litionRegistryContractAddress = getLitionRegistryAddress()) {
-      initialize(litionErc20Abi, litionRegistryAbi, erc20ContractAddress, litionRegistryContractAddress)
+    reinitialize (nordicenergyErc20Abi = getErc20Abi(), nordicenergyRegistryAbi = getNordicEnergyRegistryAbi(), erc20ContractAddress = getErc20ContractAddress(), nordicenergyRegistryContractAddress = getNordicEnergyRegistryAddress()) {
+      initialize(nordicenergyErc20Abi, nordicenergyRegistryAbi, erc20ContractAddress, nordicenergyRegistryContractAddress)
     },
     getNetworkName () {
       return _network
@@ -86,7 +86,7 @@ export default async (ethereum, web3) => {
 
       return _erc20Contract
         .methods
-        .approve(_litionRegistryContractAddress, tokensToLitPrecision(tokens))
+        .approve(_nordicenergyRegistryContractAddress, tokensToLitPrecision(tokens))
         .send({
           from: _account
         })
@@ -113,7 +113,7 @@ export default async (ethereum, web3) => {
         chainValidator = '0x0000000000000000000000000000000000000000'
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .registerChain(
           description,
@@ -138,7 +138,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .getChainStaticDetails(chainId)
         .call()
@@ -148,7 +148,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .getChainDynamicDetails(chainId)
         .call()
@@ -158,7 +158,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .requestVestInChain(chainId, tokensToLitPrecision(tokens))
         .send({
@@ -174,7 +174,7 @@ export default async (ethereum, web3) => {
       const totalVesting = parseInt(fromLitPrecisionToTokens(userDetails.vesting))
       const newVesting = totalVesting + parseInt(tokens)
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .requestVestInChain(chainId, tokensToLitPrecision(newVesting))
         .send({
@@ -186,7 +186,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .confirmVestInChain(chainId)
         .send({
@@ -198,7 +198,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .requestDepositInChain(chainId, tokensToLitPrecision(tokens))
         .send({
@@ -216,7 +216,7 @@ export default async (ethereum, web3) => {
 
       console.log(chainId, tokensToLitPrecision(newDeposit))
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .requestDepositInChain(chainId, tokensToLitPrecision(newDeposit))
         .send({
@@ -228,7 +228,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .getUserDetails(chainId, _account)
         .call()
@@ -266,7 +266,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .confirmDepositWithdrawalFromChain(chainId)
         .send({
@@ -278,7 +278,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .startMining(chainId)
         .send({
@@ -290,7 +290,7 @@ export default async (ethereum, web3) => {
         await this.login()
       }
 
-      return _litionRegistryContract
+      return _nordicenergyRegistryContract
         .methods
         .stopMining(chainId)
         .send({

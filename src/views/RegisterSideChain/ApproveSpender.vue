@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <span class="text-lition-gray text-sm font-medium">{{ $t('step') }} {{ stepNumber }}/{{ totalSteps }}</span>
-      <h1 class="font-lition text-3xl font-bold">{{ $t('headline.approve_spender') }}</h1>
-      <p class="mt-2 text-lition-gray font-medium"
+      <span class="text-nordicenergy-gray text-sm font-medium">{{ $t('step') }} {{ stepNumber }}/{{ totalSteps }}</span>
+      <h1 class="font-nordicenergy text-3xl font-bold">{{ $t('headline.approve_spender') }}</h1>
+      <p class="mt-2 text-nordicenergy-gray font-medium"
          v-html="$t('approve.smart_contract', { smartContractLink: smartContractLink } )"></p>
-      <p class="mt-2 text-lition-gray font-medium">
+      <p class="mt-2 text-nordicenergy-gray font-medium">
         {{ $t('approve.skip.first') }}
         <router-link class="text-secondary hover:underline"
                      :to="{ name: 'register.new_chain', params: { network: network }}">{{
@@ -13,11 +13,11 @@
         </router-link>
       </p>
       <div class="mt-8 w-3/4 mx-auto">
-        <label v-if="!processing" class="text-xs text-lition-gray font-medium">{{ $t('label.tokens') }}</label>
-        <label v-else class="text-xs text-lition-gray font-medium">{{ $t('approve.approving_spender') }}</label>
+        <label v-if="!processing" class="text-xs text-nordicenergy-gray font-medium">{{ $t('label.tokens') }}</label>
+        <label v-else class="text-xs text-nordicenergy-gray font-medium">{{ $t('approve.approving_spender') }}</label>
         <div class="relative">
           <ApproveSpenderInput @approve="handleApproval" v-model="tokens" :loading="processing"
-                               placeholder="LIT 0"></ApproveSpenderInput>
+                               placeholder="NET 0"></ApproveSpenderInput>
           <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
             <template slot="headline">MetaMask Error</template>
             <template slot="text">{{ errorMessage }}</template>
@@ -39,7 +39,7 @@ import NextButton from '../../components/NextButton'
 import ApproveSpenderInput from '../../components/ApproveSpenderInput'
 import Tooltip from '../../components/Tooltip'
 import WithErrorMessage from '../../components/WithErrorMessage'
-import { etherScanAddress, getLitionRegistryAddress } from '../../utils'
+import { etherScanAddress, getNordicEnergyRegistryAddress } from '../../utils'
 
 export default {
   components: { NextButton, BackButton, ApproveSpenderInput, Tooltip },
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     smartContractLink () {
-      return etherScanAddress(this.network, getLitionRegistryAddress(this.network))
+      return etherScanAddress(this.network, getNordicEnergyRegistryAddress(this.network))
     },
     stepNumber () {
       if (this.network === 'main') {

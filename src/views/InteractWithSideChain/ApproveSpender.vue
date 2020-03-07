@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <h1 class="font-lition text-3xl font-bold">{{ $t('headline.approve_spender') }}</h1>
-      <p class="mt-2 text-lition-gray font-medium"
+      <h1 class="font-nordicenergy text-3xl font-bold">{{ $t('headline.approve_spender') }}</h1>
+      <p class="mt-2 text-nordicenergy-gray font-medium"
          v-html="$t('approve.smart_contract', { smartContractLink: smartContractLink } )"></p>
       <div class="mt-8 w-3/4 mx-auto">
-        <label v-if="!processing" class="text-xs text-lition-gray font-medium">{{ $t('label.tokens') }}</label>
-        <label v-else class="text-xs text-lition-gray font-medium">{{ $t('approve.approving_spender') }}</label>
+        <label v-if="!processing" class="text-xs text-nordicenergy-gray font-medium">{{ $t('label.tokens') }}</label>
+        <label v-else class="text-xs text-nordicenergy-gray font-medium">{{ $t('approve.approving_spender') }}</label>
         <div class="relative">
           <ApproveSpenderInput @approve="handleApproval" v-model="tokens" :loading="processing"
-                               placeholder="LIT 0"></ApproveSpenderInput>
+                               placeholder="NET 0"></ApproveSpenderInput>
           <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
             <template slot="headline">MetaMask Error</template>
             <template slot="text">{{ errorMessage }}</template>
@@ -19,10 +19,10 @@
       <div class="mt-8" v-if="lastApproval">
         <div class="flex items-center">
           <Check size="xxs"></Check>
-          <p class="ml-4 text-md font-bold">{{ lastApproval.tokens }} LIT tokens approved to be manipulated by smart
+          <p class="ml-4 text-md font-bold">{{ lastApproval.tokens }} NET tokens approved to be manipulated by smart
             contract</p>
         </div>
-        <p class="ml-8 text-md text-lition-gray">
+        <p class="ml-8 text-md text-nordicenergy-gray">
           <a class="hover:text-secondary" :href="etherScan(lastApproval.transaction)" target="_blank">{{ getSpender(lastApproval.transaction) }}</a>
         </p>
       </div>
@@ -33,7 +33,7 @@
 <script>
 import ApproveSpenderInput from '../../components/ApproveSpenderInput'
 import Check from '../../components/Check'
-import { etherScanAddress, getLitionRegistryAddress, etherScanTransaction } from '../../utils'
+import { etherScanAddress, getNordicEnergyRegistryAddress, etherScanTransaction } from '../../utils'
 import { getSpender } from '../../transactionUtils'
 import Tooltip from '../../components/Tooltip'
 import WithErrorMessage from '../../components/WithErrorMessage'
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     smartContractLink () {
-      return etherScanAddress(this.network, getLitionRegistryAddress(this.network))
+      return etherScanAddress(this.network, getNordicEnergyRegistryAddress(this.network))
     }
   },
   data () {

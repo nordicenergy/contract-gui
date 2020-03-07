@@ -14,7 +14,7 @@ import config from './config'
 import VuexPersistance from 'vuex-persist'
 
 const vuexLocal = new VuexPersistance({
-  key: `lition-sidechain-manager_v_${config.version}`,
+  key: `nordicenergy-sidechain-manager_v_${config.version}`,
   storage: window.localStorage
 })
 

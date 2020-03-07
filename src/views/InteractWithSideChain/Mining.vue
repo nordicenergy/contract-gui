@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <h1 class="font-lition text-3xl font-bold">Mining</h1>
-      <p v-if="userDetails" class="mt-2 text-lition-gray font-medium">
+      <h1 class="font-nordicenergy text-3xl font-bold">Mining</h1>
+      <p v-if="userDetails" class="mt-2 text-nordicenergy-gray font-medium">
         <span v-if="userDetails.mining">Your address is currently mining</span>
         <span v-else>Your address is currently not mining</span>
       </p>

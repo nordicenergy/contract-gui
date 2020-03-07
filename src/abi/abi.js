@@ -1,7 +1,7 @@
 import ropstenErc20Abi from './ropsten/ERC20.json'
-import ropstenLitionRegistryAbi from './ropsten/LitionRegistry.json'
+import ropstenNordicEnergyRegistryAbi from './ropsten/NordicEnergyRegistry.json'
 import mainErc20Abi from './main/ERC20.json'
-import mainLitionRegistryAbi from './main/LitionRegistry.json'
+import mainNordicEnergyRegistryAbi from './main/NordicEnergyRegistry.json'
 
 export const getErc20Abi = (network = 'ropsten') => {
   if (network === 'main') {
@@ -11,10 +11,10 @@ export const getErc20Abi = (network = 'ropsten') => {
   }
 }
 
-export const getLitionRegistryAbi = (network = 'ropsten') => {
+export const getNordicEnergyRegistryAbi = (network = 'ropsten') => {
   if (network === 'main') {
-    return mainLitionRegistryAbi
+    return mainNordicEnergyRegistryAbi
   } else if (network === 'ropsten') {
-    return ropstenLitionRegistryAbi
+    return ropstenNordicEnergyRegistryAbi
   }
 }

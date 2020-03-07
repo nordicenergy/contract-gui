@@ -9,7 +9,7 @@
 import NavigationRouteLink from './components/NavigationRouteLink'
 import RegisterSteps from './views/RegisterSideChain/RegisterSteps'
 import InteractionSideMenu from './views/InteractWithSideChain/InteractionSideMenu'
-import { etherScanAddress, getLitionRegistryAddress } from './utils'
+import { etherScanAddress, getNordicEnergyRegistryAddress } from './utils'
 import Details from './components/Details'
 import { mapGetters } from 'vuex'
 
@@ -38,7 +38,7 @@ export default {
       return this.$route.name.indexOf('interact') !== -1
     },
     smartContractLink () {
-      return etherScanAddress(this.network, getLitionRegistryAddress(this.network))
+      return etherScanAddress(this.network, getNordicEnergyRegistryAddress(this.network))
     },
     hasChainId () {
       if (!Object.prototype.hasOwnProperty.call(this.$route, 'params')) {

@@ -1,38 +1,38 @@
 <template>
   <div>
     <div class="flex flex-col items-center">
-      <h1 class="font-lition text-3xl font-bold">Automator</h1>
+      <h1 class="font-nordicenergy text-3xl font-bold">Automator</h1>
       <div class="flex flex-col mt-2">
-        <label class="text-xs text-lition-gray font-medium">SC address</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">SC address</label>
         <TextInput v-model="smartContractAddress"></TextInput>
       </div>
       <div class="flex flex-col mt-2">
-        <label class="text-xs text-lition-gray font-medium">Chain Id</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">Chain Id</label>
         <TextInput v-model="chainId"></TextInput>
       </div>
       <div class="flex flex-col items-start w-full">
         <div class="flex flex-col mt-2">
-          <label class="text-xs text-lition-gray font-medium">Vesting</label>
+          <label class="text-xs text-nordicenergy-gray font-medium">Vesting</label>
           <CheckboxInput :value="isVesting" @input="toggleVesting"></CheckboxInput>
           <TextInput class="mt-2" v-if="isVesting" v-model="vesting"></TextInput>
         </div>
         <div class="flex flex-col mt-2">
-          <label class="text-xs text-lition-gray font-medium">Deposit</label>
+          <label class="text-xs text-nordicenergy-gray font-medium">Deposit</label>
           <CheckboxInput :value="isDeposit" @input="toggleDeposit"></CheckboxInput>
           <TextInput class="mt-2" v-if="isDeposit" v-model="deposit"></TextInput>
         </div>
       </div>
       <div class="flex flex-col mt-2 w-full">
-        <label class="text-xs text-lition-gray font-medium">Run these actions</label>
-        <label class="text-xs text-lition-gray font-medium">Mint</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">Run these actions</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">Mint</label>
         <CheckboxInput v-model="shouldMint"></CheckboxInput>
-        <label class="text-xs text-lition-gray font-medium">Approve</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">Approve</label>
         <CheckboxInput v-model="shouldApprove"></CheckboxInput>
-        <label class="text-xs text-lition-gray font-medium">Vest</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">Vest</label>
         <CheckboxInput v-model="shouldVest"></CheckboxInput>
-        <label class="text-xs text-lition-gray font-medium">Confirm Vest</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">Confirm Vest</label>
         <CheckboxInput v-model="shouldConfirmVest"></CheckboxInput>
-        <label class="text-xs text-lition-gray font-medium">Deposit</label>
+        <label class="text-xs text-nordicenergy-gray font-medium">Deposit</label>
         <CheckboxInput v-model="shouldDeposit"></CheckboxInput>
       </div>
       <div class="mt-8">
@@ -59,8 +59,8 @@
 <script>
 import TextInput from '../components/TextInput'
 import ConfirmButton from '../components/ConfirmButton'
-// import LitionERC20Abi from '../abi/ERC20'
-// import LitionRegistryAbi from '../abi/dev/LitionRegistry'
+// import NordicEnergyERC20Abi from '../abi/ERC20'
+// import NordicEnergyRegistryAbi from '../abi/dev/LitionRegistry'
 import CheckboxInput from '../components/CheckboxInput'
 
 export default {
@@ -69,7 +69,7 @@ export default {
   data () {
     return {
       address: null,
-      smartContractAddress: '0xFa7C55a11E2707B17a60daf24E5Ac95E3CBFF838',
+      smartContractAddress: '0x4246711f72e72B3A42c9f15633852D6382D2E098',
       isVesting: true,
       isDeposit: false,
       vesting: '20000',
@@ -90,7 +90,7 @@ export default {
   methods: {
     async handleRunAutomation () {
       try {
-        this.ethereum.reinitialize(LitionERC20Abi, LitionRegistryAbi, '0x65fc0f7d2bb96a9be30a770fb5fcd5a7762ad659', this.smartContractAddress)
+        this.ethereum.reinitialize(NordicEnergyERC20Abi, NordicEnergyRegistryAbi, '0xf9e31bBfbAC1e46Cd429A5308693c4ca3C8eC15b', this.smartContractAddress)
 
         const tokens = 100000
 
