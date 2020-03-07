@@ -1,1 +1,1 @@
-# Contract-gui
+# Sidechain Manager Contract GUI
