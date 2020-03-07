@@ -45,7 +45,7 @@ export default {
   },
   subheadline: {
     register: {
-      network: 'Currently Lition.io works only on the Ropsten Network',
+      network: 'Currently Netion.io works only on the Ropsten Network',
       network_change: 'You can change the network in <a class="text-secondary hover:underline" href="#tutorial" target="_blank">metamask extension</a>'
     }
   },

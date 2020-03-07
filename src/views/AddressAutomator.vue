@@ -60,7 +60,7 @@
 import TextInput from '../components/TextInput'
 import ConfirmButton from '../components/ConfirmButton'
 // import NordicEnergyERC20Abi from '../abi/ERC20'
-// import NordicEnergyRegistryAbi from '../abi/dev/LitionRegistry'
+// import NordicEnergyRegistryAbi from '../abi/dev/NetionRegistry'
 import CheckboxInput from '../components/CheckboxInput'
 
 export default {

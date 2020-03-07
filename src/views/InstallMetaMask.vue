@@ -1,7 +1,7 @@
 <template>
   <main class="w-full h-screen flex flex-col justify-center items-center bg-nordicenergy-black-nav">
     <div class="flex items-center">
-      <img class="w-64" src="nordicenergy_logo_navy.jpg" alt="Lition Logo">
+      <img class="w-64" src="powerchain_logo_navy.jpg" alt="powerchain logo">
       <span class="inline-block border-r-4 border-white h-12 mr-10"></span>
       <h1 class="font-nordicenergy text-4xl font-bold text-white">Side Chain Manager</h1>
     </div>

@@ -22,9 +22,9 @@
           <span>{{ chain }}</span>
           <span>{{ chainDetails.description }}</span>
           <span>{{ chainDetails.endpoint }}</span>
-          <span>{{ fromLitPrecisionToTokens(chainDetails.minRequiredDeposit) }}</span>
-          <span>{{ fromLitPrecisionToTokens(chainDetails.minRequiredVesting) }}</span>
-          <span>{{ fromLitPrecisionToTokens(chainDetails.rewardBonusRequiredVesting) }}</span>
+          <span>{{ fromNetPrecisionToTokens(chainDetails.minRequiredDeposit) }}</span>
+          <span>{{ fromNetPrecisionToTokens(chainDetails.minRequiredVesting) }}</span>
+          <span>{{ fromNetPrecisionToTokens(chainDetails.rewardBonusRequiredVesting) }}</span>
           <span>{{ chainDetails.rewardBonusPercentage }}</span>
           <span>{{ chainDetails.notaryPeriod }}</span>
           <span>{{ chainDetails.maxNumOfTransactors }}</span>
@@ -47,7 +47,7 @@
 <script>
 import Check from '../../components/Check'
 import NextButton from '../../components/NextButton'
-import { fromLitPrecisionToTokens } from '../../utils'
+import { fromNetPrecisionToTokens } from '../../utils'
 
 export default {
   inject: ['ethereum'],

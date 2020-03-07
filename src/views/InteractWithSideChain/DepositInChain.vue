@@ -14,8 +14,8 @@
       <div class="w-3/4">
         <label class="text-xs text-nordicenergy-gray font-medium">Add tokens to deposit</label>
         <div class="relative">
-          <LitTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="NET 0">Deposit
-          </LitTextInput>
+          <NetTextInput v-model="tokens" @action="handleAction" :loading="processing" placeholder="NET 0">Deposit
+          </NetTextInput>
           <Tooltip v-if="errorMessage" class="absolute top-0 right-0 -mr-48 -mt-6">
             <template slot="headline">MetaMask Error</template>
             <template slot="text">{{ errorMessage }}</template>
@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import LitTextInput from '../../components/NetTextInput'
+import NetTextInput from '../../components/NetTextInput'
 import BackButton from '../../components/BackButton'
-import { fromLitPrecisionToTokens } from '../../utils'
+import { fromNetPrecisionToTokens } from '../../utils'
 import Tooltip from '../../components/Tooltip'
 import WithErrorMessage from '../../components/WithErrorMessage'
 
@@ -47,7 +47,7 @@ export default {
       type: String
     }
   },
-  components: { LitTextInput, BackButton, Tooltip },
+  components: { NetTextInput, BackButton, Tooltip },
   data () {
     return {
       tokens: null,
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     formatTokens (tokens) {
-      return fromLitPrecisionToTokens(tokens)
+      return fromNetPrecisionToTokens(tokens)
     },
     async fetchUserDetails () {
       this.userDetails = await this.ethereum.getUserDetails(this.chain)
