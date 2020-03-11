@@ -57,19 +57,19 @@
 </template>
 
 <script>
-import TextInput from '../components/TextInput'
-import ConfirmButton from '../components/ConfirmButton'
-// import NordicEnergyERC20Abi from '../abi/ERC20'
-// import NordicEnergyRegistryAbi from '../abi/dev/NetionRegistry'
-import CheckboxInput from '../components/CheckboxInput'
+  import TextInput from '../components/TextInput'
+  import ConfirmButton from '../components/ConfirmButton'
+  // import NordicEnergyERC20Abi from '../abi/ERC20'
+  // import NordicEnergyRegistryAbi from '../abi/dev/NordicEnergyRegistry'
+  import CheckboxInput from '../components/CheckboxInput'
 
-export default {
+  export default {
   inject: ['ethereum'],
   components: { TextInput, ConfirmButton, CheckboxInput },
   data () {
     return {
       address: null,
-      smartContractAddress: '0x4246711f72e72B3A42c9f15633852D6382D2E098',
+      smartContractAddress: '0x55d18731286Af2Daa27D50a1D15f5D77512e6723',
       isVesting: true,
       isDeposit: false,
       vesting: '20000',
@@ -84,33 +84,33 @@ export default {
     }
   },
   async beforeRouteLeave (to, from, next) {
-    await this.ethereum.reinitialize()
+    await this.ethereum.reinitialize();
     next()
   },
   methods: {
     async handleRunAutomation () {
       try {
-        this.ethereum.reinitialize(NordicEnergyERC20Abi, NordicEnergyRegistryAbi, '0xf9e31bBfbAC1e46Cd429A5308693c4ca3C8eC15b', this.smartContractAddress)
+        this.ethereum.reinitialize(NordicEnergyERC20Abi, NordicEnergyRegistryAbi, '0xf9e31bBfbAC1e46Cd429A5308693c4ca3C8eC15b', this.smartContractAddress);
 
-        const tokens = 100000
+        const tokens = 100000;
 
-        this.step = 1
+        this.step = 1;
         if (this.shouldMint) {
           await this.ethereum.mint(tokens)
         }
-        this.step = 2
-        console.log('minting finished')
+        this.step = 2;
+        console.log('minting finished');
         if (this.shouldApprove) {
           await this.ethereum.approve(tokens)
         }
-        console.log('tokens approved')
-        this.step = 3
+        console.log('tokens approved');
+        this.step = 3;
         if (this.isVesting) {
           if (this.shouldVest) {
             await this.ethereum.requestVestInChain(this.chainId, parseInt(this.vesting))
           }
-          console.log('vesting processed')
-          this.step = 4
+          console.log('vesting processed');
+          this.step = 4;
           if (this.shouldConfirmVest) {
             await this.ethereum.confirmVestInChain(this.chainId)
           }
@@ -122,22 +122,22 @@ export default {
           this.step = 4
         }
       } catch (e) {
-        this.step = null
+        this.step = null;
         console.log(e)
       }
     },
     toggleVesting (isVesting) {
-      this.isVesting = isVesting
-      this.isDeposit = !isVesting
-      this.shouldVest = isVesting
-      this.shouldConfirmVest = isVesting
+      this.isVesting = isVesting;
+      this.isDeposit = !isVesting;
+      this.shouldVest = isVesting;
+      this.shouldConfirmVest = isVesting;
       this.shouldDeposit = !isVesting
     },
     toggleDeposit (isDeposit) {
-      this.isDeposit = isDeposit
-      this.isVesting = !isDeposit
-      this.shouldVest = !isDeposit
-      this.shouldConfirmVest = !isDeposit
+      this.isDeposit = isDeposit;
+      this.isVesting = !isDeposit;
+      this.shouldVest = !isDeposit;
+      this.shouldConfirmVest = !isDeposit;
       this.shouldDeposit = isDeposit
     }
   }

@@ -1,1 +1,1 @@
-# Contract-gui
+# Node Manager GUI
