@@ -69,7 +69,7 @@
   data () {
     return {
       address: null,
-      smartContractAddress: '0x55d18731286Af2Daa27D50a1D15f5D77512e6723',
+      smartContractAddress: '0xE602b373A6AF18F7100357D27AC279541cC79C90',
       isVesting: true,
       isDeposit: false,
       vesting: '20000',
